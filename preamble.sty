@@ -1,0 +1,135 @@
+\ProvidesPackage{preamble}
+
+\usepackage[pdftex]{graphicx}
+% \usepackage[linesnumbered,ruled,noend]{algorithm2e}
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\let\proof\relax
+\let\endproof\relax
+\usepackage{amsthm}
+\usepackage{mathtools}
+\usepackage{amssymb}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{listings}
+\usepackage{graphviz}
+\usepackage{dot2texi}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usetikzlibrary{shapes,arrows}
+\usepackage{color}
+\usepackage{hyperref}
+\def\UrlBreaks{\do\/\do-}
+\usepackage{import}
+\usepackage{hhline}
+\usepackage{paralist}
+\usepackage{thm-restate}
+\usepackage{marvosym}
+\usepackage{calc}
+
+%code options with \lstlisting
+\lstset{frame=tb,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle=\ttfamily,
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3,
+  escapeinside={(*@}{@*)},
+  frame=n
+}
+\lstdefinestyle{numbers}{numbers=left, stepnumber=1, numberstyle=\tiny, numbersep=10pt}
+\let\origthelstnumber\thelstnumber
+\makeatletter
+\newcommand*\Suppressnumber{%
+  \lst@AddToHook{OnNewLine}{%
+    \let\thelstnumber\relax%
+     \advance\c@lstnumber-\@ne\relax%
+    }%
+}
+
+\newcommand*\Reactivatenumber{%
+  \lst@AddToHook{OnNewLine}{%
+   \let\thelstnumber\origthelstnumber%
+   \advance\c@lstnumber\@ne\relax}%
+}
+
+%bitcoin character
+\def\bitcoin{%
+  \leavevmode
+  \vtop{\offinterlineskip %\bfseries
+    \setbox0=\hbox{B}%
+    \setbox2=\hbox to\wd0{\hfil\hskip-.03em
+    \vrule height .3ex width .15ex\hskip .08em
+    \vrule height .3ex width .15ex\hfil}
+    \vbox{\copy2\box0}\box2}}
+
+%fontsize between \LARGE and \huge
+\makeatletter
+\newcommand\semihuge{\@setfontsize\semihuge{19.22}{23.88}}
+\makeatother
+
+\def\chain{\mathcal{C}}
+
+%page style set to plain
+\pagestyle{plain}
+
+% \bibliographystyle{splncs}
+
+%PDF bookmarks
+\definecolor{darkblue}{rgb}{0.0,0.0,0.3}
+\hypersetup{colorlinks,breaklinks,
+    linkcolor=darkblue,urlcolor=darkblue,
+    anchorcolor=darkblue,citecolor=darkblue}
+
+%custom figures counter
+\newcounter{figcount}
+\newcommand{\figlabel}[1]{\refstepcounter{figcount}\arabic{figcount}\label{#1}}
+
+\algblockdefx[Contract]{Contract}{EndContract}
+[1]{\textbf{contract #1}}
+[0]{\textbf{end contract}}
+
+\algblockdefx[Payable]{Payable}{EndPayable}
+[2]{\textbf{payable function #1}(#2)}
+[0]{\textbf{end function}}
+
+\algblockdefx[Internal]{Internal}{EndInternal}
+[2]{\textbf{internal function #1}(#2)}
+[0]{\textbf{end function}}
+
+\def\Let#1#2{\State $#1\gets#2$}
+
+\newcommand{\CommentLine}[1]{
+    \State \(\triangleright\) \text{#1}
+}
+
+\hyphenation{block-chain}
+\hyphenation{block-chains}
+\hyphenation{in-ter-led-ger}
+\hyphenation{pol-ka-dot}
+\hyphenation{ten-der-mint}
+\hyphenation{NI-Po-PoW}
+\hyphenation{NI-Po-PoWs}
+\hyphenation{Ethe-re-um}
+\hyphenation{side-chain}
+\hyphenation{side-chains}
+
+\newcommand{\pluseq}{\mathrel{+}=}
+\newcommand{\minuseq}{\mathrel{-}=}
+\newcommand{\stareq}{\mathrel{*}=}
+\newcommand{\slasheq}{\mathrel{/}=}
+
+\newcommand\blfootnote[1]{%
+  \begingroup
+  \renewcommand\thefootnote{}\footnote{#1}%
+  \addtocounter{footnote}{-1}%
+  \endgroup
+}
+
+\input{macros}

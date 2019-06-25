@@ -1,0 +1,26 @@
+%!TEX encoding = UTF-8 Unicode
+
+\newif\ifanonymous
+\newif\ifshort
+\newif\iflncs
+% \lncstrue
+% \anonymoustrue
+% \shorttrue
+
+\documentclass[11pt]{llncs}
+\usepackage{preamble}
+
+\begin{document}
+\import{./}{title.tex}
+\thispagestyle{plain}
+\import{./}{abstract.tex}
+
+\import{./}{introduction.tex}
+\import{./}{construction.tex}
+\import{./}{analysis.tex}
+\import{./}{empirical-results.tex}
+\import{./}{conclusion.tex}
+\bibliographystyle{plain}
+\bibliography{pubs,abbrev3,crypto}
+
+\end{document}

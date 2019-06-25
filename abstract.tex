@@ -1,0 +1,28 @@
+\begin{abstract}
+  When a new cryptocurrency is created, few people have access to its
+  economy, as initially cryptocurrency exchanges do not list the new coin,
+  making it difficult to obtain. On the flip side, exchanges are unwilling
+  to list a cryptocurrency with limited market depth. This creates a
+  chicken-and-egg problem.
+
+  We put forth a mechanism for bootstrapping a cryptocurrency by destroying
+  capital in legacy cryptocurrencies. We propose that users burn their legacy
+  coins by sending them to a specially crafted address which renders them
+  unspendable. Upon burning their coins, they can create a proof-of-burn, a
+  special string proving that the burn took place, which they can submit to
+  the destination blockchain to be rewarded with the corresponding amount.
+  Our mechanism exhibits three core properties. First, the coins are provably
+  unspendable. Second, it allows users to encode their receiving address
+  within their burn in a way that is cryptographically binding. Third, the
+  burn transactions are indistinguishable from regular transactions within
+  the source blockchain, making them uncensorable. Last, the user can use
+  any standard source blockchain wallet to conduct the burn without
+  requiring specialized software. We give formal proofs that our scheme
+  achieves these properties.
+
+  We adapt previous work to create a mechanism through which the target
+  blockchain miners can verify that a burn has occurred in the source blockchain
+  without requiring them to monitor it. Finally, we illustrate the feasibility
+  of our construction by providing concrete gas costs for the burn verification,
+  indicating that our scheme is practical.
+\end{abstract}
