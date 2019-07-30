@@ -5,12 +5,12 @@
     \begin{algorithmic}[1]
         \Function{\textsf{GenAddress}$_{S, H}$}{$1^\lambda$}
             \Let{(pk, sk)}{Gen(1^\lambda)}
-            \Let{pkh}{H(pk)}
+            \Let{pkh}{$H_\lambda$(pk)}
             \State\Return{(pkh, sk)}
         \EndFunction
         \Function{\textsf{SpendVerify}$_{S, H}$}{$m, \sigma, pkh$}
             \Let{(pk, \sigma')}{\sigma}
-            \If{$H(pk) \neq pkh$}
+            \If{$H_\lambda(pk) \neq pkh$}
                 \State\Return\textsf{false}
             \EndIf
             \State\Return{$Ver(m, \sigma, pk)$}

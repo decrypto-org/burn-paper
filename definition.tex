@@ -1,6 +1,6 @@
 \section{Defining Proof-of-Burn}
 
-A proof-of-burn scheme is a protocol parameterized by the following functionalities offered by the source blockchain:
+Let $\lambda$ be the security parameter. A proof-of-burn scheme is a protocol parameterized by the following functionalities offered by the source blockchain:
 
 \begin{itemize}
   \item $\sf{GenAddress}(1^\lambda)$ which returns a tuple $(\sf{pk}, \sf{sk})$, denoting the cryptocurrency address $\sf{pk}$ (a public key) used to receive money and its respective secret key $\sf{sk}$ which allows spending from that address.
@@ -15,14 +15,14 @@ Then the functionality provided by a proof-of-burn scheme is:
 \begin{itemize}
   \item $\mathsf{GenBurnAddress}(1^\lambda, t)$ which, given a tag $t$, generates a burn address in the form of the original blockchain.
 
-  \item $\mathsf{BurnVerify}(t, \mathsf{burnAddr})$ which returns $\sf{true}$ if and only if \textsf{burnAddr} encodes correctly the information of $t$.
+  \item $\mathsf{BurnVerify}(1^\lambda, t, \mathsf{burnAddr})$ which returns $\sf{true}$ if and only if \textsf{burnAddr} encodes correctly the information of $t$.
 \end{itemize}
 
 We now describe the desirable properties of a proof-of-burn protocol. First, we state what makes a correct burn protocol.
 
 \begin{definition}[Correctness]
   A burn protocol $\Pi$ is \emph{correct} if for all $t$ and for all $\lambda$ it holds that
-  $\mathsf{BurnVerify}(t, \mathsf{GenBurnAddress}(1^\lambda, t)) = \textsf{true}$.
+  $\mathsf{BurnVerify}(1^\lambda, t, \mathsf{GenBurnAddress}(1^\lambda, t)) = \textsf{true}$.
 \end{definition}
 
 With foresight, we remark that the implementation of $\mathsf{GenBurnAddress}$ and $\mathsf{BurnVerify}$ will typically be deterministic, which alleviates the need for a probabilistic correctness definition.
