@@ -3,13 +3,13 @@
     \caption{\label{alg.perturbation} The key perturbation algorithm which
              generates a provable proof-of-burn address.}
     \begin{algorithmic}[1]
-        \Function{\textsf{GenBurnAddress}_{H}}{$1^\kappa, t$}
-            \Let{th}{$H_\kappa$(t)}
+        \Function{\textsf{GenBurnAddress}$_H$}{$1^\kappa, t$}
+            \Let{th}{H_\kappa(t)}
             \Let{th'}{th \oplus 1}
             \Comment{Key perturbation}
             \State\Return{th'}
         \EndFunction
-        \Function{\textsf{BurnVerify}_{H}}{$1^\kappa, t, th'$}
+        \Function{\textsf{BurnVerify}$_H$}{$1^\kappa, t, th'$}
             \If{$\textsf{GenBurnAdress}_H(1^\kappa, t) = th'$}
             \EndIf
         \EndFunction
