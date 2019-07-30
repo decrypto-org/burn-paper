@@ -3,18 +3,15 @@
     \caption{\label{alg.perturbation} The key perturbation algorithm which
              generates a provable proof-of-burn address.}
     \begin{algorithmic}[1]
-        \Function{\sf perturbate}{$pk$}
-            \Let{pkr}{\textsf{SHA512}(pk)}
-            \Let{pkh}{\textsf{RIPEMD160}(\textsf{SHA256}(\texttt{0x04} || pkr)}
-            \Let{pkh'}{pkh \oplus \texttt{0x01}}
+        \Function{\textsf{GenBurnAddress}_{H}}{$1^\kappa, t$}
+            \Let{th}{$H_\kappa$(t)}
+            \Let{th'}{th \oplus 1}
             \Comment{Key perturbation}
-            \If{main net}
-              \Let{addr}{\texttt{0x00} || pkh'}
-            \Else
-              \Let{addr}{\texttt{0x6f} || pkh'}
+            \State\Return{th'}
+        \EndFunction
+        \Function{\textsf{BurnVerify}_{H}}{$1^\kappa, t, th'$}
+            \If{$\textsf{GenBurnAdress}_H(1^\kappa, t) = th'$}
             \EndIf
-            \Let{checksum}{\textsf{SHA256}(\textsf{SHA256}(addr))[4 * 8]}
-            \State\Return{\textsf{base58}(addr || checksum)}
         \EndFunction
         \vskip8pt
     \end{algorithmic}
