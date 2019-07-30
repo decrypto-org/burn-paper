@@ -1,0 +1,21 @@
+\begin{figure}[t]
+\begin{algorithm}[H]
+    \caption{\label{alg.bitcoin-real} The bitcoin cryptocurrency protocol, including the engineering details of checksums and practical hash implementation, which are irrelevant to our cryptographic abstraction.}
+    \begin{algorithmic}[1]
+        \Function{\textsf{GenAddress}}{$1^\lambda$}
+            \Let{(pk, sk)}{ECGen(1^\lambda)}
+            \Let{pkr}{\textsf{SHA512}(pk)}
+            \Let{pkh}{\textsf{RIPEMD160}(\textsf{SHA256}(\texttt{0x04} || pkr)}
+            \If{main net}
+              \Let{addr}{\texttt{0x00} || pkh'}
+            \Else
+              \CommentLine{Test net}
+              \Let{addr}{\texttt{0x6f} || pkh'}
+            \EndIf
+            \Let{checksum}{\textsf{SHA256}(\textsf{SHA256}(addr))[4 * 8]}
+            \State\Return{\textsf{base58}(addr || checksum)}
+        \EndFunction
+        \vskip8pt
+    \end{algorithmic}
+\end{algorithm}
+\end{figure}
