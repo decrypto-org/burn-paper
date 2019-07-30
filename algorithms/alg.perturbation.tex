@@ -3,7 +3,7 @@
     \caption{\label{alg.perturbation} The key perturbation algorithm which
              generates a provable proof-of-burn address.}
     \begin{algorithmic}[1]
-        \Function{\sf perturbe}{$pk$}
+        \Function{\sf perturbate}{$pk$}
             \Let{pkr}{\textsf{SHA512}(pk)}
             \Let{pkh}{\textsf{RIPEMD160}(\textsf{SHA256}(\texttt{0x04} || pkr)}
             \Let{pkh'}{pkh \oplus \texttt{0x01}}
