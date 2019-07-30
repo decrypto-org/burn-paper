@@ -1,4 +1,4 @@
-\section{Implementing Proof-of-Burn}
+\section{Implementing Proof-of-Burn}\label{section:construction}
 
 \import{./}{algorithms/alg.bitcoin.tex}
 
@@ -16,6 +16,13 @@ different burn protocol. Our protocol appears in
 Algorithm~\ref{alg.construction}.
 
 \import{./}{algorithms/alg.construction.tex}
+
+\begin{theorem}[Correctness]
+  The above Proof-of-Burn protocol $\Pi$ is \emph{correct}.
+\end{theorem}
+\begin{proof}
+  TODO
+\end{proof}
 
 \begin{lemma}[Unspendability]
   Consider the construction of Algorithm~\ref{alg.perturbation} where
