@@ -2,9 +2,9 @@
 \begin{algorithm}[H]
     \caption{\label{alg.bind-game} The challenger for the burn protocol game-based security.}
     \begin{algorithmic}[1]
-        \Function{\textsc{bind-attack}$_{\mathcal{A},\Pi}$}{$\lambda$}
-            \Let{(t, t', \mathsf{burnAddr})}{\mathcal{A}(1^\lambda)}
-            \If{$t \neq t' \land \textsf{BurnVerify(1^\lambda, t, burnAddr)} \land \textsf{BurnVerify}(1^\lambda, t', burnAddr)$}
+        \Function{\textsc{bind-attack}$_{\mathcal{A},\Pi}$}{$\kappa$}
+            \Let{(t, t', \mathsf{burnAddr})}{\mathcal{A}(1^\kappa)}
+            \If{$t \neq t' \land \textsf{BurnVerify(1^\kappa, t, burnAddr)} \land \textsf{BurnVerify}(1^\kappa, t', burnAddr)$}
                 \State\Return{\sf true}
             \Else
                 \State\Return{\sf false}

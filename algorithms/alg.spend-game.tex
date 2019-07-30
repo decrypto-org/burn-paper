@@ -2,9 +2,9 @@
 \begin{algorithm}[H]
     \caption{\label{alg.spend-game} The challenger for the burn protocol game-based security.}
     \begin{algorithmic}[1]
-        \Function{\textsc{spend-attack}$_{\mathcal{A},\Pi}$}{$\lambda$}
-            \Let{(t, m, \sigma, pk)}{\mathcal{A}(1^\lambda)}
-            \If{$\textsf{BurnVerify(1^\lambda, t, pk)} \land \textsf{SpendVerify}(m, \sigma, pk)$}
+        \Function{\textsc{spend-attack}$_{\mathcal{A},\Pi}$}{$\kappa$}
+            \Let{(t, m, \sigma, pk)}{\mathcal{A}(1^\kappa)}
+            \If{$\textsf{BurnVerify(1^\kappa, t, pk)} \land \textsf{SpendVerify}(m, \sigma, pk)$}
                 \State\Return{\sf true}
             \Else
                 \State\Return{\sf false}
