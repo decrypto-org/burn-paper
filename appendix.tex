@@ -1,3 +1,23 @@
 \section*{Appendix}
 \section{Deployment to Real Bitcoin}
 \import{./}{algorithms/alg.bitcoin-real.tex}
+
+The algorithm works as follows. Initially, the user generates a fresh dust key
+$(pk, sk)$ to which they will receive their newly generated tokens. \todo{TODO:
+What do these keys look like?} From the $pk$, the user derives a $64$-byte
+\emph{key reference} $pkr = \textsf{SHA512}(pk)$. The key reference is then
+treated as an uncompressed Bitcoin or Bitcoin Cash public key pair, i.e., its
+first $32$-byte part is considered the $X$ coordinate and the second $32$-byte
+part is considered the $Y$ coordinate of an elliptic curve. The key reference is
+then prefixed with \texttt{0x04} and the result is hashed using
+$\textsf{RIPEMD160}(\textsf{SHA256}(\cdot))$ as is usual for address generation.
+This produces the \emph{key hash reference} $pkh$. The least significant bit of
+$pkh$ is then flipped. This step is imperative to the security of the scheme to
+ensure that the generated address is unspendable. This produces the $20$-byte
+\emph{perturbated key hash reference} $pkh'$. The perturbated key hash reference
+is then prefixed with \texttt{0x00} for the Bitcoin mainnet or with
+\texttt{0x6f} for the Bitcoin testnet as usual. The checksum of the prefixed
+perturbated key hash reference is then calculated as the last $4$ bytes of
+$\textsf{SHA256}(\textsf{SHA256}(prefix || pkh'))$. These $4$ bytes are appended
+to the prefixed perturbated key hash reference as a suffix, and the result is
+\textsf{base58} encoded into a bitcoin address.
