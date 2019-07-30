@@ -38,7 +38,7 @@ Algorithm~\ref{alg.construction}.
   By the collision-resistance of $\textsf{SHA256}$, this gives a unique image of
   $k_2 = \textsf{SHA256}(\texttt{0x04} || pkr)$.
   The probability that, in a given execution, the Random Oracle will output two
-  outputs $k_1, k_2$ with $k_1 \oplus k_2 = \texttt{0x01}$ is negligible.
+  outputs $k_1, k_2$ with $k_1 \xor k_2 = \texttt{0x01}$ is negligible.
 \end{proof}
 
 % TODO: avoid double spending
