@@ -10,6 +10,9 @@
         \EndFunction
         \Function{\textsf{BurnVerify}$_H$}{$1^\kappa, t, th'$}
             \If{$\textsf{GenBurnAdress}_H(1^\kappa, t) = th'$}
+                \State\Return\textsf{true}
+            \Else
+                \State\Return\textsf{false}
             \EndIf
         \EndFunction
         \vskip8pt
