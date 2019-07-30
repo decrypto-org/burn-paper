@@ -5,7 +5,7 @@
     \begin{algorithmic}[1]
         \Function{\textsf{GenAddress}$_{S, H}$}{$1^\kappa$}
             \Let{(pk, sk)}{Gen(1^\kappa)}
-            \Let{pkh}{$H_\kappa$(pk)}
+            \Let{pkh}{H_\kappa(pk)}
             \State\Return{(pkh, sk)}
         \EndFunction
         \Function{\textsf{SpendVerify}$_{S, H}$}{$m, \sigma, pkh$}

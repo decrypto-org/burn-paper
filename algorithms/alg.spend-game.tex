@@ -4,7 +4,7 @@
     \begin{algorithmic}[1]
         \Function{\textsc{spend-attack}$_{\mathcal{A},\Pi}$}{$\kappa$}
             \Let{(t, m, \sigma, pk)}{\mathcal{A}(1^\kappa)}
-            \If{$\textsf{BurnVerify(1^\kappa, t, pk)} \land \textsf{SpendVerify}(m, \sigma, pk)$}
+            \If{$\textsf{BurnVerify}(1^\kappa, t, pk) \land \textsf{SpendVerify}(m, \sigma, pk)$}
                 \State\Return{\sf true}
             \Else
                 \State\Return{\sf false}
