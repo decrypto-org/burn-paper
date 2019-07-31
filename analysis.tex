@@ -1,10 +1,12 @@
 \section{Analysis}
 
 \begin{theorem}[Correctness]
-  The above Proof-of-Burn protocol $\Pi$ is \emph{correct}.
+  The Proof-of-Burn protocol $\Pi$ of Section~\ref{section:construction} is \emph{correct}.
 \end{theorem}
 \begin{proof}
-  TODO
+  We need to prove that $\forall \kappa, t. \BurnVerify(1^\kappa, t, \GenBurnAddress(1^\kappa, t)) = \textsf{true}$.
+
+  Based on Algorithm~\ref{alg.construction}, $\BurnVerify(1^\kappa, t, \GenBurnAddress(1^\kappa, t)) = \textsf{true}$ if and only if $\GenBurnAddress(1^\kappa, t) = \GenBurnAddress(1^\kappa, t)$, which is a tautology as $\GenBurnAddress$ is deterministic.
 \end{proof}
 
 \begin{theorem}[Unspendability]
