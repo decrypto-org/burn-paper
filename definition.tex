@@ -27,7 +27,7 @@ We now describe the desirable properties of a proof-of-burn protocol. First, we 
 
 With foresight, we remark that the implementation of $\mathsf{GenBurnAddress}$ and $\mathsf{BurnVerify}$ will typically be deterministic, which alleviates the need for a probabilistic correctness definition.
 
-To state that the protocol generates addresses which cannot be spent from, we introduce a game-based security definition. The unspendability game \textsc{unsp-game} is illustrated in Algorithm~\ref{alg.unsp-game}.
+To state that the protocol generates addresses which cannot be spent from, we introduce a game-based security definition. The unspendability game \textsc{spend-attack} is illustrated in Algorithm~\ref{alg.spend-game}.
 
 \import{./}{algorithms/alg.spend-game.tex}
 
