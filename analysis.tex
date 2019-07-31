@@ -1,5 +1,31 @@
 \section{Analysis}
 
+\begin{theorem}[Correctness]
+  The above Proof-of-Burn protocol $\Pi$ is \emph{correct}.
+\end{theorem}
+\begin{proof}
+  TODO
+\end{proof}
+
+\begin{lemma}[Unspendability]
+  Consider the construction of Algorithm~\ref{alg.construction} where
+  $\textsf{RIPEMD160}(\cdot)$ is modelled as a Random Oracle, $\textsf{SHA256}$
+  and $\textsf{SHA512}$  are collision-resistant. Then any address $\alpha$ for
+  which a $pk$ is known such that $\alpha = \textsf{perturbe}(pk)$ is
+  unspendable, the respective \emph{public key} under the Bitcoin address
+  generation protocol cannot be found.
+\end{lemma}
+\begin{proof}(Sketch)
+  From the fact that $pk$ is known.
+  Suppose for contradiction that the public key was known.
+  By the collision-resistance of $\textsf{SHA256}$, this gives a unique image of
+  $k_2 = \textsf{SHA256}(\texttt{0x04} || pkr)$.
+  The probability that, in a given execution, the Random Oracle will output two
+  outputs $k_1, k_2$ with $k_1 \xor k_2 = \texttt{0x01}$ is negligible.
+\end{proof}
+
+% TODO: avoid double spending
+
 \begin{theorem}
   If $H$ is modelled as a \emph{Random Oracle}, then the protocol $\Pi$ of Section~\ref{section:construction} is \emph{unspendable}.
 \end{theorem}
