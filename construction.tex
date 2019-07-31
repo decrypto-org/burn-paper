@@ -1,4 +1,4 @@
-\section{Implementing Proof-of-Burn}
+\section{Implementing Proof-of-Burn}\label{section:construction}
 
 \import{./}{algorithms/alg.bitcoin.tex}
 
@@ -17,6 +17,13 @@ Algorithm~\ref{alg.construction}.
 
 \import{./}{algorithms/alg.construction.tex}
 
+\begin{theorem}[Correctness]
+  The above Proof-of-Burn protocol $\Pi$ is \emph{correct}.
+\end{theorem}
+\begin{proof}
+  TODO
+\end{proof}
+
 \begin{lemma}[Unspendability]
   Consider the construction of Algorithm~\ref{alg.perturbation} where
   $\textsf{RIPEMD160}(\cdot)$ is modelled as a Random Oracle, $\textsf{SHA256}$
@@ -31,7 +38,7 @@ Algorithm~\ref{alg.construction}.
   By the collision-resistance of $\textsf{SHA256}$, this gives a unique image of
   $k_2 = \textsf{SHA256}(\texttt{0x04} || pkr)$.
   The probability that, in a given execution, the Random Oracle will output two
-  outputs $k_1, k_2$ with $k_1 \oplus k_2 = \texttt{0x01}$ is negligible.
+  outputs $k_1, k_2$ with $k_1 \xor k_2 = \texttt{0x01}$ is negligible.
 \end{proof}
 
 % TODO: avoid double spending

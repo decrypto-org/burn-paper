@@ -4,12 +4,12 @@
     \begin{algorithmic}[1]
         \Function{\textsf{GenBurnAddress}$_H$}{$1^\kappa, t$}
             \Let{th}{H_\kappa(t)}
-            \Let{th'}{th \oplus 1}
+            \Let{th'}{th \xor 1}
             \Comment{Key perturbation}
             \State\Return{th'}
         \EndFunction
         \Function{\textsf{BurnVerify}$_H$}{$1^\kappa, t, th'$}
-            \If{$\textsf{GenBurnAdress}_H(1^\kappa, t) = th'$}
+            \If{$\textsf{GenBurnAddress}_H(1^\kappa, t) = th'$}
                 \State\Return\textsf{true}
             \Else
                 \State\Return\textsf{false}

@@ -1,1 +1,56 @@
 \section{Analysis}
+
+\begin{theorem}
+  If $H$ is modelled as a \emph{Random Oracle}, then the protocol $\Pi$ of Section~\ref{section:construction} is \emph{unspendable}.
+\end{theorem}
+\begin{proof}
+  $H(t) \xor 1 = pkh$.
+  Adversary knows a $pk$ st $H(pk) = pkh$.
+  This is impossible under the Random Oracle model.
+  TODO
+\end{proof}
+
+We note that the security of the signature scheme is not needed to prove unspendability. Were the signature scheme of Bitcoin ever found to be forgeable, the coins burned through our scheme would remain unspendable.
+
+\begin{theorem}
+  If $H$ is \emph{collision resistant} then the protocol of Section~\ref{section:construction} is \emph{binding}.
+\end{theorem}
+\begin{proof}
+  Let $\mathcal{A}$ be an arbitrary adversary against $\Pi$.
+  We will construct the Collision Resistance adversary $A^*$ against $H$.
+  TODO
+
+  \[
+    \Pr[\textsf{Bind}_{\mathcal{A},\Pi} = 1]
+    <
+    \Pr[\textsf{Collision}_{\mathcal{A}^*,H} = 1]
+  \]
+
+  From the collision resistance of $H$ it follows that $\Pr[\textsf{Collision}_{\mathcal{A}^*,H} = 1] < negl(\kappa)$. Therefore,
+  $\Pr[\textsf{Bind}_{\mathcal{A},\Pi} = 1] < negl(\kappa)$, so
+  the protocol $\Pi$ is binding.
+\end{proof}
+
+\begin{theorem}
+  If $H$ is modelled as a \emph{Random Oracle} and $S = (Gen, Sig, Ver)$ is a \emph{secure signature scheme} then the protocol of Section~\ref{section:construction} is \emph{uncensorable}.
+\end{theorem}
+\begin{proof}
+  Let $\mathcal{A}$ be an arbitrary adversary against $\Pi$.
+  We will construct the Collision Resistance adversary $A^*$ against $H$.
+
+  TODO
+
+  From security of signature scheme, calling $Gen()$ twice will never yield the same $pk$.
+
+  TODO
+
+  \[
+    \Pr[\textsf{Bind}_{\mathcal{A},\Pi} = 1]
+    <
+    \Pr[\textsf{Collision}_{\mathcal{A}^*,H} = 1]
+  \]
+
+  From the collision resistance of $H$ it follows that $\Pr[\textsf{Collision}_{\mathcal{A}^*,H} = 1] < negl(\kappa)$. Therefore,
+  $\Pr[\textsf{Bind}_{\mathcal{A},\Pi} = 1] < negl(\kappa)$, so
+  the protocol $\Pi$ is binding.
+\end{proof}

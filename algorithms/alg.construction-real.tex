@@ -6,7 +6,7 @@
         \Function{\textsf{GenBurnAddress}}{$1^\kappa, t$}
             \Let{pkr}{\textsf{SHA512}(t)}
             \Let{pkh}{\textsf{RIPEMD160}(\textsf{SHA256}(\texttt{0x04} || pkr)}
-            \Let{pkh'}{pkh \oplus \texttt{0x01}}
+            \Let{pkh'}{pkh \xor \texttt{0x01}}
             \Comment{Key perturbation}
             \If{main net}
               \Let{addr}{\texttt{0x00} || pkh'}
