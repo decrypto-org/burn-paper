@@ -7,14 +7,14 @@
   TODO
 \end{proof}
 
-\begin{lemma}[Unspendability]
+\begin{theorem}[Unspendability]
   Consider the construction of Algorithm~\ref{alg.construction} where
   $\textsf{RIPEMD160}(\cdot)$ is modelled as a Random Oracle, $\textsf{SHA256}$
   and $\textsf{SHA512}$  are collision-resistant. Then any address $\alpha$ for
   which a $pk$ is known such that $\alpha = \textsf{perturbe}(pk)$ is
   unspendable, the respective \emph{public key} under the Bitcoin address
   generation protocol cannot be found.
-\end{lemma}
+\end{theorem}
 \begin{proof}(Sketch)
   From the fact that $pk$ is known.
   Suppose for contradiction that the public key was known.
