@@ -1,9 +1,9 @@
 \section{Defining Proof-of-Burn}
 
-A proof-of-burn scheme is a protocol parameterized by the following functionalities offered by the source blockchain:
+Let $\kappa$ be the security parameter. A proof-of-burn scheme is a protocol parameterized by the following functionalities offered by the source blockchain:
 
 \begin{itemize}
-  \item $\sf{GenAddress}(1^\lambda)$ which returns a tuple $(\sf{pk}, \sf{sk})$, denoting the cryptocurrency address $\sf{pk}$ (a public key) used to receive money and its respective secret key $\sf{sk}$ which allows spending from that address.
+  \item $\sf{GenAddress}(1^\kappa)$ which returns a tuple $(\sf{pk}, \sf{sk})$, denoting the cryptocurrency address $\sf{pk}$ (a public key) used to receive money and its respective secret key $\sf{sk}$ which allows spending from that address.
 
   \item $\sf{SpendVerify}(m, \sigma, pk)$ which returns $\sf{true}$ if and only if the transaction $m$ spending from receiving address $pk$ has been authorized by the signature $\sigma$ (by being signed by the respective private key).
 \end{itemize}
@@ -13,16 +13,16 @@ Note that these two functionalities are typically implemented using a standard p
 Then the functionality provided by a proof-of-burn scheme is:
 
 \begin{itemize}
-  \item $\mathsf{GenBurnAddress}(1^\lambda, t)$ which, given a tag $t$, generates a burn address in the form of the original blockchain.
+  \item $\mathsf{GenBurnAddress}(1^\kappa, t)$ which, given a tag $t$, generates a burn address in the form of the original blockchain.
 
-  \item $\mathsf{BurnVerify}(t, \mathsf{burnAddr})$ which returns $\sf{true}$ if and only if \textsf{burnAddr} encodes correctly the information of $t$.
+  \item $\mathsf{BurnVerify}(1^\kappa, t, \mathsf{burnAddr})$ which returns $\sf{true}$ if and only if \textsf{burnAddr} encodes correctly the information of $t$.
 \end{itemize}
 
 We now describe the desirable properties of a proof-of-burn protocol. First, we state what makes a correct burn protocol.
 
 \begin{definition}[Correctness]
-  A burn protocol $\Pi$ is \emph{correct} if for all $t$ and for all $\lambda$ it holds that
-  $\mathsf{BurnVerify}(t, \mathsf{GenBurnAddress}(1^\lambda, t)) = \textsf{true}$.
+  A burn protocol $\Pi$ is \emph{correct} if for all $t$ and for all $\kappa$ it holds that
+  $\mathsf{BurnVerify}(1^\kappa, t, \mathsf{GenBurnAddress}(1^\kappa, t)) = \textsf{true}$.
 \end{definition}
 
 With foresight, we remark that the implementation of $\mathsf{GenBurnAddress}$ and $\mathsf{BurnVerify}$ will typically be deterministic, which alleviates the need for a probabilistic correctness definition.
@@ -38,7 +38,7 @@ To state that the protocol generates addresses which cannot be spent from, we in
 
   \[
     \Pr[\textsc{spend-attack}_{\mathcal{A},
-    \Pi}(\lambda) = \textsf{true}] \leq negl(\lambda)
+    \Pi}(\kappa) = \textsf{true}] \leq negl(\kappa)
   \]
 \end{definition}
 
@@ -49,7 +49,7 @@ To state that the protocol generates addresses which cannot be spent from, we in
   for all probabilistic polynomial-time adversaries $\mathcal{A}$ it holds that:
 
   \[
-    \Pr[\textsc{bind-attack}_{\mathcal{A},\Pi}(\lambda)] \leq negl(\lambda)
+    \Pr[\textsc{bind-attack}_{\mathcal{A},\Pi}(\kappa)] \leq negl(\kappa)
   \]
 \end{definition}
 
@@ -57,6 +57,6 @@ To state that the protocol generates addresses which cannot be spent from, we in
 
 \begin{definition}[Uncensorability]
   A burn protocol $\Pi$ is \emph{uncensorable} if
-  the distribution ensembles $\{A_\lambda \gets \mathsf{GenAddress}(1^\lambda)\}_\lambda$ and
-  $\{B_\lambda \gets \mathsf{GenBurnAddress}(1^\lambda, \cdot)\}_\lambda$ are computationally indistinguishable.
+  the distribution ensembles $\{A_\kappa \gets \mathsf{GenAddress}(1^\kappa)\}_\kappa$ and
+  $\{B_\kappa \gets \mathsf{GenBurnAddress}(1^\kappa, \cdot)\}_\kappa$ are computationally indistinguishable.
 \end{definition}
