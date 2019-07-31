@@ -26,7 +26,7 @@
 
 % TODO: avoid double spending
 
-\begin{theorem}
+\begin{theorem}[Unspendability]
   If $H$ is modelled as a \emph{Random Oracle}, then the protocol $\Pi$ of Section~\ref{section:construction} is \emph{unspendable}.
 \end{theorem}
 \begin{proof}
@@ -38,7 +38,7 @@
 
 We note that the security of the signature scheme is not needed to prove unspendability. Were the signature scheme of Bitcoin ever found to be forgeable, the coins burned through our scheme would remain unspendable.
 
-\begin{theorem}
+\begin{theorem}[Binding]
   If $H$ is \emph{collision resistant} then the protocol of Section~\ref{section:construction} is \emph{binding}.
 \end{theorem}
 \begin{proof}
