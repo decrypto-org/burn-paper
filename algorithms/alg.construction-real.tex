@@ -3,7 +3,7 @@
     \caption{\label{alg.construction-real} The key perturbation algorithm which
     generates a provable proof-of-burn address.}
     \begin{algorithmic}[1]
-        \Function{$\mathsf{GenBurnAddress}$}{$1^\kappa, t$}
+        \Function{$\GenBurnAddress$}{$1^\kappa, t$}
             \Let{pkr}{\textsf{SHA512}(t)}
             \Let{pkh}{\textsf{RIPEMD160}(\textsf{SHA256}(\texttt{0x04} || pkr)}
             \Let{pkh'}{pkh \xor \texttt{0x01}}
