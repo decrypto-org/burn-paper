@@ -31,18 +31,23 @@
 
 We note that the security of the signature scheme is not needed to prove unspendability. Were the signature scheme of Bitcoin ever found to be forgeable, the coins burned through our scheme would remain unspendable.
 
+\import{./}{algorithms/alg.collision-resistance-adversary.tex}
+
 \begin{theorem}[Binding]
   If $H$ is \emph{collision resistant} then the protocol of Section~\ref{section:construction} is \emph{binding}.
 \end{theorem}
 \begin{proof}
   Let $\mathcal{A}$ be an arbitrary adversary against $\Pi$.
-  We will construct the Collision Resistance adversary $A^*$ against $H$.
-  TODO
+  We will construct the Collision Resistance adversary $\mathcal{A}^*$ against $H$.
+
+  The collision resistance adversary, illustrated in Algorithm~\ref{alg.collision-resistance-adversary}, calls $\mathcal{A}$ and obtains two outputs, $t$ and $t'$ such that $H(t) \xor 1 = H(t') \xor 1 \implies H(t) = H(t')$.
+
+  If $\mathcal{A}$ is successful in the \textsf{Bind} game then $\mathcal{A^*}$ is successful in the \textsf{Collision} game.
 
   \[
-    \Pr[\textsf{Bind}_{\mathcal{A},\Pi} = 1]
-    <
-    \Pr[\textsf{Collision}_{\mathcal{A}^*,H} = 1]
+    \Pr[\textsf{Bind}_{\mathcal{A},\Pi} = \true]
+    =
+    \Pr[\textsf{Collision}_{\mathcal{A}^*,H} = \true]
   \]
 
   From the collision resistance of $H$ it follows that $\Pr[\textsf{Collision}_{\mathcal{A}^*,H} = 1] < negl(\kappa)$. Therefore,
