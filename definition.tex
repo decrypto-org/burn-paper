@@ -13,19 +13,19 @@ Note that these two functionalities are typically implemented using a standard p
 Then the functionality provided by a proof-of-burn scheme is:
 
 \begin{itemize}
-  \item $\mathsf{GenBurnAddress}(1^\kappa, t)$ which, given a tag $t$, generates a burn address in the form of the original blockchain.
+  \item $\GenBurnAddress(1^\kappa, t)$ which, given a tag $t$, generates a burn address in the form of the original blockchain.
 
-  \item $\mathsf{BurnVerify}(1^\kappa, t, \mathsf{burnAddr})$ which returns $\sf{true}$ if and only if \textsf{burnAddr} encodes correctly the information of $t$.
+  \item $\BurnVerify(1^\kappa, t, \mathsf{burnAddr})$ which returns $\sf{true}$ if and only if \textsf{burnAddr} encodes correctly the information of $t$.
 \end{itemize}
 
 We now describe the desirable properties of a proof-of-burn protocol. First, we state what makes a correct burn protocol.
 
 \begin{definition}[Correctness]
   A burn protocol $\Pi$ is \emph{correct} if for all $t$ and for all $\kappa$ it holds that
-  $\mathsf{BurnVerify}(1^\kappa, t, \mathsf{GenBurnAddress}(1^\kappa, t)) = \textsf{true}$.
+  $\BurnVerify(1^\kappa, t, \GenBurnAddress(1^\kappa, t)) = \textsf{true}$.
 \end{definition}
 
-With foresight, we remark that the implementation of $\mathsf{GenBurnAddress}$ and $\mathsf{BurnVerify}$ will typically be deterministic, which alleviates the need for a probabilistic correctness definition.
+With foresight, we remark that the implementation of $\GenBurnAddress$ and $\BurnVerify$ will typically be deterministic, which alleviates the need for a probabilistic correctness definition.
 
 To state that the protocol generates addresses which cannot be spent from, we introduce a game-based security definition. The unspendability game \textsc{spend-attack} is illustrated in Algorithm~\ref{alg.spend-game}.
 
@@ -57,6 +57,6 @@ To state that the protocol generates addresses which cannot be spent from, we in
 
 \begin{definition}[Uncensorability]
   A burn protocol $\Pi$ is \emph{uncensorable} if
-  the distribution ensembles $\{A_\kappa \gets \mathsf{GenAddress}(1^\kappa)\}_\kappa$ and
-  $\{B_\kappa \gets \mathsf{GenBurnAddress}(1^\kappa, \cdot)\}_\kappa$ are computationally indistinguishable.
+  the distribution ensembles $\{A_\kappa \gets \GenAddress(1^\kappa)\}_\kappa$ and
+  $\{B_\kappa \gets \GenBurnAddress(1^\kappa, \cdot)\}_\kappa$ are computationally indistinguishable.
 \end{definition}
