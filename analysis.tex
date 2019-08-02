@@ -66,26 +66,29 @@ We note that the security of the signature scheme is not needed to prove unspend
   the protocol $\Pi$ is binding.
 \end{proof}
 
+% TODO: This lemma seems useless... We need to argue about predictability of Gen() by the adversary.
+\begin{lemma}[Distinct keys]\label{lem:distinct-keys}
+  Let $S = (\Gen, \Sig, \Ver)$ be a secure signature scheme and $p$ be any polynomial. Consider the process which calls $(pk_i, sk_i) \gets \Gen(1^\kappa)$ repeatedly and independently $p(\kappa)$ times to obtain $p(\kappa)$ samples. Then for all $i, j \in [p]$ with $i \neq j$, we have that $pk_i \neq pk_j$, except with negligible probability in $\kappa$.
+\end{lemma}
+\begin{proof}
+  Consider the above process and let \textsc{repeat-key} be the event of two samples $i \neq j$ repeating, i.e., $pk_i = pk_j$. Then consider the following existential forgery adversary $\mathcal{A}$ for the signature scheme $S$. The adversary receives a public key $pk$ and attempts to forge a signature $\sigma$. The adversary calls $(sk', pk') \gets \Gen(1^\kappa)$ to generate a new key $(sk', pk')$. If $pk' \neq pk$, the adversary aborts. Otherwise, the adversary uses $sk'$ to create a signature forgery.
+
+  If $pk = pk'$ then by the correctness of the signature scheme the forgery will be successful. Note that \textsc{repeat-key} is the event of any two keys being repeated among $p$ keys. Additionally, together the forgery challenger $\textsf{Sig-forge}$ and the adversary $\mathcal{A}$ independently generate a pair of keys. Then by applying a union bound we obtain that $p^2 \Pr[\textsf{Sig-forge}^{cma}_{\mathcal{A},S}] \geq \Pr[\textsc{repeat-key}]$. From the fact that $p$ is a polynomial and
+  $\Pr[\textsf{Sig-forge}^{cma}_{\mathcal{A},S}]$ is negligible, it follows that $\Pr[\textsc{repeat-key}]$ is negligible.
+\end{proof}
+
 \begin{theorem}
-  If $H$ is modelled as a \emph{Random Oracle} and $S = (\Gen, \Sig, \Ver)$ is a \emph{secure signature scheme} then the protocol of Section~\ref{section:construction} is \emph{uncensorable}.
+  Let $H$ be a \emph{Random Oracle}, $S = (\Gen, \Sig, \Ver)$ be a \emph{secure signature scheme} and $p$ be any polynomial with $p(\kappa) \in \Omega(\kappa)$. Consider the tag distribution $\mathcal{T}$ to be the uniform distribution of the set $\{0, 1\}^{p(\kappa)}$.
+  Then the protocol of Section~\ref{section:construction} is \emph{uncensorable}.
 \end{theorem}
 \begin{proof}
-  Let $\mathcal{A}$ be an arbitrary adversary against $\Pi$.
-  We will construct the Collision Resistance adversary $A^*$ against $H$.
+  We will argue that both
+  $X = \{x: x \gets \textsf{GenAddress}\}$ and
+  $Y = \{y: t \gets \mathcal{T}; y \gets \textsf{GenBurnAddress}(1^\kappa, t)\}$ are distributions computationally indistinguishable from the uniform random distribution sampled from $\{0, 1\}^\kappa$. Therefore $X$ and $Y$ will be computationally indistinguishable.
 
-  TODO
+  For $X$, the distinguisher $\mathcal{A}$ receives a truly random input $pkh = H(pk)$ which they can only distinguish if they are able to create a query to the random oracle with the same $pk$. However, we know from Lemma~\ref{lem:distinct-keys} that no two queries to $Gen(1^\kappa)$ will return the same value except with negligible probability. Therefore the adversary will not make the random oracle query $pk$, and so $x$ is indistinguishable from uniformly random.
+  % TODO: This seems irrelevant... the adversary could generate pk without calling Gen(1^\kappa)...
 
-  From security of signature scheme, calling $\Gen()$ twice will never yield the same $pk$.
-
-  TODO
-
-  \[
-    \Pr[\textsf{Bind}_{\mathcal{A},\Pi} = 1]
-    <
-    \Pr[\textsf{Collision}_{\mathcal{A}^*,H} = 1]
-  \]
-
-  From the collision resistance of $H$ it follows that $\Pr[\textsf{Collision}_{\mathcal{A}^*,H} = 1] < negl(\kappa)$. Therefore,
-  $\Pr[\textsf{Bind}_{\mathcal{A},\Pi} = 1] < negl(\kappa)$, so
-  the protocol $\Pi$ is binding.
+  For $Y$, the distinguisher $\mathcal{A}$ receives a truly random input $pkh = H(t)$ where $t$ is sampled from $\mathcal{T}$. From the fact that $p \in \Omega(\kappa)$, the value $t$ is unpredictable to the adversary exept with negligible probability. Therefore the adversary will not make the query $t$ to the random oracle and its input $y$ is indistinguishable from uniformly random.
+  % TODO: This argument seems shaky... we need to make it more formal.
 \end{proof}
