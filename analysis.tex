@@ -10,7 +10,7 @@
 \end{proof}
 
 \begin{theorem}[Unspendability]
-  If $H$ is modelled as a preimage-resistant hash function, then the protocol $\Pi$ of Section~\ref{section:construction} is \emph{unspendable}.
+  If $H$ is preimage-resistant, then the protocol $\Pi$ of Section~\ref{section:construction} is \emph{unspendable}.
 \end{theorem}
 \begin{proof}
   Assume that the protocol $\Pi$ is not unspendable. This means that there exists a probabilistic polynomial-time adversary $\mathcal{A}$ such that:
@@ -20,9 +20,9 @@
     \Pi}(\kappa) = \textsf{true}] > negl(\kappa)
   \]
 
-  This would imply that the adversary can generate $t$, $m$, $\sigma = (pk, \sigma')$ and $pkh$ such that $\BurnVerify(1^\kappa, t, pkh) = \true \land \SpendVerify(m, \sigma, pkh) = \true$ with non-negligible probability in $\kappa$.
+  This would imply that when successful, $\mathcal{A}$ can generate $t$, $m$, $\sigma = (pk, \sigma')$ and $pkh$ such that $\BurnVerify(1^\kappa, t, pkh) = \true \land \SpendVerify(m, \sigma, pkh) = \true$.
 
-  From the construction we know that $pkh = H_\kappa(t) \xor 1$.
+  From the definition of $\BurnVerify$ we know that $pkh = H_\kappa(t) \xor 1$.
 
   For $\SpendVerify(m, \sigma, pkh) = \true$, it should be so that $H_\kappa(pk) = pkh = H_\kappa(t) \xor 1$.
 
