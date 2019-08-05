@@ -40,9 +40,9 @@ We note that the security of the signature scheme is not needed to prove unspend
   Let $\mathcal{A}$ be an arbitrary adversary against $\Pi$.
   We will construct the Collision Resistance adversary $\mathcal{A}^*$ against $H$.
 
-  The collision resistance adversary, illustrated in Algorithm~\ref{alg.collision-resistance-adversary}, calls $\mathcal{A}$ and obtains two outputs, $t$ and $t'$ such that $H(t) \xor 1 = H(t') \xor 1 \implies H(t) = H(t')$.
+  The collision resistance adversary, illustrated in Algorithm~\ref{alg.collision-resistance-adversary}, calls $\mathcal{A}$ and obtains two outputs, $t$ and $t'$. If $\mathcal{A}$ is successful then $H(t) \xor 1 = H(t') \xor 1$ and therefore $H(t) = H(t')$.
 
-  If $\mathcal{A}$ is successful in the \textsf{Bind} game then $\mathcal{A^*}$ is successful in the \textsf{Collision} game.
+  We thus conclude that $\mathcal{A^*}$ is successful in the \textsf{Collision} game if and only if $\mathcal{A}$ is successful in the \textsf{Bind} game.
 
   \[
     \Pr[\textsf{Bind}_{\mathcal{A},\Pi} = \true]
