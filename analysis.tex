@@ -9,24 +9,35 @@
   Based on Algorithm~\ref{alg.construction}, $\BurnVerify(1^\kappa, t, \GenBurnAddress(1^\kappa, t)) = \textsf{true}$ if and only if $\GenBurnAddress(1^\kappa, t) = \GenBurnAddress(1^\kappa, t)$, which always holds as $\GenBurnAddress$ is deterministic.
 \end{proof}
 
+\begin{lemma}[Perturbation]
+  \label{lem.perturbation}
+  Let $p(\kappa)$ be a polynomial. Consider the process which samples $p(\kappa)$ strings $s_1, s_2, \dots, s_{p(\kappa)}$ uniformly at random from the set $\{0, 1\}^\kappa$. The probability that there exists $i$, $j$ such that $s_i = s_j \xor 1$ is negligible in $\kappa$.
+\end{lemma}
+\begin{proof}
+  Let \textsc{Match} denote the event that there exist $1 \leq i, j \leq p(\kappa)$ such that $s_i = s_j \xor 1$.
+  Let $\textsc{Match}_{i, j}$ denote the event that $s_i = s_j \xor 1$. Apply a union bound to obtain
+
+  \begin{align*}
+    \Pr[\bigcup_{i, j}\textsc{Match}_{i, j}] &\leq \sum_{i, j} \Pr[\textsc{Match}_{i, j}] \\
+    \Pr[\textsc{Match}] &\leq \sum_{i, j} \Pr[\textsc{Match}_{i, j}]
+  \end{align*}
+
+  We observe that if $i \neq j$ then $\Pr[\textsc{Match}_{i, j}] = 2^{-p(\kappa)}$, otherwise $\Pr[\textsc{Match}_{i, j}] = 0$. Therefore, $\Pr[\textsc{Match}] \leq \sum_{i, j} 2^{-p(\kappa)} = p^2(\kappa) 2^{-p(\kappa)}$.
+\end{proof}
+
 \begin{theorem}[Unspendability]
-  If $H$ is preimage-resistant, then the protocol $\Pi$ of Section~\ref{section:construction} is \emph{unspendable}.
+  If $H$ is a \emph{Random Oracle}, then the protocol $\Pi$ of Section~\ref{section:construction} is \emph{unspendable}.
 \end{theorem}
 \begin{proof}
-  Assume that the protocol $\Pi$ is not unspendable. This means that there exists a probabilistic polynomial-time adversary $\mathcal{A}$ such that:
+  Let $\mathcal{A}$ be an arbitrary probabilistic polynomial time \textsc{spend-attack} adversary.
+  The adversary $\mathcal{A}$ makes at most a polynomial number of queries $p(\kappa)$ to the Random Oracle.
+  Consider the event \textsc{Match} of Lemma~\ref{lem.perturbation}.
 
-  \[
-    \Pr[\textsc{spend-attack}_{\mathcal{A},
-    \Pi}(\kappa) = \textsf{true}] > negl(\kappa)
-  \]
+  If the adversary is successful then it has to present $t, pk, pkh$ such that $H(pk) = pkh$ and $H(t) \xor 1 = pkh$.
 
-  This would imply that when successful, $\mathcal{A}$ can generate $t$, $m$, $\sigma = (pk, \sigma')$ and $pkh$ such that $\BurnVerify(1^\kappa, t, pkh) = \true \land \SpendVerify(m, \sigma, pkh) = \true$.
+  We observe that $\textsc{spend-attack}_{\mathcal{A}, \Pi}(\kappa) = \true \implies \textsc{Match}$.
 
-  From the definition of $\BurnVerify$ we know that $pkh = H_\kappa(t) \xor 1$.
-
-  For $\SpendVerify(m, \sigma, pkh) = \true$, it should be so that $H_\kappa(pk) = pkh = H_\kappa(t) \xor 1$.
-
-  From the preimage resistance of $H_\kappa$ we know that given a $pkh$ a probabilistic polynomial-time adversary should be able to discover an input $pk$ with negligible probability in $\kappa$.
+  Therefore $\Pr[\textsc{spend-attack}_{\mathcal{A}, \Pi}(\kappa)] \leq Pr[\textsc{Match}]$. Applying Lemma~\ref{lem.perturbation}, $\Pr[\textsc{spend-attack}_{\mathcal{A}, \Pi}(\kappa)] \leq negl(\kappa)$.
 \end{proof}
 
 We note that the security of the signature scheme is not needed to prove unspendability. Were the signature scheme of Bitcoin ever found to be forgeable, the coins burned through our scheme would remain unspendable.
