@@ -16,7 +16,7 @@ Intuitively, the protocol works as follows. If Alice wishes to burn coins on a s
 
 Naturally, for $\GenBurnAddress$ to generate addresses that ``look'' valid but are unspendable according to the source blockchain protocol requires that the burn protocol respects the format of the source blockchain protocol. We abstract the functionalities of the source blockchain protocol into a \emph{blockchain address protocol}:
 
-\begin{definition}[Blockchain address]
+\begin{definition}[Blockchain address protocol]
   A \emph{blockchain address protocol} $\Pi_\alpha$ consists of two functions $\sf{GenAddress}$ and $\sf{SpendVerify}$:
 
   \begin{itemize}
