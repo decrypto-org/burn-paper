@@ -110,9 +110,15 @@ We now posit that no adversary can predict the public key of a secure signature 
   $X = \{x: x \gets \textsf{GenAddress}\}$ and
   $Y = \{y: t \gets \mathcal{T}; y \gets \textsf{GenBurnAddress}(1^\kappa, t)\}$ are distributions computationally indistinguishable from the uniform random distribution sampled from $\{0, 1\}^\kappa$. Therefore $X$ and $Y$ will be computationally indistinguishable.
 
+  \textbf{Claim 1: $X \sim \{0, 1\}^\kappa$.}
+  Let $\mathcal{A}$ be an arbitrary polynomial distinguisher between $X$ and $\{0, 1\}^\kappa$. We will construct an adversary $\mathcal{A}^*$ against $\textsf{pk-predict}$. Let $r(\kappa)$ denote the (polynomial) maximum number of random oracle queries of $\mathcal{A}$. The adversary $\mathcal{A}^*$ works as follows. Initially, it chooses a random bit $b \stackrel{\$}{\gets} \{0, 1\}$ and sets $Z = X$ if $b = 0$, otherwise sets $Z = \{0, 1\}^\kappa$.
+  It samples $z \gets Z$. If $b = 0$, then $z$ is chosen by applying \textsf{GenAddress} which involves calling the random oracle $H$ with some input $pk$. It then chooses one of $\mathcal{A}$'s queries $j \stackrel{\$}{\gets} [q]$ at random. Finally, it outputs the input received by the random oracle during the $j^\text{th}$ query of $\mathcal{A}$. Consider the event $\textsc{query}$ that $b = 0$ and $\mathcal{A}$ asks a random oracle query with input $pk$.
+  % TODO... complete this argument...
+  Either $\mathcal{A}$... TODO
   For $X$, the distinguisher $\mathcal{A}$ receives a truly random input $pkh = H(pk)$ which they can only distinguish if they are able to create a query to the random oracle with the same $pk$. From Lemma~\ref{lem:pk-unpredictability}, the adversary will not make the random oracle query $pk$, and so $x$ is indistinguishable from uniformly random.
   % TODO: Here we need to use Random Oracle programmability to complete the argument formally...
 
+  \textbf{Claim 2: $Y \sim \{0, 1\}^kappa$.}
   For $Y$, the distinguisher $\mathcal{A}$ receives a truly random input $pkh = H(t)$ where $t$ is sampled from $\mathcal{T}$. From the fact that $p \in \Omega(\kappa)$, the value $t$ is unpredictable to the adversary exept with negligible probability. Therefore the adversary will not make the query $t$ to the random oracle and its input $y$ is indistinguishable from uniformly random.
   % TODO: This argument seems shaky... we need to make it more formal.
 \end{proof}
