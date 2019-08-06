@@ -35,7 +35,7 @@
 
   If the adversary is successful then it has presented $t, pk, pkh$ such that $H(pk) = pkh$ and $H(t) \xor 1 = pkh$.
 
-  We observe that $\textsc{spend-attack}_{\mathcal{A}, \Pi}(\kappa) = \true \implies \textsc{Match}$.
+  We observe that $\textsc{spend-attack}_{\mathcal{A}, \Pi}(\kappa) = \true \Rightarrow \textsc{Match}$.
 
   Therefore $\Pr[\textsc{spend-attack}_{\mathcal{A}, \Pi}(\kappa)] \leq Pr[\textsc{Match}]$. Applying Lemma~\ref{lem.perturbation}, $\Pr[\textsc{spend-attack}_{\mathcal{A}, \Pi}(\kappa)] \leq negl(\kappa)$.
 \end{proof}
