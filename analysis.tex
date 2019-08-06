@@ -1,29 +1,64 @@
 \section{Analysis}
 
-\begin{theorem}
-  If $H$ is modelled as a \emph{Random Oracle}, then the protocol $\Pi$ of Section~\ref{section:construction} is \emph{unspendable}.
+\begin{theorem}[Correctness]
+  The Proof-of-Burn protocol $\Pi$ of Section~\ref{section:construction} is \emph{correct}.
 \end{theorem}
 \begin{proof}
-  $H(t) \xor 1 = pkh$.
-  Adversary knows a $pk$ st $H(pk) = pkh$.
-  This is impossible under the Random Oracle model.
-  TODO
+  We need to prove that $\forall \kappa, t. \BurnVerify(1^\kappa, t, \GenBurnAddress(1^\kappa, t)) = \textsf{true}$.
+
+  Based on Algorithm~\ref{alg.construction}, $\BurnVerify(1^\kappa, t, \GenBurnAddress(1^\kappa, t)) = \textsf{true}$ if and only if $\GenBurnAddress(1^\kappa, t) = \GenBurnAddress(1^\kappa, t)$, which always holds as $\GenBurnAddress$ is deterministic.
+\end{proof}
+
+\begin{lemma}[Perturbation]
+  \label{lem.perturbation}
+  Let $p(\kappa)$ be a polynomial. Consider the process which samples $p(\kappa)$ strings $s_1, s_2, \dots, s_{p(\kappa)}$ uniformly at random from the set $\{0, 1\}^\kappa$. The probability that there exists $i$, $j$ such that $s_i = s_j \xor 1$ is negligible in $\kappa$.
+\end{lemma}
+\begin{proof}
+  Let \textsc{Match} denote the event that there exist $1 \leq i, j \leq p(\kappa)$ such that $s_i = s_j \xor 1$.
+  Let $\textsc{Match}_{i, j}$ denote the event that $s_i = s_j \xor 1$. Apply a union bound to obtain
+
+  \begin{align*}
+    \Pr[\bigcup_{i, j}\textsc{Match}_{i, j}] &\leq \sum_{i, j} \Pr[\textsc{Match}_{i, j}] \\
+    \Pr[\textsc{Match}] &\leq \sum_{i, j} \Pr[\textsc{Match}_{i, j}]
+  \end{align*}
+
+  We observe that if $i \neq j$ then $\Pr[\textsc{Match}_{i, j}] = 2^{-p(\kappa)}$, otherwise $\Pr[\textsc{Match}_{i, j}] = 0$. Therefore, $\Pr[\textsc{Match}] \leq \sum_{i, j} 2^{-p(\kappa)} = p^2(\kappa) 2^{-p(\kappa)}$.
+\end{proof}
+
+\begin{theorem}[Unspendability]
+  If $H$ is a \emph{Random Oracle}, then the protocol $\Pi$ of Section~\ref{section:construction} is \emph{unspendable}.
+\end{theorem}
+\begin{proof}
+  Let $\mathcal{A}$ be an arbitrary probabilistic polynomial time \textsc{spend-attack} adversary.
+  The adversary $\mathcal{A}$ makes at most a polynomial number of queries $p(\kappa)$ to the Random Oracle.
+  Consider the event \textsc{Match} of Lemma~\ref{lem.perturbation}.
+
+  If the adversary is successful then it has presented $t, pk, pkh$ such that $H(pk) = pkh$ and $H(t) \xor 1 = pkh$.
+
+  We observe that $\textsc{spend-attack}_{\mathcal{A}, \Pi}(\kappa) = \true \implies \textsc{Match}$.
+
+  Therefore $\Pr[\textsc{spend-attack}_{\mathcal{A}, \Pi}(\kappa)] \leq Pr[\textsc{Match}]$. Applying Lemma~\ref{lem.perturbation}, $\Pr[\textsc{spend-attack}_{\mathcal{A}, \Pi}(\kappa)] \leq negl(\kappa)$.
 \end{proof}
 
 We note that the security of the signature scheme is not needed to prove unspendability. Were the signature scheme of Bitcoin ever found to be forgeable, the coins burned through our scheme would remain unspendable.
 
-\begin{theorem}
-  If $H$ is \emph{collision resistant} then the protocol of Section~\ref{section:construction} is \emph{binding}.
+\import{./}{algorithms/alg.collision-resistance-adversary.tex}
+
+\begin{theorem}[Binding]
+  If $H$ is a \emph{collision resistant} hash function then the protocol of Section~\ref{section:construction} is \emph{binding}.
 \end{theorem}
 \begin{proof}
   Let $\mathcal{A}$ be an arbitrary adversary against $\Pi$.
-  We will construct the Collision Resistance adversary $A^*$ against $H$.
-  TODO
+  We will construct the Collision Resistance adversary $\mathcal{A}^*$ against $H$.
+
+  The collision resistance adversary, illustrated in Algorithm~\ref{alg.collision-resistance-adversary}, calls $\mathcal{A}$ and obtains two outputs, $t$ and $t'$. If $\mathcal{A}$ is successful then $H(t) \xor 1 = H(t') \xor 1$ and therefore $H(t) = H(t')$.
+
+  We thus conclude that $\mathcal{A^*}$ is successful in the \textsf{Collision} game if and only if $\mathcal{A}$ is successful in the \textsf{Bind} game.
 
   \[
-    \Pr[\textsf{Bind}_{\mathcal{A},\Pi} = 1]
-    <
-    \Pr[\textsf{Collision}_{\mathcal{A}^*,H} = 1]
+    \Pr[\textsf{Bind}_{\mathcal{A},\Pi} = \true]
+    =
+    \Pr[\textsf{Collision}_{\mathcal{A}^*,H} = \true]
   \]
 
   From the collision resistance of $H$ it follows that $\Pr[\textsf{Collision}_{\mathcal{A}^*,H} = 1] < negl(\kappa)$. Therefore,
