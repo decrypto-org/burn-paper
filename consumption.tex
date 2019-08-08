@@ -1,0 +1,10 @@
+\section{Consumption}
+
+We describe how the target blockchain can verify a burn which happened on the source blockchain. Specifically, we will study the case of Bitcoin and Ethereum as source blockchains. Most cryptocurrencies on the market are adaptations of either of these. We define a party which we call a \emph{prover} who is responsible for constructing a proof of the event and sending it to the target blockchain. The proof we need to send is one of transaction inclusion in the honestly adopted chain of the source blockchain. We will denote this proof as a triple $\beta = \sf(blockHeader, txInclusion, blockConnection)$.
+
+\subsection{Transaction Inclusion Proof}
+The transaction inclusion proof is conveniently defined by both Bitcoin and Ethereum. In Bitcoin, each block header contains a commitment to the set of the transaction ids in the block in the form of a Merkle Tree root. Thus, for Bitcoin our transaction inclusion proof is of the form $\mathsf{txInclusion} = (\mathsf{txIDMerkleRoot}, \mathsf{txIDMerkleProof})$. The shape of the proof is as follows $\mathsf{txIDMerkleProof} = ([x_0, x_1, \dots], \mathsf{txIndex}, \mathsf{txCount})$.
+
+Ethereum stores a similar commitment in its header, in the form of the root of a Patricia-Merkle Trie. This trie contains the transactions of the block, using the transaction id of each transaction as a key to determine the path to follow starting from the root in order to arrive at that transaction. Similar to regular Merkle trees, Patricia-Merkle tries allow for leaf inclusion proofs. Thus the form of \textsf{txInclusion} is the same as for Bitcoin transaction inclusion proofs. However, the shape of the merkle proof is different: $\mathsf{txIDMerkleProof} = [[x_{1,1}, x_{1,2}, \dots], \dots]$.
+
+\subsection{Block Inclusion Proof}
