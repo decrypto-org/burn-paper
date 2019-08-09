@@ -1,0 +1,26 @@
+\begin{algorithm}[H]
+    \caption{\label{alg.nipopow-burn-verifier} A contract for verifying burns from the source chain $\mathcal{G}_s$ using NIPoPoWs.}
+    \begin{algorithmic}[1]
+        \Contract{\textsf{nipopow-burn-verifier}\text{ extends }\textsf{crosschain}$_{k,m,z}$; \textsf{ERC20}}
+            \State\textsf{mapping}(\textsf{address} $\Rightarrow$ \textsf{uint256}) \textsf{balances}
+            \State{$\textsf{initialized} \gets \emph{false}$;
+                   $\textsf{claimed-events} \gets \emptyset$}
+            \Function{\sf initialize}{$\mathcal{G}_s$}
+                \If{$\lnot \textsf{initialized}$}
+                    \State\textsf{crosschain.initialize}$(\mathcal{G}_s)$
+                    \Comment{Initialize with the source chain genesis block}
+                    \Let{\textsf{initialized}}{\emph{true}}
+                \EndIf
+            \EndFunction
+            \Function{\sf claim}{$\textsf{amount}, \textsf{txid}$}
+                \Let{\textsf{event}}{(\textsf{GenBurnAddress(msg.sender)}, \textsf{amount}, \textsf{txid})}
+                \If{$\textsf{event} \in \textsf{claimed-events} \lor \lnot \textsf{event-exists}(\textsf{event})$}
+                    \State\Return{$\bot$}
+                \EndIf
+                \Let{\textsf{claimed-events}}{\textsf{claimed-events} \cup \{\textsf{event}\}}
+                \State{$\textsf{balances[msg.sender]} \pluseq \textsf{amount}$}
+            \EndFunction
+        \EndContract
+        \vskip8pt
+    \end{algorithmic}
+\end{algorithm}
