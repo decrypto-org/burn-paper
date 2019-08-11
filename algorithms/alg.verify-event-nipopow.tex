@@ -9,6 +9,7 @@
                 \State\Return{$\false$}
             \EndIf
 
+            \Let{blk}{\textsf{decodeBlockHeader}(\textsf{blockHeader})}
             \State\Return{$\textsf{verify-infix}_{m,k}^{\mathcal{G},Q_\text{blk}}(\mathcal{P})$}
         \EndFunction
         \vskip8pt
