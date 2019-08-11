@@ -20,6 +20,8 @@ Knowing this, it is now possible to define \textsf{blockConnection}. This compon
 
 An interesting observation is that, because the federation majority is trusted on the target blockchain, we could avoid doing the block header hashing and verification in order to verify block connection. Instead of storing the block id of each block in the MMR, we could store the transaction merkle root of each block, and again use the root of the MMR as the tag. The verifier on the smart contract side would then verify that the \textsf{txIDMerkleRoot} provided exists in the MMR using the \textsf{blockConnection}.
 
+\import{./}{algorithms/alg.verify-event-federation.tex}
+
 \subsubsection{Decentralized}
 We introduce a second way for proving and verifying block connection which does not require a trusted federation. This is possible by making use of NIPoPoWs. The way the proving process works differs quite a bit from the federation, because in the federation there is a trusted source of truth. If a tag is voted by the federation majority, then it is forever true. But if this the verifier does not have this information, then it has to rely on the prover to get it. We will need to assume a model where there exist two provers, one honest and one malicious. The block connection proof can be an NIPoPoW infix proof for the block which includes the burn transaction. Specifically, $\mathsf{blockConnection} = \pi\chi$.
 
