@@ -1,0 +1,19 @@
+\begin{algorithm}[H]
+    \caption{\label{alg.verify-tx} A function to verify that a transaction is conforming to the provided event and is included in the provided block.}
+    \begin{algorithmic}[1]
+        \Function{\sf verify-tx$_e$}{$\textsf{txRaw, txInclusion, blockHeader}$}
+            \Let{tx}{\textsf{decodeRawTX}(\textsf{txRaw})}
+            \Let{blk}{\textsf{decodeBlockHeader}(\textsf{blockHeader})}
+            \If{$\neg \textsf{existsOutput}(tx, e.\textsf{receivingAddress}, e.\textsf{amount})$}
+                \State\Return{$\false$}
+            \EndIf
+            \Let{\textsf{txMerkleRoot}}{\textsf{calculateMerkleRoot}(H(\textsf{txRaw}), \textsf{txInclusion})}
+            \If{$\textsf{txMerkleRoot} \neq blk.\textsf{txMerkleRoot}$}
+                \State\Return{$\false$}
+            \EndIf
+
+            \State\Return{$\true$}
+        \EndFunction
+        \vskip8pt
+    \end{algorithmic}
+\end{algorithm}
