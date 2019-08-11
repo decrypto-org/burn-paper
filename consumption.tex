@@ -25,6 +25,7 @@ An interesting observation is that, because the federation majority is trusted o
 \subsubsection{Decentralized}
 We introduce a second way for proving and verifying block connection which does not require a trusted federation. This is possible by making use of NIPoPoWs. The way the proving process works differs quite a bit from the federation, because in the federation there is a trusted source of truth. If a tag is voted by the federation majority, then it is forever true. But if this the verifier does not have this information, then it has to rely on the prover to get it. We will need to assume a model where there exist two provers, one honest and one malicious. The block connection proof can be an NIPoPoW infix proof for the block which includes the burn transaction. Specifically, $\mathsf{blockConnection} = \pi\chi$.
 
+\import{./}{algorithms/alg.verify-event-nipopow.tex}
 \import{./}{algorithms/alg.nipopow-burn-verifier.tex}
 
 However, this alone is not enough to persuade a verifier. It is possible that the prover is malicious and this proof is constructed for a non-honestly adopted chain (e.g. a temporary adversarial fork). In order for the verifier to be certain, it needs to allow for a honest prover to claim a better proof for a longer chain. 

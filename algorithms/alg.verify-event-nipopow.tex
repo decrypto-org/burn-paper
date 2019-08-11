@@ -1,0 +1,22 @@
+\begin{algorithm}[H]
+    \caption{\label{alg.verify-event-nipopow} A \textsf{verify} implementation which verifies a spend event on the bitcoin blockchain using NIPoPoWs.}
+    \begin{algorithmic}[1]
+        \Function{$Q_b$}{$S$}
+            \State\Return{$b \in S$}
+        \EndFunction
+        \Function{$\mathsf{verify}_{k,m}^{\mathcal{G},e}$}{$\textsf{(txRaw, txInclusion, blockHeader)}, \mathcal{P}$}
+            \Let{tx}{\textsf{decodeRawTX}(\textsf{txRaw})}
+            \Let{blk}{\textsf{decodeBlockHeader}(\textsf{blockHeader})}
+            \If{$\neg \textsf{existsOutput}_{tx}(e.\textsf{receivingAddress}, e.\textsf{amount})$}
+                \State\Return{$\bot$}
+            \EndIf
+            \Let{\textsf{txMerkleRoot}}{\textsf{calculateMerkleRoot}(H(\textsf{txRaw}), \textsf{txInclusion})}
+            \If{$\textsf{txMerkleRoot} \neq blk.\textsf{txMerkleRoot}$}
+                \State\Return{$\bot$}
+            \EndIf
+
+            \State\Return{$\textsf{verify-infix}_{m,k}^{\mathcal{G},Q_\text{blk}}(\mathcal{P})$}
+        \EndFunction
+        \vskip8pt
+    \end{algorithmic}
+\end{algorithm}
