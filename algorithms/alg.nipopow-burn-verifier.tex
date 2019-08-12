@@ -12,24 +12,16 @@
                     \Let{\textsf{initialized}}{\emph{true}}
                 \EndIf
             \EndFunction
-            \Function{\sf claim}{$\textsf{sourceRecipient}, \textsf{amount}, \textsf{txID}$}
-                \Let{e}{\mathsf{
-                    \{
-                        \kv{receivingAddress}{sourceRecipient},
-                        \kv{amount}{amount},
-                        \kv{txID}{txID}
-                    \}
-                }}
-
+            \Function{\sf claim}{$e$}
                 \If{$e \in \textsf{claimed-events} \lor \lnot \textsf{event-exists}(e)$}
                     \State\Return{$\bot$}
                 \EndIf
-                \If{$\lnot \BurnVerify(\{\textsf{targetAddress: msg.sender}\}, \textsf{sourceRecipient})$}
+                \If{$\lnot \BurnVerify(\{\textsf{targetAddress: msg.sender}\}, e.\textsf{receivingAddress})$}
                     \State\Return{$\bot$}
                 \EndIf
 
                 \Let{\textsf{claimed-events}}{\textsf{claimed-events} \cup \{e\}}
-                \State{$\textsf{balances[msg.sender]} \pluseq \textsf{amount}$}
+                \State{$\textsf{balances[msg.sender]} \pluseq e.\textsf{amount}$}
             \EndFunction
         \EndContract
         \vskip8pt
