@@ -4,7 +4,7 @@
         \Function{\sf verify-tx$_e$}{$\alpha$}
             \Let{tx}{\textsf{decodeRawTX}(\textsf{txRaw})}
             \Let{blk}{\textsf{decodeBlockHeader}(\alpha.\textsf{blockHeader})}
-            \If{$\neg \textsf{existsOutput}(tx, e.\textsf{receivingAddress}, e.\textsf{amount})$}
+            \If{$\neg \textsf{containsTransfer}(tx, e.\textsf{receivingAddress}, e.\textsf{amount})$}
                 \State\Return{$\false$}
             \EndIf
             \Let{\textsf{txMerkleRoot}}{\textsf{calculateMerkleRoot}(H(\alpha.\textsf{txRaw}), \alpha.\textsf{txInclusion})}
