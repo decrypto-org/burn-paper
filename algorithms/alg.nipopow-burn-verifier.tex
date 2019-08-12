@@ -12,12 +12,23 @@
                     \Let{\textsf{initialized}}{\emph{true}}
                 \EndIf
             \EndFunction
-            \Function{\sf claim}{$\textsf{amount}, \textsf{txid}$}
-                \Let{\textsf{event}}{(\textsf{GenBurnAddress(msg.sender)}, \textsf{amount}, \textsf{txid})}
-                \If{$\textsf{event} \in \textsf{claimed-events} \lor \lnot \textsf{event-exists}(\textsf{event})$}
+            \Function{\sf claim}{$\textsf{sourceRecipient}, \textsf{amount}, \textsf{txID}$}
+                \Let{e}{\mathsf{
+                    \{
+                        \kv{receivingAddress}{sourceRecipient},
+                        \kv{amount}{amount},
+                        \kv{txID}{txID}
+                    \}
+                }}
+
+                \If{$e \in \textsf{claimed-events} \lor \lnot \textsf{event-exists}(e)$}
                     \State\Return{$\bot$}
                 \EndIf
-                \Let{\textsf{claimed-events}}{\textsf{claimed-events} \cup \{\textsf{event}\}}
+                \If{$\lnot \BurnVerify(\{\textsf{targetAddress: msg.sender}\}, \textsf{sourceRecipient})$}
+                    \State\Return{$\bot$}
+                \EndIf
+
+                \Let{\textsf{claimed-events}}{\textsf{claimed-events} \cup \{e\}}
                 \State{$\textsf{balances[msg.sender]} \pluseq \textsf{amount}$}
             \EndFunction
         \EndContract
