@@ -1,7 +1,7 @@
 \begin{algorithm}[H]
-    \caption{\label{alg.nipopow-burn-verifier} A contract for verifying burns from the source chain $\mathcal{G}_s$ using NIPoPoWs.}
+    \caption{\label{alg.burn-verifier} A contract for verifying burns from the source chain rooted at genesis $\mathcal{G}_s$.}
     \begin{algorithmic}[1]
-        \Contract{\textsf{nipopow-burn-verifier}\text{ extends }\textsf{crosschain}$_{k,m,z}$; \textsf{ERC20}}
+        \Contract{\textsf{burn-verifier}\text{ extends }\textsf{crosschain}$_{k,m,z}$; \textsf{ERC20}}
             \State\textsf{mapping}(\textsf{address} $\Rightarrow$ \textsf{uint256}) \textsf{balances}
             \State{$\textsf{initialized} \gets \emph{false}$;
                    $\textsf{claimed-events} \gets \emptyset$}
