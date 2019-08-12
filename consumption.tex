@@ -4,6 +4,8 @@ We describe how the target blockchain can verify a burn which happened on the so
 
 \subsection{Transaction Inclusion Proof}
 
+For simplicity we will abbreviate the transaction inclusion part of the complete proof as $\alpha = \sf(txRaw, txInclusion, blockHeader)$.
+
 \import{./}{algorithms/alg.verify-tx.tex}
 
 The transaction inclusion proof is conveniently defined by both Bitcoin and Ethereum. In Bitcoin, each block header contains a commitment to the set of the transaction ids in the block in the form of a Merkle Tree root. Thus, for Bitcoin our transaction inclusion proof is of the form $\mathsf{txInclusion} = (\mathsf{txIDMerkleRoot}, \mathsf{txIDMerkleProof})$. The shape of the proof is as follows $\mathsf{txIDMerkleProof} = ([x_0, x_1, \dots], \mathsf{txIndex}, \mathsf{txCount})$.

@@ -4,12 +4,12 @@
         \Function{$Q_b$}{$S$}
             \State\Return{$b \in S$}
         \EndFunction
-        \Function{$\mathsf{verify}_{k,m}^{\mathcal{G},e}$}{$\textsf{(txRaw, txInclusion, blockHeader)}, \mathcal{P}$}
-            \If{$\neg \textsf{verify-tx}_e(\textsf{txRaw, txInclusion, blockHeader})$}
+        \Function{$\mathsf{verify}_{k,m}^{\mathcal{G},e}$}{$\alpha, \mathcal{P}$}
+            \If{$\neg \textsf{verify-tx}_e(\alpha)$}
                 \State\Return{$\false$}
             \EndIf
 
-            \Let{blk}{\textsf{decodeBlockHeader}(\textsf{blockHeader})}
+            \Let{blk}{\textsf{decodeBlockHeader}(\alpha.\textsf{blockHeader})}
             \State\Return{$\textsf{verify-infix}_{m,k}^{\mathcal{G},Q_\text{blk}}(\mathcal{P})$}
         \EndFunction
         \vskip8pt

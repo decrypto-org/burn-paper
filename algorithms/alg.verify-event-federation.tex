@@ -1,11 +1,11 @@
 \begin{algorithm}[H]
     \caption{\label{alg.verify-event-federation} A \textsf{verify} implementation which verifies a spend event on the bitcoin blockchain using the federation mechanism.}
     \begin{algorithmic}[1]
-        \Function{$\mathsf{verify}_{\mathsf{isApproved}}^{e}$}{\sf(txRaw, txInclusion, blockHeader, blockConnection)}
-            \If{$\neg \textsf{verify-tx}_e(\textsf{txRaw, txInclusion, blockHeader})$}
+        \Function{$\mathsf{verify}_{\mathsf{isApproved}}^{e}$}{$\alpha, \textsf{blockConnection}$}
+            \If{$\neg \textsf{verify-tx}_e(\alpha)$}
                 \State\Return{$\false$}
             \EndIf
-            \Let{\textsf{blockTreeRoot}}{\textsf{calculateMerkleRoot}(id(\textsf{blockHeader}), \textsf{blockConnection})}
+            \Let{\textsf{blockTreeRoot}}{\textsf{calculateMerkleRoot}(id(\alpha.\textsf{blockHeader}), \textsf{blockConnection})}
             \If{$\textsf{isApproved(blockTreeRoot)} \land \textsf{txMerkleRoot} = blk.\textsf{txMerkleRoot}$}
                 \State\Return{$\true$}
             \EndIf
