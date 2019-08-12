@@ -29,8 +29,18 @@ An interesting observation is that, because the federation majority is trusted o
 We introduce a second way for proving and verifying block connection which does not require a trusted federation. This is possible by making use of NIPoPoWs. The way the proving process works differs quite a bit from the federation, because in the federation there is a trusted source of truth. If a tag is voted by the federation majority, then it is forever true. But if this the verifier does not have this information, then it has to rely on the prover to get it. We will need to assume a model where there exist two provers, one honest and one malicious. The block connection proof can be an NIPoPoW infix proof for the block which includes the burn transaction. Specifically, $\mathsf{blockConnection} = \pi\chi$.
 
 \import{./}{algorithms/alg.verify-event-nipopow.tex}
-\import{./}{algorithms/alg.burn-verifier.tex}
 
 However, this alone is not enough to persuade a verifier. It is possible that the prover is malicious and this proof is constructed for a non-honestly adopted chain (e.g. a temporary adversarial fork). In order for the verifier to be certain, it needs to allow for a honest prover to claim a better proof for a longer chain. 
 
-The contract is shown in Algorithm~\ref{alg.burn-verifier}.
+\subsection{Smart Contract Implementation}
+\import{./}{algorithms/alg.burn-verifier.tex}
+
+We present a smart contract in Algorithm~\ref{alg.burn-verifier} which we call the \textsf{burn-verifier}. The \textsf{burn-verifier} verifies burn events from the source chain. The contract extends the \textsf{crosschain} contract from \cite{pow-sidechains}. The \textsf{crosschain} contract is responsible for registering events on the source blockchain and verifying them. For our application, we parameterise \textsf{crosschain} with a \textsf{verify} function. The function presented in Algorithm~\ref{alg.verify-event-federation} will be used in a federated setup, and the function presented in Algorithm~\ref{alg.verify-event-nipopow} will be used in a decentralized setup.
+
+The workflow is as follows. Once the user has created a burn transaction on the source blockchain, he submits the event along with a proof to the \textsf{submit-event-proof} function. The proof can be either using the MMR approved by the federation or NIPoPoWs, depending on the deployment of the smart contract. After that, he needs to wait for a contestation period of $k$ blocks. Any party who wishes to dispute the proof can do so within this period by calling the \textsf{submit-contesting-proof} function. After the period has passed, the user can finalize the event by calling the \textsf{finalize-event} method.
+
+We note that the contestation period can be ommited in the case of a federated setup, because if a proof has been valid once there is no way for anyone to dispute it.
+
+Finally, the user can call the \textsf{claim} function with the event to receive his funds on the target blockchain. The \textsf{claim} function is responsible for checking that its caller's address is correctly encoded in the receiving address of the transaction described by the event by making use of $\BurnVerify$. If everything is correct, the amount of the burn transaction is released to the user in the form of an ERC-20 token.
+
+In the interest of keeping this implementation generic we assume that the user receives a token in return for his burn. However, instead of minting a token, the target cryptocurrency could allow the burn verifier contract to mint native cryptocurrency for any user who successfully claims an event. This would allow the target cryptocurrency to be bootstrapped entirely though burning as desired.
