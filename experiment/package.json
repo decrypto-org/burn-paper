@@ -1,0 +1,5 @@
+{
+  "devDependencies": {
+    "truffle": "^5.0.31"
+  }
+}
