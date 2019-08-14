@@ -1,11 +1,12 @@
 const BurnedBTC = artifacts.require("BurnedBTC");
 
-const ZERO_HASH = '0x00000000000000000000000000000000';
+const ZERO_HASH = '0x00000000000000000000000000000000',
+      ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
 
 contract('BurnedBTC', ([firstAccount, ..._]) => {
   let instance;
   beforeEach(async () => {
-    instance = await BurnedBTC.new();
+    instance = await BurnedBTC.new(ZERO_ADDRESS);
   });
 
   describe('#balanceOf', async () => {
