@@ -1,15 +1,10 @@
 pragma solidity >=0.4.21 <0.6.0;
 pragma experimental ABIEncoderV2;
 
+import {Crosschain} from "./Crosschain.sol";
 import {CheckpointRepo} from "./CheckpointRepo.sol";
 
-contract BurnedBTC {
-    struct Event {
-        bytes32 receivingAddress;
-        uint256 amount;
-        bytes32 txID;
-    }
-
+contract BurnedBTC is Crosschain {
     CheckpointRepo checkpointContract;
 
     constructor(address checkpointContractAddress) public {
