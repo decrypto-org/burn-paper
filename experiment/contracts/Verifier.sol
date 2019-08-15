@@ -13,6 +13,6 @@ library Verifier {
     }
 
     function verifyTx(bytes memory raw, uint256 amount, string memory receivingAddress, bytes32 txID) public pure returns (bool) {
-        return true;
+        return verifyTxRaw(raw, txID);
     }
 }
