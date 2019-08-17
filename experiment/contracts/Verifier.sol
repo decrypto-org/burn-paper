@@ -13,7 +13,7 @@ library Verifier {
     }
 
     function extractNumOutputs(bytes memory vout) public pure returns (uint8) {
-        uint8 len = uint8(vout.slice(0, 1)[0]);
+        uint8 len = uint8(vout[0]);
         require(len < 0xfd, "Multi-byte VarInts not supported");
         return len;
     }
