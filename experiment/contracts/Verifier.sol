@@ -43,7 +43,7 @@ library Verifier {
         bytes memory vout,
         bytes4 locktime,
         uint256 amount,
-        string memory receivingAddress,
+        bytes20 receivingPKH,
         bytes32 txID
     ) public pure returns (bool) {
         return verifyTxRaw(
@@ -52,6 +52,6 @@ library Verifier {
             vout,
             locktime,
             txID
-        );
+        ) && verifyVoutIsValueTransfer(vout, amount, receivingPKH);
     }
 }

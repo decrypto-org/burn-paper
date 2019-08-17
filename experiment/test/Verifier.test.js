@@ -87,16 +87,34 @@ contract('Verifier', (accounts) => {
         const tx = ONE_INPUT_2_OUTPUTS;
         const id = tx.txid;
         const amount = 4742166692845;
-        const recipient = "mh44VSvTxje84m6yeyBLBULUNRbkm8SEQj";
+        const recipient = b("10DA3170F451F152ADA3E4DE2B2E457CBCC9E90A");
         const actual = await instance.verifyTx.call(...getData(tx), amount, recipient, id);
         assert.equal(actual, true);
     });
 
     it('should return false when txid is invalid', async () => {
         const tx = ONE_INPUT_2_OUTPUTS;
-        const id = b("e9f07570343a6a49b541d4449028718c3d245a1a5d12439d3030a37dbd5026d0");
+        const id = b("1111111111111111111111111111111111111111111111111111111111111111");
         const amount = 4742166692845;
-        const recipient = "mh44VSvTxje84m6yeyBLBULUNRbkm8SEQj";
+        const recipient = b("10DA3170F451F152ADA3E4DE2B2E457CBCC9E90A");
+        const actual = await instance.verifyTx.call(...getData(tx), amount, recipient, id);
+        assert.equal(actual, false);
+    });
+
+    it('should return false when receiver is invalid', async () => {
+        const tx = ONE_INPUT_2_OUTPUTS;
+        const id = tx.txid;
+        const amount = 4742166692845;
+        const recipient = b("0000000000000000000000000000000000000000");
+        const actual = await instance.verifyTx.call(...getData(tx), amount, recipient, id);
+        assert.equal(actual, false);
+    });
+
+    it('should return false when amount is invalid', async () => {
+        const tx = ONE_INPUT_2_OUTPUTS;
+        const id = tx.txid;
+        const amount = 123456789;
+        const recipient = b("10DA3170F451F152ADA3E4DE2B2E457CBCC9E90A");
         const actual = await instance.verifyTx.call(...getData(tx), amount, recipient, id);
         assert.equal(actual, false);
     });
