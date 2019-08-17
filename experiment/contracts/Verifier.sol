@@ -2,6 +2,7 @@ pragma solidity >=0.4.21 <0.6.0;
 
 import {BTCUtils} from "./bitcoin-spv/BTCUtils.sol";
 import {BytesLib} from "./bitcoin-spv/BytesLib.sol";
+import {ValidateSPV} from "./bitcoin-spv/ValidateSPV.sol";
 
 library Verifier {
     using BytesLib for bytes;
@@ -52,5 +53,21 @@ library Verifier {
             locktime,
             txID
         ) && verifyVoutIsValueTransfer(vout, amount, receivingPKH);
+    }
+
+    function reverseEndianness32(bytes32 b) internal pure returns (bytes32) {
+        return abi.encodePacked(b).reverseEndianness().toBytes32();
+    }
+
+    function verifyTxInclusion(bytes32 txID, bytes32 txIDRoot, uint txIndex, bytes32[] memory proof) public pure returns (bool) {
+        // TODO: ensure the user sends LE to be efficient
+        bytes32 _txID = reverseEndianness32(txID);
+        bytes32 _txIDRoot = reverseEndianness32(txIDRoot);
+        // TODO: ensure the user sends the proof pre concatenated to be efficient
+        bytes memory _proof = hex"";
+        for (uint i = 0; i < proof.length; ++i) {
+            _proof = abi.encodePacked(_proof, proof[i]);
+        }
+        return ValidateSPV.prove(_txID, _txIDRoot, _proof, txIndex);
     }
 }

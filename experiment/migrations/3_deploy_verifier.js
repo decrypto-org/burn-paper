@@ -1,11 +1,17 @@
 const Verifier = artifacts.require("Verifier");
 const BTCUtils = artifacts.require("BTCUtils");
 const BytesLib = artifacts.require("BytesLib");
+const SafeMath = artifacts.require("SafeMath");
+const ValidateSPV = artifacts.require("ValidateSPV");
 
 module.exports = function(deployer) {
+  deployer.deploy(SafeMath);
+  deployer.link(SafeMath, [ValidateSPV]);
   deployer.deploy(BytesLib);
-  deployer.link(BytesLib, [BTCUtils, Verifier]);
+  deployer.link(BytesLib, [BTCUtils, ValidateSPV, Verifier]);
   deployer.deploy(BTCUtils);
-  deployer.link(BTCUtils, Verifier);
+  deployer.link(BTCUtils, [ValidateSPV, Verifier]);
+  deployer.deploy(ValidateSPV);
+  deployer.link(ValidateSPV, [Verifier]);
   deployer.deploy(Verifier);
 };

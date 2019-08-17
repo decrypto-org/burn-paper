@@ -119,4 +119,29 @@ contract('Verifier', (accounts) => {
         assert.equal(actual, false);
     });
   });
+
+  describe('#verifyTxInclusion', async () => {
+    it('should return true when the inclusion proof is valid', async () => {
+      const txID = ONE_INPUT_2_OUTPUTS.txid;
+      const txIDRoot = b("5afc459131783935b0a2174dbc11f19b504f54070780658b33d589d0234707fc");
+      const txIndex = 1;
+      const proof = [
+        "b9a3a95c4ad6c2c9de8af123c3407a2614c7657eafaf6b19b11c4523ebad4b25",
+        "34fd1280997cdd3c395b507ac1b9a5aedfa67768ca9e6adbb19e7c863c061a35",
+        "53cc48a5416bf73699e90309431aa4c60e5337b7d01821e67ab0da4b6ad0fa72"
+      ].map(b);
+      assert.equal(await instance.verifyTxInclusion(txID, txIDRoot, txIndex, proof), true);
+    });
+    it('should return false when the inclusion proof is invalid', async () => {
+      const txID = ONE_INPUT_2_OUTPUTS.txid;
+      const txIDRoot = b("5afc459131783935b0a2174dbc11f19b504f54070780658b33d589d0234707fc");
+      const txIndex = 2;
+      const proof = [
+        "b9a3a95c4ad6c2c9de8af123c3407a2614c7657eafaf6b19b11c4523ebad4b25",
+        "34fd1280997cdd3c395b507ac1b9a5aedfa67768ca9e6adbb19e7c863c061a35",
+        "53cc48a5416bf73699e90309431aa4c60e5337b7d01821e67ab0da4b6ad0fa72"
+      ].map(b);
+      assert.equal(await instance.verifyTxInclusion(txID, txIDRoot, txIndex, proof), false);
+    });
+  });
 });
