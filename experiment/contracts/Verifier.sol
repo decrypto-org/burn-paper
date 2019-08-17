@@ -70,4 +70,37 @@ library Verifier {
         }
         return ValidateSPV.prove(_txID, _txIDRoot, _proof, txIndex);
     }
+
+    function mmrHashLeaf(bytes32 payload) internal pure returns (bytes32) {
+        return sha256(abi.encodePacked(hex"00", payload));
+    }
+
+    function mmrHashInternal(bytes32 left, bytes32 right) internal pure returns (bytes32) {
+        return sha256(abi.encodePacked(hex"01", left, right));
+    }
+
+    function verifyBlockConnection(
+        bytes32 mmr,
+        bytes32[] memory proofHashes,
+        byte[] memory proofSides,
+        bytes32 txIDRoot
+    ) public pure returns (bool) {
+        // TODO: handle cases of <= 1 proofHashes
+        require(proofHashes.length == proofSides.length, "there should be one side for each hash");
+        require(proofHashes[0] == mmrHashLeaf(txIDRoot), "the first proof hash should correspond to the tx id root");
+        byte LEFT = hex"01";
+        byte RIGHT = hex"02";
+        bytes32 h = proofHashes[0];
+        for (uint i = 0; i < proofHashes.length; ++i) {
+            bytes32 proofHash = proofHashes[i];
+            if (proofSides[i] == LEFT) {
+                h = mmrHashInternal(proofHash, h);
+            }
+            else if (proofSides[i] == RIGHT) {
+                h = mmrHashInternal(h, proofHash);
+            }
+        }
+
+        return h == mmr;
+    }
 }
