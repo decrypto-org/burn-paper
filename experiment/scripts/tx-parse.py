@@ -101,13 +101,13 @@ def parse_tx(tx):
     _bytes = {}
     result['version'], _bytes['version'] = pop_version(tx), tx.excursion()
     contains_witness, _ = pop_witness_flag(tx), tx.excursion()
-    result['txins'], _bytes['txins'] = pop_txins(tx), tx.excursion()
-    result['txouts'], _bytes['txouts'] = pop_txouts(tx), tx.excursion()
+    result['txins'], _bytes['vin'] = pop_txins(tx), tx.excursion()
+    result['txouts'], _bytes['vout'] = pop_txouts(tx), tx.excursion()
 
     if contains_witness:
         result['witnesses'], _ = pop_witnesses(tx, len(txins)), tx.excursion()
 
-    result['lock_time'], _bytes['lock_time'] = pop_lock_time(tx), tx.excursion()
+    result['lock_time'], _bytes['locktime'] = pop_lock_time(tx), tx.excursion()
     return {**result, 'bytes': {k:v.hex() for k, v in _bytes.items()}}
 
 def main(tx_raw, _json=False, only_bytes=False):
