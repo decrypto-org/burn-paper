@@ -1,5 +1,4 @@
 pragma solidity >=0.4.21 <0.6.0;
-pragma experimental ABIEncoderV2;
 
 import {BTCUtils} from "./bitcoin-spv/BTCUtils.sol";
 import {BytesLib} from "./bitcoin-spv/BytesLib.sol";
