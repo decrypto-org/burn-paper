@@ -92,6 +92,9 @@ def pop_witnesses(tx, n):
 def pop_version(tx):
     return bytes_to_i32(tx.pop(4))
 
+def pop_lock_time(tx):
+    return tx.pop(4)
+
 def parse_tx(tx):
     tx = PoppableBytes(tx)
     result = {}
@@ -103,6 +106,8 @@ def parse_tx(tx):
 
     if contains_witness:
         result['witnesses'], _ = pop_witnesses(tx, len(txins)), tx.excursion()
+
+    result['lock_time'], _bytes['lock_time'] = pop_lock_time(tx), tx.excursion()
     return {**result, 'bytes': {k:v.hex() for k, v in _bytes.items()}}
 
 def main(tx_raw, _json=False, only_bytes=False):
