@@ -3,6 +3,7 @@ import struct
 class PoppableBytes:
     def __init__(self, b):
         self.marker = 0
+        self.excursor = 0
         self.b = b
     def pop(self, much):
         self.marker += much
@@ -11,6 +12,10 @@ class PoppableBytes:
         return self.b[self.marker-much:self.marker]
     def peek(self, much):
         return self.b[self.marker:self.marker+much]
+    def excursion(self):
+        result = self.b[self.excursor:self.marker]
+        self.excursor = self.marker
+        return result
 
 def bytes_to_i32(b):
     return struct.unpack("<i", b)[0]
@@ -89,16 +94,16 @@ def pop_version(tx):
 
 def parse_tx(tx):
     tx = PoppableBytes(tx)
-    version = pop_version(tx)
-    contains_witness = pop_witness_flag(tx)
-    txins = pop_txins(tx)
-    txouts = pop_txouts(tx)
+    result = {}
+    _bytes = {}
+    result['version'], _bytes['version'] = pop_version(tx), tx.excursion()
+    contains_witness, _ = pop_witness_flag(tx), tx.excursion()
+    result['txins'], _bytes['txins'] = pop_txins(tx), tx.excursion()
+    result['txouts'], _bytes['txouts'] = pop_txouts(tx), tx.excursion()
 
-    result = {'version': version, 'txins': txins, 'txouts': txouts}
     if contains_witness:
-        witnesses = pop_witnesses(tx, len(txins))
-        result = {**result, 'witnesses': witnesses}
-    return result
+        result['witnesses'], _ = pop_witnesses(tx, len(txins)), tx.excursion()
+    return {**result, 'bytes': {k:v.hex() for k, v in _bytes.items()}}
 
 def main(tx_raw):
     print(parse_tx(bytes.fromhex(tx_raw)))
