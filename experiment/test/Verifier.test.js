@@ -26,20 +26,42 @@ contract('Verifier', (accounts) => {
     });
   });
 
+  describe('#extractNumOutputs', async () => {
+    const vout = b("03793c04000000000017a91400340dead96bc8421e8164d4741cb52dbdd7d24487b0453c00000000001976a91447f69a42d18c2a51bfc01d2f9face9807eaf711c88ac11e82a166a0000001976a91443849383122ebb8a28268a89700c9f723663b5b888ac");
+    it('should return the correct number of outputs', async () => {
+      assert.equal(await instance.extractNumOutputs(vout), 3);
+    });
+  });
+
   describe('#verifyVoutIsValueTransfer', async () => {
     const vout = b("02ed43291f500400001976a91410da3170f451f152ada3e4de2b2e457cbcc9e90a88ac807c814a0000000017a914fd9b7ec7c672afc42b98f7468e6ee0ca3e6f913c87");
     it('should return true when the tx is a value transfer with the exact amount and recipient', async () => {
       const amount = 4742166692845;
-      const recipient = "mh44VSvTxje84m6yeyBLBULUNRbkm8SEQj";
+      const recipient = b("10DA3170F451F152ADA3E4DE2B2E457CBCC9E90A");
       const actual = await instance.verifyVoutIsValueTransfer.call(vout, amount, recipient);
       assert.equal(actual, true);
     });
 
     it('should return false when the amount is wrong', async () => {
       const amount = 4;
-      const recipient = "mh44VSvTxje84m6yeyBLBULUNRbkm8SEQj";
+      const recipient = b("10DA3170F451F152ADA3E4DE2B2E457CBCC9E90A");
       const actual = await instance.verifyVoutIsValueTransfer.call(vout, amount, recipient);
       assert.equal(actual, false);
+    });
+
+    it('should return false when the recipient is wrong', async () => {
+      const amount = 4742166692845;
+      const recipient = b("10DA3170F451F152ADA3E4DE2B2E457CBCC9E900");
+      const actual = await instance.verifyVoutIsValueTransfer.call(vout, amount, recipient);
+      assert.equal(actual, false);
+    });
+
+    it('should return true when the transfer occurs on an output other than the first', async () => {
+      const voutMultiOutput = b("03793c04000000000017a91400340dead96bc8421e8164d4741cb52dbdd7d24487b0453c00000000001976a91447f69a42d18c2a51bfc01d2f9face9807eaf711c88ac11e82a166a0000001976a91443849383122ebb8a28268a89700c9f723663b5b888ac");
+      const amount = 455638444049;
+      const recipient = b("43849383122EBB8A28268A89700C9F723663B5B8");
+      const actual = await instance.verifyVoutIsValueTransfer.call(voutMultiOutput, amount, recipient);
+      assert.equal(actual, true);
     });
   });
 
