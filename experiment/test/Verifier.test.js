@@ -10,7 +10,7 @@ function getTxFixture(path) {
   return Object.fromEntries(modifiedEntries);
 }
 
-function getData(fixture) {
+function txParams(fixture) {
   return [
     fixture.version,
     fixture.vin,
@@ -31,14 +31,14 @@ contract('Verifier', (accounts) => {
   describe('#verifyTxRaw', async () => {
     it('should return true on a valid txid', async () => {
       const tx = ONE_INPUT_2_OUTPUTS;
-      const actual = await instance.verifyTxRaw.call(...getData(tx), tx.txid);
+      const actual = await instance.verifyTxRaw.call(...txParams(tx), tx.txid);
       assert.equal(actual, true);
     });
 
     it('should return false on a invalid txid', async () => {
       const tx = ONE_INPUT_2_OUTPUTS;
       const id = b("0000000000000000000000000000000000000000000000000000000000000000");
-      const actual = await instance.verifyTxRaw.call(...getData(tx), id);
+      const actual = await instance.verifyTxRaw.call(...txParams(tx), id);
       assert.equal(actual, false);
     });
   });
@@ -88,7 +88,7 @@ contract('Verifier', (accounts) => {
         const id = tx.txid;
         const amount = 4742166692845;
         const recipient = b("10DA3170F451F152ADA3E4DE2B2E457CBCC9E90A");
-        const actual = await instance.verifyTx.call(...getData(tx), amount, recipient, id);
+        const actual = await instance.verifyTx.call(...txParams(tx), amount, recipient, id);
         assert.equal(actual, true);
     });
 
@@ -97,7 +97,7 @@ contract('Verifier', (accounts) => {
         const id = b("1111111111111111111111111111111111111111111111111111111111111111");
         const amount = 4742166692845;
         const recipient = b("10DA3170F451F152ADA3E4DE2B2E457CBCC9E90A");
-        const actual = await instance.verifyTx.call(...getData(tx), amount, recipient, id);
+        const actual = await instance.verifyTx.call(...txParams(tx), amount, recipient, id);
         assert.equal(actual, false);
     });
 
@@ -106,7 +106,7 @@ contract('Verifier', (accounts) => {
         const id = tx.txid;
         const amount = 4742166692845;
         const recipient = b("0000000000000000000000000000000000000000");
-        const actual = await instance.verifyTx.call(...getData(tx), amount, recipient, id);
+        const actual = await instance.verifyTx.call(...txParams(tx), amount, recipient, id);
         assert.equal(actual, false);
     });
 
@@ -115,7 +115,7 @@ contract('Verifier', (accounts) => {
         const id = tx.txid;
         const amount = 123456789;
         const recipient = b("10DA3170F451F152ADA3E4DE2B2E457CBCC9E90A");
-        const actual = await instance.verifyTx.call(...getData(tx), amount, recipient, id);
+        const actual = await instance.verifyTx.call(...txParams(tx), amount, recipient, id);
         assert.equal(actual, false);
     });
   });
