@@ -51,7 +51,7 @@ contract('Verifier', (accounts) => {
   });
 
   describe('#verifyVoutIsValueTransfer', async () => {
-    const vout = b("02ed43291f500400001976a91410da3170f451f152ada3e4de2b2e457cbcc9e90a88ac807c814a0000000017a914fd9b7ec7c672afc42b98f7468e6ee0ca3e6f913c87");
+    const {vout} = ONE_INPUT_2_OUTPUTS;
     it('should return true when the tx is a value transfer with the exact amount and recipient', async () => {
       const amount = 4742166692845;
       const recipient = b("10DA3170F451F152ADA3E4DE2B2E457CBCC9E90A");
