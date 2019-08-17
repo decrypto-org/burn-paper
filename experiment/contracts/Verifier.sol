@@ -12,6 +12,11 @@ library Verifier {
         return abi.encodePacked(raw.hash256()).reverseEndianness().toBytes32() == txID;
     }
 
+    function verifyVoutIsValueTransfer(bytes memory vout, uint256 amount, string memory recipient) public pure returns (bool) {
+        bytes memory firstOutput = vout.extractOutputAtIndex(0);
+        return firstOutput.extractValue() == amount;
+    }
+
     function verifyTx(bytes memory raw, uint256 amount, string memory receivingAddress, bytes32 txID) public pure returns (bool) {
         return verifyTxRaw(raw, txID);
     }
