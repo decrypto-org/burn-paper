@@ -105,12 +105,17 @@ def parse_tx(tx):
         result['witnesses'], _ = pop_witnesses(tx, len(txins)), tx.excursion()
     return {**result, 'bytes': {k:v.hex() for k, v in _bytes.items()}}
 
-def main(tx_raw):
-    print(parse_tx(bytes.fromhex(tx_raw)))
+def main(tx_raw, _json=False):
+    output = parse_tx(bytes.fromhex(tx_raw))
+    if _json:
+        import json
+        output = json.dumps(output)
+    print(output)
 
 if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument('tx_raw')
+    parser.add_argument('--json', action='store_true')
     args = parser.parse_args()
-    main(args.tx_raw)
+    main(args.tx_raw, args.json)
