@@ -103,4 +103,8 @@ library Verifier {
 
         return h == mmr;
     }
+
+    function verifyBurn(bytes20 pkh, bytes memory tag) public pure returns (bool) {
+        return false;
+    }
 }
