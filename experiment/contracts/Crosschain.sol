@@ -10,8 +10,15 @@ contract Crosschain {
         bytes32 txID;
     }
 
+    struct BitcoinTransaction {
+        bytes4 version;
+        bytes vin;
+        bytes vout;
+        bytes4 locktime;
+    }
+
     struct Proof {
-        bytes32 foo;
+        BitcoinTransaction transaction;
     }
 
     function _encodeEvent(Event memory evt) private pure returns (bytes memory) {
