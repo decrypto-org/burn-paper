@@ -11,13 +11,13 @@ contract('Crosschain', ([firstAccount, ..._]) => {
 
   describe('#submitEventProof', async () => {
     it('saves a valid event', async () => {
-        const event = {amount: 1, txID: ZERO_HASH, receivingAddress: ZERO_HASH};
+        const event = {amount: 1, txID: ZERO_HASH, receivingPKH: ZERO_HASH};
         await instance.submitEventProof(event, {foo: ZERO_HASH});
         assert.ok(await instance.eventExists(event));
     });
 
     it('does not remember an event which was never submitted with a proof', async () => {
-        const event = {amount: 1, txID: ZERO_HASH, receivingAddress: ZERO_HASH};
+        const event = {amount: 1, txID: ZERO_HASH, receivingPKH: ZERO_HASH};
         assert.ok(!(await instance.eventExists(event)));
     });
   });

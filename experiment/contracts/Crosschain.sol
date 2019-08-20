@@ -5,7 +5,7 @@ import {Verifier} from "./Verifier.sol";
 
 contract Crosschain {
     struct Event {
-        bytes32 receivingAddress;
+        bytes32 receivingPKH;
         uint256 amount;
         bytes32 txID;
     }
@@ -15,7 +15,7 @@ contract Crosschain {
     }
 
     function _encodeEvent(Event memory evt) private pure returns (bytes memory) {
-        return abi.encodePacked(evt.receivingAddress, evt.amount, evt.txID);
+        return abi.encodePacked(evt.receivingPKH, evt.amount, evt.txID);
     }
 
     mapping (bytes => bool) private finalizedEvents;

@@ -17,7 +17,7 @@ contract('BurnedBTC', ([firstAccount, ..._]) => {
 
   describe('#claim', async () => {
     it('should credit the user for a valid burn event', async () => {
-      await instance.claim({amount: 42, txID: ZERO_HASH, receivingAddress: ZERO_HASH});
+      await instance.claim({amount: 42, txID: ZERO_HASH, receivingPKH: ZERO_HASH});
       assert.equal(await instance.balanceOf(firstAccount), 42);
     });
   });
