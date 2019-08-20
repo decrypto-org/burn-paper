@@ -1,23 +1,6 @@
 const Verifier = artifacts.require("Verifier");
 
-function b(s) {
-  return `0x${s}`;
-}
-
-function getTxFixture(path) {
-  const fixture = require(path);
-  const modifiedEntries = Object.entries(fixture).map(([k, v]) => [k, b(v)]);
-  return Object.fromEntries(modifiedEntries);
-}
-
-function txParams(fixture) {
-  return [
-    fixture.version,
-    fixture.vin,
-    fixture.vout,
-    fixture.locktime
-  ];
-}
+const {b, getTxFixture, txParams} = require("./utils");
 
 const ONE_INPUT_3_OUTPUTS = getTxFixture("./tx-fixtures/1-input-3-outputs-2-last-p2pkh.json")
 const ONE_INPUT_2_OUTPUTS = getTxFixture("./tx-fixtures/1-input-2-outputs-first-p2pkh.json")
