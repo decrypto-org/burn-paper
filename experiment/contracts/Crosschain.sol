@@ -17,8 +17,15 @@ contract Crosschain {
         bytes4 locktime;
     }
 
+    struct TxInclusion {
+        bytes32 txIDRoot;
+        uint txIndex;
+        bytes32[] hashes;
+    }
+
     struct Proof {
         BitcoinTransaction transaction;
+        TxInclusion txInclusion;
     }
 
     function _encodeEvent(Event memory evt) private pure returns (bytes memory) {
@@ -28,16 +35,20 @@ contract Crosschain {
     mapping (bytes => bool) private finalizedEvents;
 
     function verifyEventProof(Event memory evt, Proof memory proof) public pure returns (bool) {
-        if (Verifier.verifyTxRaw(
+        require(Verifier.verifyTxRaw(
             proof.transaction.version,
             proof.transaction.vin,
             proof.transaction.vout,
             proof.transaction.locktime,
             evt.txID
-        )) {
-            return true;
-        }
-        return false;
+        ), "tx raw verification");
+        require(Verifier.verifyTxInclusion(
+            evt.txID,
+            proof.txInclusion.txIDRoot,
+            proof.txInclusion.txIndex,
+            proof.txInclusion.hashes
+        ), "tx inclusion verification");
+        return true;
     }
 
     function submitEventProof(Event memory evt, Proof memory proof) public {
