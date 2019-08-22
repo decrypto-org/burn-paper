@@ -32,8 +32,8 @@ contract('Crosschain', ([firstAccount, ..._]) => {
         ].map(b)
       }
     };
-    const invalidProofBecauseTx = {...validProof, transaction: txParamsObject(ALL_ZEROS_TX)};
-    const invalidProofBecauseTxInclusion = {...validProof, txInclusion: {...validProof.txInclusion, txIDRoot: ZERO_HASH}};
+    const invalidProofBecauseOfTransaction = {...validProof, transaction: txParamsObject(ALL_ZEROS_TX)};
+    const invalidProofBecauseOfTxInclusion = {...validProof, txInclusion: {...validProof.txInclusion, txIDRoot: ZERO_HASH}};
 
     async function assertSaves(event, proof) {
       await instance.submitEventProof(event, proof);
@@ -51,11 +51,11 @@ contract('Crosschain', ([firstAccount, ..._]) => {
     });
 
     it('does not save an event with an proof with wrong .transaction', async () => {
-      await assertDoesNotSave(validEvent, invalidProofBecauseTx);
+      await assertDoesNotSave(validEvent, invalidProofBecauseOfTransaction);
     });
     
     it('does not save an event with a proof with wrong transaction inclusion', async () => {
-      await assertDoesNotSave(validEvent, invalidProofBecauseTxInclusion);
+      await assertDoesNotSave(validEvent, invalidProofBecauseOfTxInclusion);
     });
 
     it('does not save an invalid event', async () => {
