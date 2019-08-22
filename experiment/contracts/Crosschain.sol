@@ -23,9 +23,15 @@ contract Crosschain {
         bytes32[] hashes;
     }
 
+    struct BlockConnection {
+        bytes32[] hashes;
+        bytes1[] sides;
+    }
+
     struct Proof {
         BitcoinTransaction transaction;
         TxInclusion txInclusion;
+        BlockConnection blockConnection;
     }
 
     function _encodeEvent(Event memory evt) private pure returns (bytes memory) {
@@ -42,12 +48,20 @@ contract Crosschain {
             proof.transaction.locktime,
             evt.txID
         ), "tx raw verification");
+
         require(Verifier.verifyTxInclusion(
             evt.txID,
             proof.txInclusion.txIDRoot,
             proof.txInclusion.txIndex,
             proof.txInclusion.hashes
         ), "tx inclusion verification");
+
+        require(Verifier.verifyBlockConnection(
+            hex"b68a591985b945bdb9b54e00fe441373c222256ba4f7b358f39ee96d8800553c",
+            proof.blockConnection.hashes,
+            proof.blockConnection.sides,
+            proof.txInclusion.txIDRoot
+        ), "block connection verification");
         return true;
     }
 
