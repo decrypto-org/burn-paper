@@ -13,6 +13,10 @@ contract BurnedBTC is Crosschain {
 
     mapping (address => uint256) private _balances;
 
+    function getMMRRoot() public view returns (bytes32) {
+        return checkpointContract.approvedMMR();
+    }
+
     function balanceOf(address addr) public view returns (uint256) {
         return _balances[addr];
     }

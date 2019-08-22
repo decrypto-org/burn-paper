@@ -40,7 +40,9 @@ contract Crosschain {
 
     mapping (bytes => bool) private finalizedEvents;
 
-    function verifyEventProof(Event memory evt, Proof memory proof) public pure returns (bool) {
+    function getMMRRoot() public view returns (bytes32);
+
+    function verifyEventProof(Event memory evt, Proof memory proof) public view returns (bool) {
         require(Verifier.verifyTxRaw(
             proof.transaction.version,
             proof.transaction.vin,
@@ -57,7 +59,7 @@ contract Crosschain {
         ), "tx inclusion verification");
 
         require(Verifier.verifyBlockConnection(
-            hex"b68a591985b945bdb9b54e00fe441373c222256ba4f7b358f39ee96d8800553c",
+            getMMRRoot(),
             proof.blockConnection.hashes,
             proof.blockConnection.sides,
             proof.txInclusion.txIDRoot

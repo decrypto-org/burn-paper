@@ -1,4 +1,4 @@
-const Crosschain = artifacts.require("Crosschain");
+const Crosschain = artifacts.require("CrosschainMock");
 
 const ZERO_HASH = '0x00000000000000000000000000000000',
       ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
@@ -10,7 +10,7 @@ const ALL_ZEROS_TX = getTxFixture("./tx-fixtures/all-zeros.json")
 contract('Crosschain', ([firstAccount, ..._]) => {
   let instance;
   beforeEach(async () => {
-    instance = await Crosschain.new();
+    instance = await Crosschain.new(b("b68a591985b945bdb9b54e00fe441373c222256ba4f7b358f39ee96d8800553c"));
   });
 
   describe('#submitEventProof', async () => {
