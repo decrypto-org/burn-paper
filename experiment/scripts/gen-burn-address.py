@@ -15,10 +15,8 @@ def ripemd160(b):
     return hash_by_algo('ripemd160', b)
 
 def tag(b):
-    pkr = sha512(b)
-    pkh = ripemd160(sha256(b"\x04"+pkr))
-    pkh_ = pkh[:-1] + (pkh[-1]^1).to_bytes(1, byteorder='little')
-    return b"\x00" + pkh_
+    pkh = ripemd160(sha256(b"\x04"+b))
+    return pkh[:-1] + (pkh[-1]^1).to_bytes(1, byteorder='little')
 
 def main(t):
     if t[:2] == '0x':
