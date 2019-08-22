@@ -27,7 +27,21 @@ contract Crosschain {
 
     mapping (bytes => bool) private finalizedEvents;
 
-    function submitEventProof(Event memory evt, Proof memory) public {
+    function verifyEventProof(Event memory evt, Proof memory proof) public pure returns (bool) {
+        if (Verifier.verifyTxRaw(
+            proof.transaction.version,
+            proof.transaction.vin,
+            proof.transaction.vout,
+            proof.transaction.locktime,
+            evt.txID
+        )) {
+            return true;
+        }
+        return false;
+    }
+
+    function submitEventProof(Event memory evt, Proof memory proof) public {
+        require(verifyEventProof(evt, proof), "proof must be valid");
         finalizedEvents[_encodeEvent(evt)] = true;
     }
 
