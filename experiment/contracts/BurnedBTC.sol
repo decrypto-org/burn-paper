@@ -13,9 +13,18 @@ contract BurnedBTC is Crosschain {
     }
 
     mapping (address => uint256) private _balances;
+    mapping (bytes => bool) private claimedEvents;
 
     function getMMRRoot() public view returns (bytes32) {
         return checkpointContract.approvedMMR();
+    }
+
+    function eventClaimed(Event memory e) internal view returns (bool) {
+        return claimedEvents[_encodeEvent(e)];
+    }
+
+    function saveClaimedEvent(Event memory e) internal {
+        claimedEvents[_encodeEvent(e)] = true;
     }
 
     function balanceOf(address addr) public view returns (uint256) {
@@ -25,8 +34,11 @@ contract BurnedBTC is Crosschain {
     function claim(Event memory e, address claimer) public {
         require(eventExists(e),
             "the event of the claim should already be proven via submitEventProof");
+        require(!eventClaimed(e),
+            "a claim has already been made for this event");
         require(BurnVerifier.verifyBurn(abi.encodePacked(claimer), e.receivingPKH),
             "the burn should be addressed to the claimer");
         _balances[claimer] += e.amount;
+        saveClaimedEvent(e);
     }
 }

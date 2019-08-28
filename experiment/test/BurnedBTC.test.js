@@ -60,6 +60,13 @@ contract('BurnedBTC', ([firstAccount, ..._]) => {
       assert.equal(await instance.balanceOf(maliciousClaimer), 0);
     });
 
+    it('should allow the claimer the get credit from one specific burn only once', async () => {
+      const actualClaimer = b("de0b295669a9fd93d5f28d9ec85e40f4cb697bae");
+      await submitClaim(actualClaimer);
+      await assertReverts(async () => { await submitClaim(actualClaimer); });
+      assert.equal(await instance.balanceOf(actualClaimer), 10);
+    });
+
     it('should not credit a claimer with an invalid proof or event', async () => {
       const claimer = b("3333333333333333333333333333333333333333");
       const proof = {
