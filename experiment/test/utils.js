@@ -26,13 +26,6 @@ function txParamsObject(fixture) {
   };
 }
 
-async function assertReverts(cb) {
-  try {
-    await cb();
-    assert.ok(false, "expected revert but didn't happen");
-  } catch (e) {
-    assert.ok(true);
-  }
-}
+const assertReverts = require("assert").rejects;
 
 module.exports = {b, getTxFixture, txParams, txParamsObject, assertReverts};
