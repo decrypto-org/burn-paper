@@ -3,6 +3,7 @@ pragma experimental ABIEncoderV2;
 
 import {Crosschain} from "./Crosschain.sol";
 import {CheckpointRepo} from "./CheckpointRepo.sol";
+import {BurnVerifier} from "./BurnVerifier.sol";
 
 contract BurnedBTC is Crosschain {
     CheckpointRepo checkpointContract;
@@ -21,7 +22,11 @@ contract BurnedBTC is Crosschain {
         return _balances[addr];
     }
 
-    function claim(Event memory e) public {
-        _balances[msg.sender] += e.amount;
+    function claim(Event memory e, address claimer) public {
+        require(eventExists(e),
+            "the event of the claim should already be proven via submitEventProof");
+        require(BurnVerifier.verifyBurn(abi.encodePacked(claimer), e.receivingPKH),
+            "the burn should be addressed to the claimer");
+        _balances[claimer] += e.amount;
     }
 }

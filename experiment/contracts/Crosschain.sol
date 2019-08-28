@@ -5,7 +5,7 @@ import {Verifier} from "./Verifier.sol";
 
 contract Crosschain {
     struct Event {
-        bytes32 receivingPKH;
+        bytes20 receivingPKH;
         uint256 amount;
         bytes32 txID;
     }
