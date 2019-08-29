@@ -1,5 +1,6 @@
 {
   "devDependencies": {
+    "eth-gas-reporter": "^0.2.11",
     "truffle": "^5.0.31"
   }
 }
