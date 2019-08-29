@@ -1,1 +1,16 @@
 \section{Empirical Results}
+
+We provide implementations for the smart contract. In our tests, the following gas results were gathered:
+
+We assume a median gas price of 6.9 gwei, which was gathered at the time of writing. We also assume an Ethereum price of \$170.07. This gives us a gas price of $\$1.173483 * 10^{-6}$.
+
+\begin{center}
+    \begin{tabular}{ |c|c|c| } 
+     \hline
+     Method & Gas cost & Equivalent in USD \\
+     \hline
+     \textsf{CheckpointRepo.vote} & 43092 gas & $\$0.05$ \\
+     \textsf{BurnedBTC.claim} & 227294 gas & $\$0.27$ \\
+     \hline
+    \end{tabular}
+\end{center}
