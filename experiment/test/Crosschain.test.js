@@ -53,6 +53,7 @@ contract('Crosschain', ([firstAccount, ..._]) => {
       ...validProof,
       blockConnection: {hashes: [ZERO_HASH], sides: [NONE]}
     };
+    const invalidEventBecauseOfAmount = {...validEvent, amount: 123};
 
     async function assertSaves(event, proof) {
       await instance.submitEventProof(event, proof);
@@ -67,6 +68,10 @@ contract('Crosschain', ([firstAccount, ..._]) => {
 
     it('saves a valid event', async () => {
       await assertSaves(validEvent, validProof);
+    });
+
+    it('does not save an event where the amount is wrong', async () => {
+      await assertDoesNotSave(invalidEventBecauseOfAmount, validProof);
     });
 
     it('does not save an event with an proof with wrong .transaction', async () => {

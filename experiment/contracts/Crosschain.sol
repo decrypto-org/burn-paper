@@ -43,13 +43,15 @@ contract Crosschain {
     function getMMRRoot() public view returns (bytes32);
 
     function verifyEventProof(Event memory evt, Proof memory proof) public view returns (bool) {
-        require(Verifier.verifyTxRaw(
+        require(Verifier.verifyTx(
             proof.transaction.version,
             proof.transaction.vin,
             proof.transaction.vout,
             proof.transaction.locktime,
+            evt.amount,
+            evt.receivingPKH,
             evt.txID
-        ), "tx raw verification");
+        ), "tx verification");
 
         require(Verifier.verifyTxInclusion(
             evt.txID,
