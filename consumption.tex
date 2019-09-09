@@ -45,6 +45,6 @@ The workflow is as follows. Once the user has created a burn transaction on the 
 
 We note that the contestation period can be omitted in the case of a federated setup, because if a proof has been valid once there is no way for anyone to dispute it.
 
-Finally, the user can call the \textsf{claim} function with the event to receive his funds on the target blockchain. The \textsf{claim} function is responsible for checking that its caller's address is correctly encoded in the receiving address of the transaction described by the event by making use of $\BurnVerify$. If everything is correct, the amount of the burn transaction is released to the user in the form of an ERC-20 token.
+Finally, the user can call the \textsf{claim} function with the event to receive his funds on the target blockchain. The \textsf{claim} function is responsible for checking that its caller's address is correctly encoded in the receiving address of the transaction described by the event by making use of $\BurnVerify$. If everything is correct, the amount of the burn transaction is released to the address of the caller in the form of an ERC-20 token.
 
 In the interest of keeping this implementation generic we assume that the user receives a token in return for his burn. However, instead of minting a token, the target cryptocurrency could allow the burn verifier contract to mint native cryptocurrency for any user who successfully claims an event. This would allow the target cryptocurrency to be bootstrapped entirely though burning as desired.
