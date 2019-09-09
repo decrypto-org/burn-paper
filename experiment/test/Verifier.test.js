@@ -158,12 +158,4 @@ contract('Verifier', (accounts) => {
       assert.equal(await instance.verifyBlockConnection(mmr, proofHashes, proofSides, txIDRoot), true);
     });
   });
-
-  describe('#verifyBurn', async () => {
-    it('should return false when the burn pkh is not corresponding to the tag', async () => {
-      const pkh = b("0000000000000000000000000000000000000000");
-      const tag = b("0000000000000000000000000000000000000000");
-      assert.equal(await instance.verifyBurn(pkh, tag), false);
-    });
-  });
 });
