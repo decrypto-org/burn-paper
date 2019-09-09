@@ -31,10 +31,12 @@ contract CheckpointRepo {
     ++votesByMMR[mmr];
     if (votesByMMR[mmr] == federation.length/2 + 1) {
       approvedMMR = mmr;
-      for (uint i = 0; i < mmrsProposedDuringThisRound.length; ++i) {
-        delete votesByMMR[mmrsProposedDuringThisRound[i]];
+      while (mmrsProposedDuringThisRound.length != 0) {
+        bytes32 proposedMMR = mmrsProposedDuringThisRound[mmrsProposedDuringThisRound.length-1];
+        mmrsProposedDuringThisRound.pop();
+        delete votesByMMR[proposedMMR];
         for (uint j = 0; j < federation.length; ++j) {
-          delete votesByMMRByMember[mmrsProposedDuringThisRound[i]][federation[j]];
+          delete votesByMMRByMember[proposedMMR][federation[j]];
         }
       }
     }
