@@ -8,7 +8,7 @@ const ZERO_HASH = '0x00000000000000000000000000000000',
 contract('BurnedBTC', ([firstAccount, ..._]) => {
   let checkpointRepoInstance, instance;
   beforeEach(async () => {
-    checkpointRepoInstance = await CheckpointRepo.new();
+    checkpointRepoInstance = await CheckpointRepo.new([firstAccount]);
     instance = await BurnedBTC.new(checkpointRepoInstance.address);
   });
 
