@@ -29,8 +29,9 @@ library Verifier {
         uint8 numOutputs = extractNumOutputs(vout);
         for (uint8 i = 0; i < numOutputs; ++i) {
             bytes memory output = vout.extractOutputAtIndex(i);
+            uint256 actualAmount = output.extractValue();
             bytes memory actualRecipient = output.extractHash();
-            if (output.extractValue() == amount && actualRecipient.equal(abi.encodePacked(recipient))) {
+            if (actualAmount == amount && actualRecipient.equal(abi.encodePacked(recipient))) {
                 return true;
             }
         }
