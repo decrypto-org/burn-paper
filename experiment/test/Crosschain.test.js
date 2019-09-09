@@ -74,7 +74,7 @@ contract('Crosschain', ([firstAccount, ..._]) => {
       await assertDoesNotSave(invalidEventBecauseOfAmount, validProof);
     });
 
-    it('does not save an event with an proof with wrong .transaction', async () => {
+    it('does not save an event with a proof with wrong transaction', async () => {
       await assertDoesNotSave(validEvent, invalidProofBecauseOfTransaction);
     });
     
