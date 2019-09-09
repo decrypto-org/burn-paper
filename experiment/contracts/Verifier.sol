@@ -1,8 +1,8 @@
 pragma solidity >=0.4.21 <0.6.0;
 
-import {BTCUtils} from "./bitcoin-spv/BTCUtils.sol";
-import {BytesLib} from "./bitcoin-spv/BytesLib.sol";
-import {ValidateSPV} from "./bitcoin-spv/ValidateSPV.sol";
+import {BTCUtils} from "bitcoin-spv/contracts/BTCUtils.sol";
+import {BytesLib} from "bitcoin-spv/contracts/BytesLib.sol";
+import {ValidateSPV} from "bitcoin-spv/contracts/ValidateSPV.sol";
 
 library Verifier {
     using BytesLib for bytes;

@@ -1,5 +1,8 @@
 {
   "devDependencies": {
     "truffle": "^5.0.31"
+  },
+  "dependencies": {
+    "bitcoin-spv": "https://github.com/summa-tx/bitcoin-spv.git#b99ebf919693c3923728650a2d1b3a6e4006e76b"
   }
 }
