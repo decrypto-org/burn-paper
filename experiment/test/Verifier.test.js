@@ -129,10 +129,10 @@ contract('Verifier', (accounts) => {
   });
 
   describe('#verifyBlockConnection', async () => {
+    const NONE = '0x00', LEFT = '0x01', RIGHT = '0x02';
     it('should return true when the block connection proof is valid', async () => {
       const txIDRoot = b("5afc459131783935b0a2174dbc11f19b504f54070780658b33d589d0234707fc");
       const mmr = b("b68a591985b945bdb9b54e00fe441373c222256ba4f7b358f39ee96d8800553c");
-      const NONE = '0x00', LEFT = '0x01', RIGHT = '0x02';
       const proofHashes = [
         "f5e1336b9857ced01bfe1e9c5e991c158bfb1a3809c921f2c77b55cad78ed478",
         "83a4e809e0dab38c5ae30547cdbdedac2149af7f125d3bf5e6ee3a1e5b47bd21",
@@ -156,6 +156,14 @@ contract('Verifier', (accounts) => {
         RIGHT,
       ];
       assert.equal(await instance.verifyBlockConnection(mmr, proofHashes, proofSides, txIDRoot), true);
+    });
+
+    it('should return false when the block connection proof is invalid', async () => {
+      const txIDRoot = b("5afc459131783935b0a2174dbc11f19b504f54070780658b33d589d0234707fc");
+      const mmr = b("b68a591985b945bdb9b54e00fe441373c222256ba4f7b358f39ee96d8800553c");
+      const proofHashes = [ "f5e1336b9857ced01bfe1e9c5e991c158bfb1a3809c921f2c77b55cad78ed478", ].map(b);
+      const proofSides = [ NONE, ];
+      assert.equal(await instance.verifyBlockConnection(mmr, proofHashes, proofSides, txIDRoot), false);
     });
   });
 });
