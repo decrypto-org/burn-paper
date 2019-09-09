@@ -1,5 +1,5 @@
 import hashlib
-from bitcoin.core import b2x, lx, COIN,  CMutableTxOut, CMutableTxIn, CMutableTransaction, CBlock
+from bitcoin.core import b2x, lx, COIN, CMutableTxOut, CMutableTxIn, CMutableTransaction, CBlock
 from bitcoin.wallet import P2PKHBitcoinAddress
 
 receiver_pkh = bytes.fromhex('bbb919d2f5f3d8e002221792590a8994cbb616da')
