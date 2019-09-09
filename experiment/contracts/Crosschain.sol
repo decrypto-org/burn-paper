@@ -34,8 +34,8 @@ contract Crosschain {
         BlockConnection blockConnection;
     }
 
-    function _encodeEvent(Event memory evt) internal pure returns (bytes memory) {
-        return abi.encodePacked(evt.receivingPKH, evt.amount, evt.txID);
+    function _encodeEvent(Event memory e) internal pure returns (bytes memory) {
+        return abi.encodePacked(e.receivingPKH, e.amount, e.txID);
     }
 
     mapping (bytes => bool) private finalizedEvents;
