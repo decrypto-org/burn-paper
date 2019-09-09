@@ -13,7 +13,7 @@ contract('BurnedBTC', ([firstAccount, ..._]) => {
   });
 
   describe('#balanceOf', async () => {
-    it('should shart with zero balance', async () => {
+    it('should start with zero balance', async () => {
       assert.equal(await instance.balanceOf(firstAccount), 0);
     });
   });
