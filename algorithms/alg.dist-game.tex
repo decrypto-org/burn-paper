@@ -1,0 +1,22 @@
+\begin{figure}[t]
+\begin{algorithm}[H]
+    \caption{\label{alg.dist-game} The challenger for computational indistinguishability.}
+    \begin{algorithmic}[1]
+        \Function{\textsc{dist-attack}$_{\mathcal{A},X,Y}$}{$\kappa$}
+            \State{$b \stackrel{\$}{\leftarrow} \{0,1\}$}
+            \If{$b = 0$}
+                \Let{z}{X_\kappa}
+            \Else
+                \Let{z}{Y_\kappa}
+            \EndIf
+
+            \Let{b^*}{\mathcal{A}(z, 1^\kappa)}
+            \If{$b = b^*$}
+                \State\Return{\sf true}
+            \Else
+                \State\Return{\sf false}
+            \EndIf
+        \EndFunction
+    \end{algorithmic}
+\end{algorithm}
+\end{figure}

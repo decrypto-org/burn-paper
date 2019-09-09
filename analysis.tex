@@ -101,24 +101,80 @@ We now posit that no adversary can predict the public key of a secure signature 
   $.
 \end{proof}
 
-\begin{theorem}
-  Let $H$ be a \emph{Random Oracle}, $S = (\Gen, \Sig, \Ver)$ be a \emph{secure signature scheme} and $p$ be any polynomial with $p(\kappa) \in \Omega(\kappa)$. Consider the tag distribution $\mathcal{T}$ to be the uniform distribution of the set $\{0, 1\}^{p(\kappa)}$.
+\import{.}{./algorithms/alg.dist-game.tex}
+
+% TODO: move computational indistinguishability game and definition to appendix
+% \begin{definition}[Computational indistinguishability]
+% \end{definition}
+
+\begin{theorem}[Uncensorability]
+  Let $p$ be a polynomial with $p(\kappa) \in \Omega(\kappa)$, $H$ be a \emph{Random Oracle}, and $S = (\Gen, \Sig, \Ver)$ be a \emph{secure signature scheme}. Consider the tag distribution $\mathcal{T}$ to be the uniform distribution of the set $\{0, 1\}^{p(\kappa)}$.
   Then the protocol of Section~\ref{section:construction} is \emph{uncensorable}.
 \end{theorem}
 \begin{proof}
   We will argue that both
   $X = \{x: x \gets \textsf{GenAddress}\}$ and
-  $Y = \{y: t \gets \mathcal{T}; y \gets \textsf{GenBurnAddress}(1^\kappa, t)\}$ are distributions computationally indistinguishable from the uniform random distribution sampled from $\{0, 1\}^\kappa$. Therefore $X$ and $Y$ will be computationally indistinguishable.
+  $Y = \{y: t \gets \mathcal{T}; y \gets \textsf{GenBurnAddress}(1^\kappa, t)\}$ are distributions computationally indistinguishable from the uniform random distribution sampled from $\{0, 1\}^\kappa$. Therefore by transitivity $X$ and $Y$ will be computationally indistinguishable.
 
-  \textbf{Claim 1: $X \sim \{0, 1\}^\kappa$.}
+  \textbf{Claim 1: $X \cind \{0, 1\}^\kappa$.}
   Let $\mathcal{A}$ be an arbitrary polynomial distinguisher between $X$ and $\{0, 1\}^\kappa$. We will construct an adversary $\mathcal{A}^*$ against $\textsf{pk-predict}$. Let $r(\kappa)$ denote the (polynomial) maximum number of random oracle queries of $\mathcal{A}$. The adversary $\mathcal{A}^*$ works as follows. Initially, it chooses a random bit $b \stackrel{\$}{\gets} \{0, 1\}$ and sets $Z = X$ if $b = 0$, otherwise sets $Z = \{0, 1\}^\kappa$.
-  It samples $z \gets Z$. If $b = 0$, then $z$ is chosen by applying \textsf{GenAddress} which involves calling the random oracle $H$ with some input $pk$. It then chooses one of $\mathcal{A}$'s queries $j \stackrel{\$}{\gets} [q]$ at random. Finally, it outputs the input received by the random oracle during the $j^\text{th}$ query of $\mathcal{A}$. Consider the event $\textsc{query}$ that $b = 0$ and $\mathcal{A}$ asks a random oracle query with input $pk$.
+  It samples $z \gets Z$. If $b = 0$, then $z$ is chosen by applying \textsf{GenAddress} which involves calling the random oracle $H$ with some input $pk$. It then chooses one of $\mathcal{A}$'s queries $j \stackrel{\$}{\gets} [q]$ at random. Finally, it outputs the input received by the random oracle during the $j^\text{th}$ query of $\mathcal{A}$. Consider the event $\query$ that $b = 0$ and $\mathcal{A}$ asks a random oracle query with input $pk$. Recall the computational indistinguishability game depicted in
+  Algorithm~\ref{alg.dist-game} in which the distinguisher gives a guess $b^*$
+  attempting to identify the origin $b$ of its input.
+
+  If $b = 0$, then the distinguisher $\mathcal{A}$ receives a truly random input
+  $pkh = H(pk)$ which she can only distinguish if she is able to create a query
+  to the random oracle with the same $pk$. From
+  Lemma~\ref{lem:pk-unpredictability}, the probability that the adversary will
+  make the random oracle query $pk$ is negligible, therefore $\Pr[\query] =
+  negl(\kappa)$.
+  TODO: Talk about what A* and j means.
+
+  Consider the case where the distinguisher does not query the random oracle
+  with input $pk$. In that case, the input of the distinguisher is truly random
+  and therefore $\Pr[b^* = 0|b = 0|\lnot \query] = \Pr[b^* = 0|b = 1]$.
+
+  Consider the case where $b = 0$ and apply total probability to obtain
+  \begin{align*}
+  \Pr[b^* = 0|b = 0] &=
+    \Pr[b^* = 0|b = 0|\query]\Pr[\query] +
+    \Pr[b^* = 0|b = 0|\lnot \query]\Pr[\lnot \query]\\
+    &\leq
+    \Pr[b^* = 0|b = 0|\query]\Pr[\query] +
+    \Pr[b^* = 0|b = 0|\lnot \query]\\
+    &\leq
+    \Pr[\query] +
+    \Pr[b^* = 0|b = 0|\lnot \query]
+  \end{align*}
+
+  Consider the probability of success of the distinguisher.
+
+  \[
+    \Pr[\textsc{dist-game}_{\mathcal{A},X,U(\{0,1\}^\kappa)} = \true]
+    =
+    \Pr[b = b^*]
+  \]
+
+  Applying total probability we obtain
+
+  \begin{align*}
+    \Pr[b = b^*] &= \Pr[b = b^*|b = 0]\Pr[b = 0] + \Pr[b = b^*|b = 1]\Pr[b = 1]\\
+                 &= \frac{1}{2}(\Pr[b^* = 0|b = 0]) + \Pr[b^* = 1|b = 1])\\
+                 &\leq \frac{1}{2}(\Pr[\query] + \Pr[b^* = 0|b = 0|\lnot \query]
+                 + \Pr[b^* = 1|b = 1])\\
+                 &= \frac{1}{2}(\Pr[\query] + \Pr[b^* = 0|b = 1]
+                 + \Pr[b^* = 1|b = 1])\\
+                 &= \frac{1}{2}(\Pr[\query] + \Pr[b^* = 0|b = 1]
+                 + (1 - \Pr[b^* = 0|b = 1]))\\
+                 &= \frac{1}{2}(1 + \Pr[\query])\\
+                 &\leq \frac{1}{2} + negl(\kappa)
+  \end{align*}
+
   % TODO... complete this argument...
   Either $\mathcal{A}$... TODO
-  For $X$, the distinguisher $\mathcal{A}$ receives a truly random input $pkh = H(pk)$ which they can only distinguish if they are able to create a query to the random oracle with the same $pk$. From Lemma~\ref{lem:pk-unpredictability}, the adversary will not make the random oracle query $pk$, and so $x$ is indistinguishable from uniformly random.
   % TODO: Here we need to use Random Oracle programmability to complete the argument formally...
 
-  \textbf{Claim 2: $Y \sim \{0, 1\}^kappa$.}
+  \textbf{Claim 2: $Y \cind \{0, 1\}^\kappa$.}
   For $Y$, the distinguisher $\mathcal{A}$ receives a truly random input $pkh = H(t)$ where $t$ is sampled from $\mathcal{T}$. From the fact that $p \in \Omega(\kappa)$, the value $t$ is unpredictable to the adversary exept with negligible probability. Therefore the adversary will not make the query $t$ to the random oracle and its input $y$ is indistinguishable from uniformly random.
   % TODO: This argument seems shaky... we need to make it more formal.
 \end{proof}
