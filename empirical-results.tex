@@ -4,9 +4,7 @@
 
 In order to evaluate our consumption mechanisms, we implement the federated consumption mechanism in Solidity. We provide a concrete implementation of the \textsf{burn-verifier} contract described in \rref{alg.burn-verifier} as \textsf{BurnedBTC}. We implement the \textsf{Crosschain} parent contract from~\cite{pow-sidechains}. In order to achieve this we implement our own verification methods similar to \rref{alg.verify-event-federation} in our \textsf{Verifier} library. Specifically, we verify transaction data in \textsf{Verifier} similarly to \rref{alg.verify-tx} by making use of the open-source bitcoin-spv library~\cite{bitcoin-spv-library}. We verify block connection using a Merkle Mountain Range where the leaf corresponding to each block has the value of the block's transaction id merkle tree root.
 
-Finally, the \textsf{BurnVerifier} library provides a concrete implementation for our berning protocol. Specifically the library implements the \textsf{BurnVerify} function of the protocol.
-
-In our implementation, the federation is limited to one party for simplicity but it can be easily adapted for more.
+The \textsf{BurnVerifier} library provides a concrete implementation for our berning protocol. Specifically the library implements the \textsf{BurnVerify} function of the protocol. Finally, the federation voting happens in the \textsf{CheckpointRepo} contract, which is initialized with the addresses belonging to the federation members. The members can then proceed to call the \textsf{CheckpointRepo.vote} method to vote on their MMR computed from the source blockchain.
 
 We release our implementation as open-source software under the MIT license
 \footnote{\url{https://github.com/decrypto-org/burn-paper/tree/master/experiment}}.
