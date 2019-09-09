@@ -1,5 +1,5 @@
 \begin{algorithm}[H]
-    \caption{\label{alg.burn-verifier} A contract for verifying burns from the source chain rooted at genesis $\mathcal{G}_s$.}
+    \caption{\label{alg.burn-verifier} A contract for verifying burns from the source chain rooted at genesis $\mathcal{G}_s$. This smart contract runs within the target blockchain.}
     \begin{algorithmic}[1]
         \Contract{\textsf{burn-verifier}\text{ extends }\textsf{crosschain}$_{k,m,z}$; \textsf{ERC20}}
             \State\textsf{mapping}(\textsf{address} $\Rightarrow$ \textsf{uint256}) \textsf{balances}
