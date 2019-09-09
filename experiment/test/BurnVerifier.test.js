@@ -13,7 +13,7 @@ contract('BurnVerifier', ([firstAccount, ..._]) => {
   describe('#verifyBurn', async () => {
     it('should return true for a valid encoding', async () => {
       const ethereumAddress = b('edfe2ce9383f11c6fb357fb684a54e9849ad74e6');
-      const burnPKH = b('20b1e74820a70c1a0b5819f65c5c8ae69003338a');
+      const burnPKH = b('5caf35503a763213efc9b3991c7106444d873c8b');
       assert.equal(await instance.verifyBurn(ethereumAddress, burnPKH), true);
     });
 

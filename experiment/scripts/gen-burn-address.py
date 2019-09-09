@@ -15,7 +15,7 @@ def ripemd160(b):
     return hash_by_algo('ripemd160', b)
 
 def tag(b):
-    pkh = ripemd160(sha256(b"\x04"+b))
+    pkh = ripemd160(sha256(b))
     return pkh[:-1] + (pkh[-1]^1).to_bytes(1, byteorder='little')
 
 def main(t):

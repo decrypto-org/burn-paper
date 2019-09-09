@@ -24,8 +24,8 @@ contract('BurnedBTC', ([firstAccount, ..._]) => {
     const submitClaim = async (claimer) => {
       const NONE = '0x00';
       const tx = txParamsObject(VALID_BURN);
-      const txid = b("b744d63085d1453839605948430215f3b9d0d6254bc10f233f4f3d9987b4c95a");
-      const mmrRoot = b("46e3cbba5a18d914348185b15b068397dbee4dcb03ded98bf1723c7436bc140d");
+      const txid = b("70cc4606ef094d2429c5c65780c6049b5000e56c2ca69b8831cc3b6a8fe24cca");
+      const mmrRoot = b("5be8c0d419d7c8dce32a5a35fb3be0a2756571ff8565a915bc71154b67512de0");
       await checkpointRepoInstance.vote(mmrRoot);
       const proof = {
         transaction: tx,
@@ -42,7 +42,7 @@ contract('BurnedBTC', ([firstAccount, ..._]) => {
       const event = {
         amount: 10,
         txID: txid,
-        receivingPKH: b("bbb919d2f5f3d8e002221792590a8994cbb616da")
+        receivingPKH: b("346753e81b93e3f1567a16f3009c7c65c768d865")
       };
       await instance.submitEventProof(event, proof);
       await instance.claim(event, claimer);
