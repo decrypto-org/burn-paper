@@ -42,8 +42,7 @@ def pop_varint(b):
         return bytes_to_u32(b.pop(4))
     elif first_byte == 0xff:
         return bytes_to_u64(b.pop(8))
-    else:
-        raise
+    raise
 
 def pop_txin(tx):
     txid = tx.pop(32)[::-1].hex()
@@ -67,8 +66,7 @@ def pop_witness(tx):
     witness_len = pop_varint(tx)
     if witness_len == 0:
         return None
-    else:
-        return pop_stack_item(tx)
+    return pop_stack_item(tx)
 
 def pop_txins(tx):
     txin_len = pop_varint(tx)
