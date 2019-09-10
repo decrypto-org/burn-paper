@@ -8,7 +8,7 @@ For simplicity we abbreviate the transaction inclusion part of the complete proo
 
 \import{./}{algorithms/alg.verify-tx.tex}
 
-The transaction inclusion proof is defined by both Bitcoin and Ethereum. In Bitcoin, each block header contains a commitment to the set of the transaction ids in the block in the form of a Merkle Tree root. Thus, for Bitcoin our transaction inclusion proof is of the form $\mathsf{txInclusion} = (\mathsf{txIDMerkleRoot}, \mathsf{txIDMerkleProof})$. The shape of the proof is as follows: $\mathsf{txIDMerkleProof} = ([x_0, x_1, \dots], \mathsf{txIndex}, \mathsf{txCount})$.
+The transaction inclusion proof is defined by both Bitcoin and Ethereum. In Bitcoin, each block header contains a commitment to the set of transaction ids in the block in the form of a Merkle Tree root. Thus, for Bitcoin our transaction inclusion proof is of the form $\mathsf{txInclusion} = (\mathsf{txIDMerkleRoot}, \mathsf{txIDMerkleProof})$. The shape of the proof is as follows: $\mathsf{txIDMerkleProof} = ([x_0, x_1, \dots], \mathsf{txIndex}, \mathsf{txCount})$.
 
 Ethereum stores a similar commitment in its header, in the form of the root of a Merkle-Patricia Trie~\cite{wood2014ethereum}. This trie contains the transactions of the block, using the transaction id of each transaction as a key to determine the path to follow starting from the root in order to arrive at that transaction. Similar to regular Merkle trees, Merkle-Patricia tries allow for leaf inclusion proofs.
 
