@@ -1,10 +1,10 @@
 \section{Consumption}
 
-We now describe how the target blockchain can verify a burn which happened on the source blockchain. Specifically, we will study the case of Bitcoin and Ethereum as source blockchains. Most cryptocurrencies on the market are adaptations of either of these. We define a party which we call a \emph{prover} who is responsible for constructing a proof of the event and sending it to the target blockchain. The proof we need to send is one of transaction inclusion in the honestly adopted chain of the source blockchain. We will denote this proof as a triplet $\beta = \sf(txRaw, txInclusion, blockHeader, blockConnection)$.
+We now describe how the target blockchain can verify a burn which happened on the source blockchain. Specifically, we study the case of Bitcoin and Ethereum as source blockchains. Most cryptocurrencies on the market are adaptations of either of these. We define a party which we call a \emph{prover} who is responsible for constructing a proof of the event and sending it to the target blockchain. The proof we need to send is one of transaction inclusion in the honestly adopted chain of the source blockchain. We denote this proof as a triplet $\beta = \sf(txRaw, txInclusion, blockHeader, blockConnection)$.
 
 \subsection{Transaction Inclusion Proof}
 
-For simplicity we will abbreviate the transaction inclusion part of the complete proof as $\alpha = \sf(txRaw, txInclusion, blockHeader)$.
+For simplicity we abbreviate the transaction inclusion part of the complete proof as $\alpha = \sf(txRaw, txInclusion, blockHeader)$.
 
 \import{./}{algorithms/alg.verify-tx.tex}
 
@@ -16,21 +16,21 @@ The verification algorithm for $\alpha$ is presented in Algorithm~\ref{alg.verif
 
 \subsection{Block Connection Proof}
 
-We will look at two ways of proving block connection to the honestly adopted source chain.
+We look at two ways of proving block connection to the honestly adopted source chain.
 
 \subsubsection{Federation}
 A federation of $m$ nodes is picked. A federation node is responsible for running the source blockchain software and knowing at every moment the honestly adopted source blockchain. More importantly, it is responsible for transmitting this information to the target blockchain. In order to do this, we define a smart contract on the target blockchain where federation nodes are allowed to submit such information. We call this contract the \textsf{TagRepository}. A federation node encodes the honestly adopted chain into a tag and submits this tag to the \textsf{TagRepository}. Once a majority of votes is achieved, the tag is considered valid for use.
 
 Similar to FlyClient~\cite{flyclient}, we propose encoding the honestly adopted chain by using a Merkle Mountain Range (MMR). Specifically, to generate a tag we take all the chain's block ids in sequence and use them as leaves in a Merkle Mountain Range. We then use the root of that MMR as our encoding.
 
-Knowing this, it is now possible to define \textsf{blockConnection}. This component will be an MMR proof for the fact that that $id(\mathsf{blockHeader}) \in \text{MMR}$ in the form of $\mathsf{blockConnection} = [(x_0, s_0), (x_1, s_1), \dots]$, where $s_i \in \sf\{Left, Right\}$.
+Knowing this, it is now possible to define \textsf{blockConnection}. This component is an MMR proof for the fact that that $id(\mathsf{blockHeader}) \in \text{MMR}$ in the form of $\mathsf{blockConnection} = [(x_0, s_0), (x_1, s_1), \dots]$, where $s_i \in \sf\{Left, Right\}$.
 
 An interesting observation is that, because the federation majority is trusted on the target blockchain, we could avoid doing the block header hashing and verification in order to verify block connection. Instead of storing the block id of each block in the MMR, we could store the transaction merkle root of each block, and again use the root of the MMR as the tag. The verifier on the smart contract side would then verify that the \textsf{txIDMerkleRoot} provided exists in the MMR using the \textsf{blockConnection}.
 
 \import{./}{algorithms/alg.verify-event-federation.tex}
 
 \subsubsection{Decentralized}
-We introduce a second way for proving and verifying block connection which does not require a trusted federation. This is possible by making use of NIPoPoWs. The way the proving process works differs quite a bit from the federation, because in the federation there is a trusted source of truth. If a tag is voted by the federation majority, then it is forever true. But if this the verifier does not have this information, then it has to rely on the prover to get it. We will need to assume a model where there exist two provers, one honest and one malicious. The block connection proof can be an NIPoPoW infix proof for the block which includes the burn transaction. Specifically, $\mathsf{blockConnection} = \pi\chi$.
+We introduce a second way for proving and verifying block connection which does not require a trusted federation. This is possible by making use of NIPoPoWs. The way the proving process works differs quite a bit from the federation, because in the federation there is a trusted source of truth. If a tag is voted by the federation majority, then it is forever true. But if this the verifier does not have this information, then it has to rely on the prover to get it. We assume a model where there exist two provers, one honest and one malicious. The block connection proof can be an NIPoPoW infix proof for the block which includes the burn transaction. Specifically, $\mathsf{blockConnection} = \pi\chi$.
 
 \import{./}{algorithms/alg.verify-event-nipopow.tex}
 
@@ -39,7 +39,7 @@ However, this alone is not enough to persuade a verifier. It is possible that th
 \subsection{Smart Contract Implementation}
 \import{./}{algorithms/alg.burn-verifier.tex}
 
-We present a smart contract in Algorithm~\ref{alg.burn-verifier} which we call the \textsf{burn-verifier}. The \textsf{burn-verifier} verifies burn events from the source chain. The contract extends the \textsf{crosschain} contract from \cite{pow-sidechains}. The \textsf{crosschain} contract is responsible for registering events on the source blockchain and verifying them. For our application, we parameterise \textsf{crosschain} with a \textsf{verify} function. The function presented in Algorithm~\ref{alg.verify-event-federation} will be used in a federated setup, and the function presented in Algorithm~\ref{alg.verify-event-nipopow} will be used in a decentralized setup.
+We present a smart contract in Algorithm~\ref{alg.burn-verifier} which we call the \textsf{burn-verifier}. The \textsf{burn-verifier} verifies burn events from the source chain. The contract extends the \textsf{crosschain} contract from \cite{pow-sidechains}. The \textsf{crosschain} contract is responsible for registering events on the source blockchain and verifying them. For our application, we parameterise \textsf{crosschain} with a \textsf{verify} function. The function presented in Algorithm~\ref{alg.verify-event-federation} can be used in a federated setup, and the function presented in Algorithm~\ref{alg.verify-event-nipopow} can be used in a decentralized setup.
 
 The workflow is as follows. Once the user has created a burn transaction on the source blockchain, he submits the event along with a proof to the \textsf{submit-event-proof} function. The proof can be either using the MMR approved by the federation or NIPoPoWs, depending on the deployment of the smart contract. Subsequently, he needs to wait for a contestation period of $k$ blocks. Any party who wishes to dispute the proof can do so within this period by calling the \textsf{submit-contesting-proof} function. After the period has passed, the user can finalize the event by calling the \textsf{finalize-event} method.
 
