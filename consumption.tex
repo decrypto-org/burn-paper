@@ -21,7 +21,7 @@ We look at two ways of proving block connection to the honestly adopted source c
 \subsubsection{Federation}
 A federation of $m$ nodes is picked. A federation node is responsible for running the source blockchain software and knowing at every moment the honestly adopted source blockchain. More importantly, it is responsible for transmitting this information to the target blockchain. In order to do this, we define a smart contract on the target blockchain where federation nodes are allowed to submit such information. We call this contract the \textsf{TagRepository}. A federation node encodes the honestly adopted chain into a tag and submits this tag to the \textsf{TagRepository}. Once a majority of votes is achieved, the tag is considered valid for use.
 
-Similar to FlyClient~\cite{flyclient}, we propose encoding the honestly adopted chain by using a Merkle Mountain Range (MMR). Specifically, to generate a tag we take all the chain's block ids in sequence and use them as leaves in a Merkle Mountain Range. We then use the root of that MMR as our encoding.
+We propose encoding the honestly adopted chain by using a Merkle Mountain Ranges (MMRs)~\cite{flyclient}. Specifically, to generate a tag we take all the chain's block ids in sequence and use them as leaves in a Merkle Mountain Range. We then use the root of that MMR as our encoding.
 
 Knowing this, it is now possible to define \textsf{blockConnection}. This component is an MMR proof for the fact that that $id(\mathsf{blockHeader}) \in \text{MMR}$ in the form of $\mathsf{blockConnection} = [(x_0, s_0), (x_1, s_1), \dots]$, where $s_i \in \sf\{Left, Right\}$.
 
