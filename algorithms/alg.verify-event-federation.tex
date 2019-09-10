@@ -8,6 +8,8 @@
             \Let{\textsf{blockTreeRoot}}{\textsf{calculateMerkleRoot}(id(\alpha.\textsf{blockHeader}), \textsf{blockConnection})}
             \If{$\textsf{blockTreeRoot} = \mathcal{M} \land \textsf{txMerkleRoot} = blk.\textsf{txMerkleRoot}$}
                 \State\Return{$\true$}
+            \Else
+                \State\Return{$\false$}
             \EndIf
         \EndFunction
         \vskip8pt
