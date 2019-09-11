@@ -5,7 +5,7 @@
             \If{$\neg \textsf{verify-tx}_e(\alpha)$}
                 \State\Return{$\false$}
             \EndIf
-            \Let{\textsf{blockTreeRoot}}{\textsf{calculateMerkleRoot}(id(\alpha.\textsf{blockHeader}), \textsf{blockConnection})}
+            \Let{\textsf{blockTreeRoot}}{\textsf{calculateMerkleRoot}(id(\alpha.\textsf{blk}), \textsf{blockConnection})}
             \If{$\textsf{blockTreeRoot} = \mathcal{M} \land \textsf{txMerkleRoot} = blk.\textsf{txMerkleRoot}$}
                 \State\Return{$\true$}
             \Else
