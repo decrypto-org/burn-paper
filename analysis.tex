@@ -11,18 +11,21 @@
 
 \begin{lemma}[Perturbation]
   \label{lem.perturbation}
-  Let $p(\kappa)$ be a polynomial. Consider the process which samples $p(\kappa)$ strings $s_1, s_2, \dots, s_{p(\kappa)}$ uniformly at random from the set $\{0, 1\}^\kappa$. The probability that there exists $i$, $j$ such that $s_i = s_j \xor 1$ is negligible in $\kappa$.
+  Let $p(\kappa)$ be a polynomial and
+  $F: \{0,1\}^\kappa \longrightarrow \{0,1\}^\kappa$ be a permutation.
+  Consider the process which samples $p(\kappa)$ strings $s_1, s_2, \dots, s_{p(\kappa)}$ uniformly at random from the set $\{0, 1\}^\kappa$. The probability that there exists $i \neq j$ such that $s_i = F(s_j)$ is negligible in $\kappa$.
 \end{lemma}
 \begin{proof}
-  Let \textsc{Match} denote the event that there exist $1 \leq i, j \leq p(\kappa)$ such that $s_i = s_j \xor 1$.
-  Let $\textsc{Match}_{i, j}$ denote the event that $s_i = s_j \xor 1$. Apply a union bound to obtain
+  Let \textsc{Match} denote the event that there exist $1 \leq i \neq j \leq p(\kappa)$ such that $s_i = F(s_j)$.
+  Let $\textsc{Match}_{i, j}$ denote the event that $s_i = F(s_j)$. Apply a union bound to obtain
 
   \begin{align*}
     \Pr[\bigcup_{i, j}\textsc{Match}_{i, j}] &\leq \sum_{i, j} \Pr[\textsc{Match}_{i, j}] \\
     \Pr[\textsc{Match}] &\leq \sum_{i, j} \Pr[\textsc{Match}_{i, j}]
   \end{align*}
 
-  We observe that if $i \neq j$ then $\Pr[\textsc{Match}_{i, j}] = 2^{-p(\kappa)}$, otherwise $\Pr[\textsc{Match}_{i, j}] = 0$. Therefore, $\Pr[\textsc{Match}] \leq \sum_{i, j} 2^{-p(\kappa)} = p^2(\kappa) 2^{-p(\kappa)}$.
+  But $\Pr[\textsc{Match}_{i, j}] = 2^{-p(\kappa)}$ and therefore
+  $\Pr[\textsc{Match}] \leq \sum_{i \neq j} 2^{-p(\kappa)} \leq p^2(\kappa) 2^{-p(\kappa)}$.
 \end{proof}
 
 \begin{theorem}[Unspendability]
