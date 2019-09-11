@@ -1,0 +1,16 @@
+\begin{figure}[t]
+\begin{algorithm}[H]
+    \caption{\label{alg.predict-game} The challenger for the distribution predictor.}
+    \begin{algorithmic}[1]
+        \Function{\textsc{pk-predict}$_{\mathcal{A},X}$}{$\kappa$}
+            \Let{x}{X}
+            \Let{x^*}{\mathcal{A}(1^\kappa)}
+            \If{$x = x^*$}
+                \State\Return{$\true$}
+            \Else
+                \State\Return{$\false$}
+            \EndIf
+        \EndFunction
+    \end{algorithmic}
+\end{algorithm}
+\end{figure}
