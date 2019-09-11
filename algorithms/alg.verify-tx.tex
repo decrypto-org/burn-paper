@@ -5,12 +5,7 @@
             \If{$\neg \textsf{containsTransfer}(a.\mathsf{tx}, e.\textsf{receivingAddress}, e.\textsf{amount})$}
                 \State\Return{$\false$}
             \EndIf
-            \Let{\textsf{txMerkleRoot}}{\textsf{calculateMerkleRoot}(H(\alpha.\textsf{tx}), \alpha.\textsf{txInclusion})}
-            \If{$\textsf{txMerkleRoot} \neq a.\textsf{blk.txMerkleRoot}$}
-                \State\Return{$\false$}
-            \EndIf
-
-            \State\Return{$\true$}
+            \State\Return{$\VerMT(a.\textsf{blk.txMerkleRoot}, \alpha.\textsf{tx}, \alpha.\textsf{txInclusion})$}
         \EndFunction
         \vskip8pt
     \end{algorithmic}
