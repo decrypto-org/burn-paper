@@ -40,10 +40,14 @@
 
   We observe that $\textsc{spend-attack}_{\mathcal{A}, \Pi}(\kappa) = \true \Rightarrow \textsc{Match}$.
 
-  Therefore $\Pr[\textsc{spend-attack}_{\mathcal{A}, \Pi}(\kappa)] \leq Pr[\textsc{Match}]$. Applying Lemma~\ref{lem.perturbation}, $\Pr[\textsc{spend-attack}_{\mathcal{A}, \Pi}(\kappa)] \leq negl(\kappa)$.
+  Therefore $\Pr[\textsc{spend-attack}_{\mathcal{A}, \Pi}(\kappa)] \leq Pr[\textsc{Match}]$. Applying Lemma~\ref{lem.perturbation} for the permutation $F(x) = x \xor 1$,
+  we obtain
+  $\Pr[\textsc{spend-attack}_{\mathcal{A}, \Pi}(\kappa)] \leq negl(\kappa)$.
 \end{proof}
 
-We note that the security of the signature scheme is not needed to prove unspendability. Were the signature scheme of Bitcoin ever found to be forgeable, the coins burned through our scheme would remain unspendable.
+We note that the security of the signature scheme is not needed to prove unspendability. Were the signature scheme of Bitcoin ever found to be forgeable, the coins burned through our scheme would remain unspendable. We additionally remark that the
+choice of the permutation $F(x) = x \xor 1$. Any one-to-one
+function beyond the identity function would work equally well.
 
 \import{./}{algorithms/alg.collision-resistance-adversary.tex}
 
