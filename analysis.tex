@@ -49,6 +49,9 @@ We note that the security of the signature scheme is not needed to prove unspend
 choice of the permutation $F(x) = x \xor 1$. Any one-to-one
 function beyond the identity function would work equally well.
 
+Our binding theorem only requires that the hash function used is collision
+resistant and is in the standard model.
+
 \import{./}{algorithms/alg.collision-resistance-adversary.tex}
 
 \begin{theorem}[Binding]
