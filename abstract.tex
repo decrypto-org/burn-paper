@@ -1,28 +1,35 @@
 \begin{abstract}
-  When a new cryptocurrency is created, few people have access to its
-  economy, as initially cryptocurrency exchanges do not list the new coin,
-  making it difficult to obtain. On the flip side, exchanges are unwilling
-  to list a cryptocurrency with limited market depth. This creates a
-  chicken-and-egg problem.
-
-  We put forth a mechanism for bootstrapping a cryptocurrency by destroying
-  capital in legacy cryptocurrencies. We propose that users burn their legacy
-  coins by sending them to a specially crafted address which renders them
-  unspendable. Upon burning their coins, they can create a proof-of-burn, a
-  special string proving that the burn took place, which they can submit to
+  \emph{Proof-of-burn} has been used as a mechanism to destroy cryptocurrency in a
+  verifiable manner. Despite its well known use, the mechanism has not been
+  previously formally studied as a primitive. In this paper, we put forth the
+  first cryptographic definition of what a proof-of-burn protocol is.
+  The burn protocol consists of two functions. First, a function
+  which generates a cryptocurrency address. When a user sends money to this address,
+  it is irrevocably destroyed. Second, a verification
+  function which checks that an address is really unspendable.
+  We propose four properties for burn protocols. \emph{Correctness}, which mandates
+  that an honestly created burn address verifies correctly; \emph{unspendability},
+  which mandates that an address which verifies correctly cannot be used for
+  spending; \emph{binding}, which allows associating metadata with a particular burn;
+  and \emph{uncensorability}, which mandates that a burn address is indistinguishable
+  from a regular cryptocurrency address. Our scheme captures all previously
+  defined proof-of-burn protocols.
+  Next, we propose a novel construction for burning which is simple
+  and flexible, making it compatible with all existing popular cryptocurrencies.
+  We prove our scheme is secure in the Random Oracle model.
+  Finally, we explore the applications of burn in the context of destroying
+  value in a legacy cryptocurrency system to bootstrap a new one.
+  Using this application, a user can burn her coins in the source blockchain
+  and subsequently create a proof-of-burn, a
+  special string proving that the burn took place, which she can submit to
   the destination blockchain to be rewarded with the corresponding amount.
-  Our mechanism exhibits three core properties. First, the coins are provably
-  unspendable. Second, it allows users to encode their receiving address in the receiving blockchain
-  within their burn in a way that is cryptographically binding. Third, the
-  burn transactions are indistinguishable from regular transactions within
-  the source blockchain, making them uncensorable. Last, the user can use
+  The user can use
   any standard source blockchain wallet to conduct the burn without
-  requiring specialized software. We give formal proofs that our scheme
-  achieves these properties.
-
+  requiring specialized software, making our scheme user friendly.
   We adapt previous work to create a mechanism through which the target
   blockchain miners can verify that a burn has occurred in the source blockchain
-  without requiring them to monitor it. Finally, we illustrate the feasibility
-  of our construction by providing concrete gas costs for the burn verification,
-  indicating that our scheme is practical.
+  without requiring them to monitor it. Finally, we implement our burn scheme
+  on the Ethereum blockchain and experimentally measure that the gas costs needed for
+  verification are as low as standard Bitcoin transaction fees, illustrating
+  that our scheme is practical.
 \end{abstract}
