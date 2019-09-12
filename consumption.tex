@@ -44,6 +44,10 @@ The contract \textsf{crosschain} is defined, which is initialized with the genes
   \item $\textsf{event-exists}(e)$: A user of the contract calls this function to determine whether an event $e$ has been proven and finalized.
 \end{itemize}
 
+A \textsf{sidechain} contract is then defined, which inherits from the \textsf{crosschain} contract all its abilities for event verification. It also allows a user to claim tokens due to some finalized event, and emits events for consumption of the contract on the other blockchain. Specifically, the scheme works by making use of two smart contracts, one called $\mathsf{sidechain}_1$ on the source blockchain and another called $\mathsf{sidechain}_2$ on the target blockchain. In order for a user to send an amount from to a address on the target blockchain, she pays to the \textsf{deposit} method on $\mathsf{sidechain}_1$ while passing in the address on the target blockchain as an parameter. The contract then emits an event $\textsf{Deposited}_1$ which contains the target address, the amount and some auxilary data. A prover, who could be the user herself, then submits the event along with a proof to $\mathsf{sidechain}_2$ according to the aforementioned procedure. Once the event is verified and finalized, the user calls the $\textsf{withdraw}$ method on $\mathsf{sidechain}_2$ while passing in the amount, the address they wish to receive the funds on, and the auxilary data.
+
+We adapt a modified version of this scheme for our purposes, to achieve our own 1-way peg by making use of Proof-of-Burn.
+
 \subsection{Transaction Inclusion Proof}
 
 For simplicity we abbreviate the transaction inclusion part of the complete proof as $\alpha = \sf(tx, txInclusion, blk)$.
