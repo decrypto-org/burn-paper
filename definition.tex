@@ -37,7 +37,7 @@ We require that the burn scheme is \emph{correct}. That is, if a burn address is
   $\BurnVerify(1^\kappa, t, \GenBurnAddress(1^\kappa, t)) = \textsf{true}$.
 \end{definition}
 
-With foresight, we remark that the implementation of $\GenBurnAddress$ and $\BurnVerify$ will typically be deterministic, which alleviates the need for a probabilistic correctness definition.
+With foresight, we remark that the implementation of $\GenBurnAddress$ and $\BurnVerify$ will be deterministic, which alleviates the need for a probabilistic correctness definition.
 
 To state that the protocol generates addresses which cannot be spent from, we introduce a game-based security definition. The unspendability game \textsc{unsp-game} is illustrated in Algorithm~\ref{alg.unsp-game}.
 
