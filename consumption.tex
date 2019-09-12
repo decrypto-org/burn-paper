@@ -1,6 +1,19 @@
 \section{Consumption}
 
-We now describe how the target blockchain can verify a burn which happened on the source blockchain. Specifically, we study the case of Bitcoin and Ethereum as source blockchains. We define a party which we call a \emph{prover} who is responsible for constructing a proof of the event and sending it to the target blockchain. The proof we need to send is one of transaction inclusion in the honestly adopted chain of the source blockchain. We denote this proof as a triplet $\beta = \sf(tx, txInclusion, blk, blockConnection)$.
+We now describe how a smart contract on the target blockchain can verify that a burn has taken place on the source blockchain. Such a mechanism allows a target cryptocurrency to bootstrap through burns on another source blockchain as outlined in Section~\ref{section:introduction}. Specifically, a user is able to burn some coins on the source blockchain while encoding her receiving target blockchain address in the burn tag. After relaying this information to the smart contract the contract releases to the address in the tag an equivalent amount of target cryptocurrency.
+
+In order to accomplish this, it is necessary for some party to relay the necessary information from the source to the target blockchain. In accordance to the terminology laid out in the Proof-of-Work Sidechains paper~\cite{pow-sidechains}, we call this party the \emph{prover} and we call the smart contract the \emph{verifier}.
+
+For a verifier to be convinced that a burn has taken place on a source blockchain, they need to ensure that the burn is contained in a transaction which belongs to the source blockchain. Specifically, the following data needs to be supplied to the smart contract:
+
+\begin{itemize}
+  \item \textsf{tx}: The transaction which contains the burn on the source blockchain.
+  \item \textsf{blk}: The block where the aforementioned transaction is contained.
+  \item \textsf{txInclusion}: A merkle inclusion proof showing that $\mathsf{tx} \in \mathsf{blk}$.
+  \item \textsf{blockConnection}: A proof that \textsf{blk} is contained in the best source blockchain.
+\end{itemize}
+
+Putting these together, the final proof is the quartet $\beta = \sf(tx, txInclusion, blk, blockConnection)$.
 
 \begin{definition}[Merkle Tree protocol]
   A \emph{merkle tree} protocol $\mathcal{MT}$ consists of two functions $\mathcal{MT}_t(x_1, \dots, x_t)$ and $\VerMT_t(root, x, \pi)$ which work as follows:
