@@ -2,7 +2,7 @@
     \caption{\label{alg.verify-tx} A function to verify that a transaction is conforming to the provided event and is included in the provided block.}
     \begin{algorithmic}[1]
         \Function{\sf verify-tx$_e$}{$\alpha$}
-            \If{$\neg \textsf{containsTransfer}(a.\mathsf{tx}, e.\textsf{receivingAddress}, e.\textsf{amount})$}
+            \If{$\neg \TxHasTransfer(a.\mathsf{tx}, e.\textsf{receivingAddress}, e.\textsf{amount})$}
                 \State\Return{$\false$}
             \EndIf
             \State\Return{$\VerMT(a.\textsf{blk.txMerkleRoot}, \alpha.\textsf{tx}, \alpha.\textsf{txInclusion})$}

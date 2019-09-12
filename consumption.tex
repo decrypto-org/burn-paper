@@ -15,6 +15,13 @@ For a verifier to be convinced that a burn has taken place on a source blockchai
 
 Putting these together, the final proof is the quartet $\beta = \sf(tx, txInclusion, blk, blockConnection)$.
 
+\begin{definition}[Source chain protocol]
+  \begin{itemize}
+    \item $\VerTxIncl(b, tx, \tau)$: Given block $b$, transaction $tx$ and a proof $\tau$, return $\true$ if and only if $\tau$ is a valid proof for the fact that $tx \in b$.
+    \item $\TxHasTransfer(tx, addr, amount)$: Given transaction $tx$, an address $addr$ and an amount, return $\true$ if and only if $tx$ contains a value transfer of the specified amount towards the specified address.
+  \end{itemize}
+\end{definition}
+
 \begin{definition}[Merkle Tree protocol]
   A \emph{merkle tree} protocol $\mathcal{MT}$ consists of two functions $\mathcal{MT}_t(x_1, \dots, x_t)$ and $\VerMT_t(root, x, \pi)$ which work as follows:
 
@@ -35,7 +42,7 @@ The transaction inclusion proof is defined by both Bitcoin and Ethereum. In Bitc
 
 Ethereum stores a similar commitment in its header, in the form of the root of a Merkle-Patricia Trie~\cite{wood2014ethereum}. This trie contains the transactions of the block, using the transaction id of each transaction as a key to determine the path to follow starting from the root in order to arrive at that transaction. Similar to regular Merkle trees, Merkle-Patricia tries allow for leaf inclusion proofs.
 
-The verification algorithm for $\alpha$ is presented in Algorithm~\ref{alg.verify-tx}. At the heart of the verification is the function \textsf{containsTransfer}, which takes a transaction, an address and an amount and determines if a value transfer of that exact amount to the address provided has occurred inside the transaction provided. For Bitcoin, this function locates a P2PKH output with the exact amount and receiving address. For Ethereum, the function ensures that the transaction comprises a fund transfer (i.e. the \textsf{data} field is empty), to the receiving address provided and with the exact amount. If this check passes and the transaction inclusion proofs are valid, \textsf{verify-tx} function accepts the proof $\alpha$ for the specified event $e$.
+The verification algorithm for $\alpha$ is presented in Algorithm~\ref{alg.verify-tx}. At the heart of the verification is the function $\TxHasTransfer$, which takes a transaction, an address and an amount and determines if a value transfer of that exact amount to the address provided has occurred inside the transaction provided. For Bitcoin, this function locates a P2PKH output with the exact amount and receiving address. For Ethereum, the function ensures that the transaction comprises a fund transfer (i.e. the \textsf{data} field is empty), to the receiving address provided and with the exact amount. If this check passes and the transaction inclusion proofs are valid, \textsf{verify-tx} function accepts the proof $\alpha$ for the specified event $e$.
 
 \subsection{Block Connection Proof}
 
