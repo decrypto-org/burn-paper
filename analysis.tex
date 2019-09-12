@@ -108,7 +108,27 @@ predictability game is illustrated in Algorithm~\ref{alg.predict-game}.
   $\Pr[\textsc{predict}_{\mathcal{A},X}(\kappa) = \true] < negl(\kappa)$.
 \end{definition}
 
-\import{.}{./algorithms/alg.predict-game.tex}
+\begin{lemma}[Negligible predictability]
+  Consider a distribution ensemble $\{X_{\kappa}\}_{\kappa\in\mathbb{N}}$ and
+  a negligible function $negl(\kappa)$. If for all $\kappa$ for all
+  $x \in [X_\kappa]$ we have that
+  $\Pr_{x^* \gets X_\kappa}[x^* = x] \leq negl(\kappa)$, then
+  $X$ is unpredictable.
+\end{lemma}
+\begin{proof}
+  Consider a probabilistic polynomial-time adversary $\mathcal{A}$ which
+  predicts $X_\kappa$. The adversary is not given any input beyond $1^\kappa$,
+  hence the distribution of its output is independent from the choice of the
+  challenger. Therefore
+
+  \begin{align*}
+  \Pr[\textsc{predict}_{\mathcal{A},X}(\kappa) = \true]
+  &= \sum_{x' \in [X]}\Pr_{x \gets X}[\mathcal{A}(\kappa) = x'\land x = x']\\
+  &= \sum_{x' \in [X]}\Pr[\mathcal{A}(\kappa) = x']\Pr_{x \gets X}[x = x']\\
+  &\leq negl(\kappa)\sum_{x' \in [X]}\Pr[\mathcal{A}(\kappa) = x']
+  \leq negl(\kappa)\\
+  \end{align*}
+\end{proof}
 
 We now posit that no adversary can predict the public key of a secure signature scheme, except with negligible probability.
 
