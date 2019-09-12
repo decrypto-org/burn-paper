@@ -1,5 +1,8 @@
 \section{Analysis}
 
+We now move on to the analysis of our scheme. As the scheme is deterministic,
+its correctness is straightforward to show.
+
 \begin{theorem}[Correctness]
   The Proof-of-Burn protocol $\Pi$ of Section~\ref{section:construction} is \emph{correct}.
 \end{theorem}
@@ -8,6 +11,9 @@
 
   Based on Algorithm~\ref{alg.construction}, $\BurnVerify(1^\kappa, t, \GenBurnAddress(1^\kappa, t)) = \textsf{true}$ if and only if $\GenBurnAddress(1^\kappa, t) = \GenBurnAddress(1^\kappa, t)$, which always holds as $\GenBurnAddress$ is deterministic.
 \end{proof}
+
+We now state a simple lemma pertaining to the distribution of Random Oracle
+outputs.
 
 \begin{lemma}[Perturbation]
   \label{lem.perturbation}
@@ -27,6 +33,8 @@
   But $\Pr[\textsc{Match}_{i, j}] = 2^{-p(\kappa)}$ and therefore
   $\Pr[\textsc{Match}] \leq \sum_{i \neq j} 2^{-p(\kappa)} \leq p^2(\kappa) 2^{-p(\kappa)}$.
 \end{proof}
+
+We will now apply the above lemma to show that our scheme is unspenable.
 
 \begin{theorem}[Unspendability]
   If $H$ is a \emph{Random Oracle}, then the protocol $\Pi$ of Section~\ref{section:construction} is \emph{unspendable}.
