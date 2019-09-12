@@ -156,8 +156,11 @@ We now posit that no adversary can predict the public key of a secure signature 
 
 
 \begin{theorem}[Uncensorability]
-  Let $p$ be a polynomial with $p(\kappa) \in \Omega(\kappa)$, $H$ be a \emph{Random Oracle}, and $S = (\Gen, \Sig, \Ver)$ be a \emph{secure signature scheme}. Consider the tag distribution $\mathcal{T}$ to be the uniform distribution of the set $\{0, 1\}^{p(\kappa)}$.
-  Then the protocol of Section~\ref{section:construction} is \emph{uncensorable}.
+  Let $S = (\Gen, \Sig, \Ver)$ be a \emph{secure signature scheme},
+  $H$ be a \emph{Random Oracle},
+  and $\mathcal{T}$ be an unpredictable tag distribution.
+  Then the protocol of Section~\ref{section:construction} instantiated with
+  $H, S, \mathcal{T}$ is \emph{uncensorable}.
 \end{theorem}
 \begin{proof}
   We will argue that both
