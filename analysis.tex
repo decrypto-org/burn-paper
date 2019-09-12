@@ -108,7 +108,7 @@ predictability game is illustrated in Algorithm~\ref{alg.predict-game}.
   $\Pr[\textsc{predict}_{\mathcal{A},X}(\kappa) = \true] < negl(\kappa)$.
 \end{definition}
 
-\begin{lemma}[Negligible predictability]
+\begin{lemma}[Negligible predictability]\label{lem:negl-pred}
   Consider a distribution ensemble $\{X_{\kappa}\}_{\kappa\in\mathbb{N}}$ and
   a negligible function $negl(\kappa)$. If for all $\kappa$ for all
   $x \in [X_\kappa]$ we have that
@@ -251,3 +251,10 @@ Appendix~\ref{sec.comp-ind}.
 
   By transitivity, $X$ and $Y$ are computationally indistinguishable.
 \end{proof}
+
+From the above, we conclude that the tags used during the burn process must be
+unpredictable. If the tag is chosen to contain a randomly generated public key
+from a secure signature scheme, or its hash,
+Lemmas~\ref{lem:pk-unpredictability,lem:ro-unpredictability} illustrate that
+sufficient entropy exists to ensure uncensorability. Our cross-chain application
+makes use of this fact.
