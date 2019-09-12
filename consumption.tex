@@ -32,6 +32,18 @@ For a verifier to be convinced that a burn has taken place on a source blockchai
 
 Putting these together, the final proof is the quartet $\beta = \sf(tx, txInclusion, blk, blockConnection)$.
 
+\subsection{Proof-of-Work Sidechains}
+Transferring value from a source to a target blockchain has already been a subject of research. Here we present the model for 2-way pegs defined in Proof-of-Work Sidechains~\cite{pow-sidechains}. The prover is a full node on the source blockchain and the verifier is a smart contract on the target blockchain. The prover wishes to convince the verifier that an event has taken place on the source blockchain. In that work, an event describes a Solidity event emitted by a smart contract on some chain. It is described as a triplet $e = (chain, contract, aux)$, where $chain$ is an identifier for the chain, $contract$ refers to the address of the contract and $aux$ contains the parameters of the event emitted.
+
+The contract \textsf{crosschain} is defined, which is initialized with the genesis block of the other blockchain $\mathcal{G}$. This contract is responsible for receiving, verifying and then storing events events on the other blockchain. It relies on a $\mathsf{verify}^{e,\mathcal{G}}(\mathcal{P})$, where $\mathcal{P}$ is a set of proofs for the event, which returns $\true$ if and only if the event is valid based on the set of proofs provided.
+
+\begin{itemize}
+  \item $\textsf{submit-event-proof}(\pi, e)$: A prover calls this function while putting down a collateral $z$ with an event $e$ and a proof of it $\pi$. The function determines if the proof provided is valid by making use of the \textsf{verify} method. If the proof is valid, a contestation period of $k$ blocks begins where other provers may submit a contesting proof.
+  \item $\textsf{submit-contesting-proof}(\pi^*, e)$: A prover calls this function if they have a contesting proof for the proof provided previously for event $e$. If through the use of \textsf{verify} it is discovered that the original prover was dishonest her collateral gets transferred to the caller of this function and the event discarded.
+  \item $\textsf{finalize-event}(e)$: A prover calls this function when the contestation period has passed for their event $e$. If there has been no successful contesting prover in the meantime, their event is saved in the set of finalized events on the smart contract.
+  \item $\textsf{event-exists}(e)$: A user of the contract calls this function to determine whether an event $e$ has been proven and finalized.
+\end{itemize}
+
 \subsection{Transaction Inclusion Proof}
 
 For simplicity we abbreviate the transaction inclusion part of the complete proof as $\alpha = \sf(tx, txInclusion, blk)$.
