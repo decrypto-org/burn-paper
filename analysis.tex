@@ -91,7 +91,7 @@ resistant and is in the standard model.
 \begin{proof}
   Consider the above process and let \textsc{repeat-key} be the event of two samples $i \neq j$ repeating, i.e., $pk_i = pk_j$. Then consider the following existential forgery adversary $\mathcal{A}$ for the signature scheme $S$. The adversary receives a public key $pk$ and attempts to forge a signature $\sigma$. The adversary calls $(sk', pk') \gets \Gen(1^\kappa)$ to generate a new key $(sk', pk')$. If $pk' \neq pk$, the adversary aborts. Otherwise, the adversary uses $sk'$ to create a signature forgery.
 
-  If $pk = pk'$ then by the correctness of the signature scheme the forgery will be successful. Note that \textsc{repeat-key} is the event of any two keys being repeated among $p$ keys. Additionally, together the forgery challenger $\textsf{Sig-forge}$ and the adversary $\mathcal{A}$ independently generate a pair of keys. Then by applying a union bound we obtain that $p^2 \Pr[\textsf{Sig-forge}^{cma}_{\mathcal{A},S}] \geq \Pr[\textsc{repeat-key}]$. From the fact that $p$ is a polynomial and
+  If $pk = pk'$ then by the correctness of the signature scheme the forgery will be successful. The forgery challenger $\textsf{Sig-forge}$ and the adversary $\mathcal{A}$ each independently generates a pair of keys. By applying a union bound we obtain that $p^2 \Pr[\textsf{Sig-forge}^{cma}_{\mathcal{A},S}] \geq \Pr[\textsc{repeat-key}]$. From the fact that $p$ is a polynomial and given that
   $\Pr[\textsf{Sig-forge}^{cma}_{\mathcal{A},S}]$ is negligible, it follows that $\Pr[\textsc{repeat-key}]$ is negligible.
 \end{proof}
 
@@ -165,7 +165,7 @@ Appendix~\ref{sec.comp-ind}.
   Let $\mathcal{T}$ be an unpredictable distribution ensemble and $H$ be a
   Random Oracle.
   The distribution $X = \{t \gets \mathcal{T}; H(t)\}$ is indistinguishable from
-  the uniform distribution $\uniform(\{0, 1\}^\kappa)$.
+  the uniform distribution $\uniformk$.
 \end{lemma}
 \begin{proof}
   Let $\mathcal{A}$ be an arbitrary polynomial distinguisher between
@@ -178,25 +178,48 @@ Appendix~\ref{sec.comp-ind}.
   Algorithm~\ref{alg.predictability-adversary} and works as follows.
   Initially, it chooses a random bit $b \stackrel{\$}{\gets} \{0, 1\}$ and
   sets $Z = X$ if $b = 0$, otherwise
-  sets $Z = \uniform(\{0, 1\}^\kappa)$.
+  sets $Z = \uniformk$.
   It samples $z \gets Z$.
   If $b = 0$, then $z$ is chosen by applying \textsf{GenAddress} which involves
   calling the random oracle $H$ with some input $pk$.
-  It then chooses one of $\mathcal{A}$'s queries $j \stackrel{\$}{\gets} [q]$
+  It then chooses one of $\mathcal{A}$'s queries $j \stackrel{\$}{\gets} [r]$
   uniformly at random. Finally, it outputs the input received by the random
   oracle during the $j^\text{th}$ query of $\mathcal{A}$.
-  Consider the event $\query$ that $b = 0$ and $\mathcal{A}$ asks
-  a random oracle query with input $pk$. Recall the computational
+
+  We will consider two cases. Either $\mathcal{A}$ makes a random oracle query
+  containing $pk$, or it does not. We will argue that, if $\mathcal{A}$ makes
+  a random oracle query containing $pk$ with non-negligible probability, then
+  $\mathcal{A}^*$ will be successful with non-negligible probability. However,
+  we will argue that, if $\mathcal{A}$ does not make the particular random
+  oracle query, it will be unable to distinguish $X$ from $\uniformk$.
+
+  Let $\query$ denote the event that $b = 0$ and $\mathcal{A}$ asks a random
+  oracle query with input $pk$.
+  Let $x$ denote the random variable sampled by the challenger in the
+  predictability game of $\mathcal{A}^*$.
+  Let $\extqry$ denote the event that $b = 0$ and $\mathcal{A}$ asks a
+  random oracle query with input equal to $x$. Observe that, since the input to
+  $\mathcal{A}$ does not depend on $x$, we have that
+  $\Pr[\extqry] = \Pr[\query]$. As $j$ is chosen independently of the execution
+  of $\mathcal{A}$, conditioned on $\extqry$ the probability that
+  $\mathcal{A}^*$ is able to correctly guess which query caused $\extqry$ will
+  be $\frac{1}{r}$. Therefore we obtain that
+  $\Pr[\textsc{predict}_{\mathcal{A}^*,\mathcal{T}}(\kappa) = \true]
+   = \frac{1}{r}\Pr[\extqry]
+   = \frac{1}{r}\Pr[\query]$.
+  As
+  $\Pr[\textsc{predict}_{\mathcal{A}^*,\mathcal{T}}(\kappa) = \true] \leq negl(\kappa)$
+  and $r$
+  is polynomial in $\kappa$, we deduce that $\Pr[\query] \leq negl(\kappa)$.
+
+  Consider the computational
   indistinguishability game depicted in
   Algorithm~\ref{alg.dist-game} in which the distinguisher gives a guess $b^*$
   attempting to identify the origin $b$ of its input.
-
-  TODO: Argue that $\Pr[\query] \leq negl(\kappa)$.
-
   If $b = 0$, then the distinguisher $\mathcal{A}$ receives a truly random input
   $pkh = H(pk)$.
-  Consider the case where the distinguisher does not query the random oracle
-  with input $pk$. In that case, the input of the distinguisher is truly random
+  If the distinguisher does not query the random oracle
+  with input $pk$, the input of the distinguisher is truly random
   and therefore $\Pr[b^* = 0|b = 0|\lnot \query] = \Pr[b^* = 0|b = 1]$.
 
   Consider the case where $b = 0$ and apply total probability to obtain
@@ -211,7 +234,7 @@ Appendix~\ref{sec.comp-ind}.
 
   Then
   $
-    \Pr[\textsc{dist-game}_{\mathcal{A},X,\uniform(\{0,1\}^\kappa)} = \true]
+    \Pr[\textsc{dist-game}_{\mathcal{A},X,\uniformk} = \true]
     =
     \Pr[b = b^*]
   $ is the probability of success of the distinguisher.
@@ -239,7 +262,7 @@ Appendix~\ref{sec.comp-ind}.
 \end{theorem}
 \begin{proof}
   From Lemma~\ref{lem:pk-unpredictability} the distribution of
-  public keys generated from $S$ form an unpredictable distribution. The
+  public keys generated from $S$ is unpredictable. The
   function $\textsf{GenAddress}$ samples a public key from $S$ and applies the
   random oracle $H$ to it. Applying
   Lemma~\ref{lem:ro-unpredictability}, we obtain that
@@ -257,6 +280,6 @@ Appendix~\ref{sec.comp-ind}.
 From the above, we conclude that the tags used during the burn process must be
 unpredictable. If the tag is chosen to contain a randomly generated public key
 from a secure signature scheme, or its hash,
-Lemmas~\ref{lem:pk-unpredictability,lem:ro-unpredictability} illustrate that
+Lemmas~\ref{lem:pk-unpredictability}~and~\ref{lem:ro-unpredictability} show that
 sufficient entropy exists to ensure uncensorability. Our cross-chain application
 makes use of this fact.

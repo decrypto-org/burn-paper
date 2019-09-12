@@ -1,16 +1,18 @@
 \begin{figure}[t]
 \begin{algorithm}[H]
     \caption{\label{alg.predictability-adversary}
-    The Predictability adversary $\mathcal{A}^*$
-    against the distribution $X$
-    using a distinguisher between $X$ and $U(\{0,1\}^\kappa)$.}
+    The predictor $\mathcal{A}^*$
+    of the distribution $X$
+    which makes use of a distinguisher $\mathcal{A}$ between
+    $X$ and $U(\{0,1\}^\kappa)$.}
     \begin{algorithmic}[1]
         \Let{i}{0}
         \Let{Q}{\emptyset}
+        \Comment{Record of all random oracle queries}
         \Function{$H'_H$}{$x$}
             \Let{i}{i + 1}
             \Let{Q[i]}{H(x)}
-            \State\Return$Q[j]$
+            \State\Return$Q[i]$
         \EndFunction
         \Function{$\mathcal{A}^*_{X,\mathcal{A}}$}{$1^\kappa$}
             \Let{b}{\{0,1\}}
