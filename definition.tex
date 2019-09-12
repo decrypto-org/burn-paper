@@ -22,7 +22,7 @@ Naturally, for $\GenBurnAddress$ to generate addresses that ``look'' valid but a
   \begin{itemize}
     \item $\sf{GenAddress}(1^\kappa)$: Returns a tuple $(\sf{pk}, \sf{sk})$, denoting the cryptocurrency address $\sf{pk}$ (a public key) used to receive money and its respective secret key $\sf{sk}$ which allows spending from that address.
 
-    \item $\sf{SpendVerify}(m, \sigma, pk)$: Returns $\sf{true}$ if and only if the transaction $m$ spending from receiving address $pk$ has been authorized by the signature $\sigma$ (by being signed by the respective private key).
+    \item $\sf{SpendVerify}(m, \sigma, pk)$: Returns $\sf{true}$ if the transaction $m$ spending from receiving address $pk$ has been authorized by the signature $\sigma$ (by being signed by the respective private key).
   \end{itemize}
 \end{definition}
 
