@@ -1,0 +1,33 @@
+\begin{figure}[t]
+\begin{algorithm}[H]
+    \caption{\label{alg.predictability-adversary}
+    The Predictability adversary $\mathcal{A}^*$
+    against the distribution $X$
+    using a distinguisher between $X$ and $U(\{0,1\}^\kappa)$.}
+    \begin{algorithmic}[1]
+        \Let{i}{0}
+        \Let{Q}{\emptyset}
+        \Function{$H'_H$}{$x$}
+            \Let{i}{i + 1}
+            \Let{Q[i]}{H(x)}
+            \State\Return$Q[j]$
+        \EndFunction
+        \Function{$\mathcal{A}^*_{X,\mathcal{A}}$}{$1^\kappa$}
+            \Let{b}{\{0,1\}}
+            \If{$b = 0$}
+                \Let{z}{X}
+                \State$j \stackrel{\$}{\gets} [r]$
+            \Else
+                \Let{z}{U(\{0,1\}^\kappa)}
+            \EndIf
+
+            \Let{b^*}{\mathcal{A}^{H'}(z)}
+            \If{$b = 0 \land j \text{ in } Q$}
+                \State\Return{Q[j]}
+            \Else
+                \State\Return{\textsc{failure}}
+            \EndIf
+        \EndFunction
+    \end{algorithmic}
+\end{algorithm}
+\end{figure}
