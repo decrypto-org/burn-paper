@@ -4,17 +4,6 @@ We now describe how a smart contract on the target blockchain can verify that a 
 
 In order to accomplish this, it is necessary for some party to relay the necessary information from the source to the target blockchain. In accordance to the terminology laid out in the Proof-of-Work Sidechains paper~\cite{pow-sidechains}, we call this party the \emph{prover} and we call the smart contract the \emph{verifier}.
 
-For a verifier to be convinced that a burn has taken place on a source blockchain, they need to ensure that the burn is contained in a transaction which belongs to the source blockchain. Specifically, the following data needs to be supplied to the smart contract:
-
-\begin{itemize}
-  \item \textsf{tx}: The transaction which contains the burn on the source blockchain.
-  \item \textsf{blk}: The block where the aforementioned transaction is contained.
-  \item \textsf{txInclusion}: A merkle inclusion proof showing that $\mathsf{tx} \in \mathsf{blk}$.
-  \item \textsf{blockConnection}: A proof that \textsf{blk} is contained in the best source blockchain.
-\end{itemize}
-
-Putting these together, the final proof is the quartet $\beta = \sf(tx, txInclusion, blk, blockConnection)$.
-
 \begin{definition}[Source chain protocol]
   \begin{itemize}
     \item $\VerTxIncl(b, tx, \tau)$: Given block $b$, transaction $tx$ and a proof $\tau$, return $\true$ if and only if $\tau$ is a valid proof for the fact that $tx \in b$.
@@ -32,6 +21,17 @@ Putting these together, the final proof is the quartet $\beta = \sf(tx, txInclus
   \end{itemize}
 \end{definition}
 
+For a verifier to be convinced that a burn has taken place on a source blockchain, they need to ensure that the burn is contained in a transaction which belongs to the source blockchain. Specifically, the following data needs to be supplied to the smart contract:
+
+\begin{itemize}
+  \item \textsf{tx}: The transaction which contains the burn on the source blockchain.
+  \item \textsf{blk}: The block where the aforementioned transaction is contained.
+  \item \textsf{txInclusion}: An inclusion proof showing that $\mathsf{tx} \in \mathsf{blk}$.
+  \item \textsf{blockConnection}: A proof that \textsf{blk} is contained in the best source blockchain.
+\end{itemize}
+
+Putting these together, the final proof is the quartet $\beta = \sf(tx, txInclusion, blk, blockConnection)$.
+
 \subsection{Transaction Inclusion Proof}
 
 For simplicity we abbreviate the transaction inclusion part of the complete proof as $\alpha = \sf(tx, txInclusion, blk)$.
@@ -46,9 +46,6 @@ The verification algorithm for $\alpha$ is presented in Algorithm~\ref{alg.verif
 
 \subsection{Block Connection Proof}
 
-We look at two ways of proving block connection to the honestly adopted source chain.
-
-\subsubsection{Federation}
 A federation of $m$ nodes is picked. A federation node is responsible for running the source blockchain software and knowing at every moment the honestly adopted source blockchain. More importantly, it is responsible for transmitting this information to the target blockchain. In order to do this, we define a smart contract on the target blockchain where federation nodes are allowed to submit such information. We call this contract the \textsf{TagRepository}. A federation node encodes the honestly adopted chain into a tag and submits this tag to the \textsf{TagRepository}. Once a majority of votes is achieved, the tag is considered valid for use.
 
 We propose encoding the honestly adopted chain by using a Merkle Mountain Ranges (MMRs)~\cite{flyclient}. Specifically, to generate a tag we take all the chain's block ids in sequence and use them as leaves in a Merkle Mountain Range. We then use the root of that MMR as our encoding.
@@ -59,7 +56,7 @@ An interesting observation is that, because the federation majority is trusted o
 
 \import{./}{algorithms/alg.verify-event-federation.tex}
 
-\subsubsection{Decentralized}
+\subsection{Decentralized Block Connection}
 We introduce a second way for proving and verifying the block connection which does not require a trusted federation. This is possible by making use of NIPoPoWs. The way the proving process works differs quite a bit from the federation, because in the federation there is a trusted source of truth. If a tag is voted by the federation majority, then it is forever true. But if this the verifier does not have this information, then it has to rely on the prover to get it. We assume a model where there exist two provers, one honest and one malicious. The block connection proof can be an NIPoPoW infix proof for the block which includes the burn transaction. Specifically, $\mathsf{blockConnection} = \pi\chi$.
 
 \import{./}{algorithms/alg.verify-event-nipopow.tex}
