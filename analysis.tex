@@ -154,16 +154,6 @@ We now posit that no adversary can predict the public key of a secure signature 
   $.
 \end{proof}
 
-\import{.}{./algorithms/alg.dist-game.tex}
-
-% TODO: move computational indistinguishability game and definition to appendix
-\begin{definition}[Computational indistinguishability]
-  Two distribution ensembles $\{X_\kappa\}_{\kappa\in\mathbb{N}}$ and $\{Y_\kappa\}_{\kappa\in\mathbb{N}}$ are
-  \emph{computationally indistinguishable}
-  if for every probabilistic polynomial-time adversary $\mathcal{A}$,
-  there exists a negligible function $negl$ such that
-  $\Pr[\textsc{dist-game}_{\mathcal{A},X,Y}(\kappa) = \true] < negl(\kappa)$.
-\end{definition}
 
 \begin{theorem}[Uncensorability]
   Let $p$ be a polynomial with $p(\kappa) \in \Omega(\kappa)$, $H$ be a \emph{Random Oracle}, and $S = (\Gen, \Sig, \Ver)$ be a \emph{secure signature scheme}. Consider the tag distribution $\mathcal{T}$ to be the uniform distribution of the set $\{0, 1\}^{p(\kappa)}$.
