@@ -84,17 +84,6 @@ resistant and is in the standard model.
   the protocol $\Pi$ is binding.
 \end{proof}
 
-% TODO: This lemma seems useless... We need to argue about predictability of Gen() by the adversary.
-\begin{lemma}[Distinct keys]\label{lem:distinct-keys}
-  Let $S = (\Gen, \Sig, \Ver)$ be a secure signature scheme and $p$ be any polynomial. Consider the process which calls $(pk_i, sk_i) \gets \Gen(1^\kappa)$ repeatedly and independently $p(\kappa)$ times to obtain $p(\kappa)$ samples. Then for all $i, j \in [p]$ with $i \neq j$, we have that $pk_i \neq pk_j$, except with negligible probability in $\kappa$.
-\end{lemma}
-\begin{proof}
-  Consider the above process and let \textsc{repeat-key} be the event of two samples $i \neq j$ repeating, i.e., $pk_i = pk_j$. Then consider the following existential forgery adversary $\mathcal{A}$ for the signature scheme $S$. The adversary receives a public key $pk$ and attempts to forge a signature $\sigma$. The adversary calls $(sk', pk') \gets \Gen(1^\kappa)$ to generate a new key $(sk', pk')$. If $pk' \neq pk$, the adversary aborts. Otherwise, the adversary uses $sk'$ to create a signature forgery.
-
-  If $pk = pk'$ then by the correctness of the signature scheme the forgery will be successful. The forgery challenger $\textsf{Sig-forge}$ and the adversary $\mathcal{A}$ each independently generates a pair of keys. By applying a union bound we obtain that $p^2 \Pr[\textsf{Sig-forge}^{cma}_{\mathcal{A},S}] \geq \Pr[\textsc{repeat-key}]$. From the fact that $p$ is a polynomial and given that
-  $\Pr[\textsf{Sig-forge}^{cma}_{\mathcal{A},S}]$ is negligible, it follows that $\Pr[\textsc{repeat-key}]$ is negligible.
-\end{proof}
-
 Recall that a distribution ensemble is \emph{unpredictable} if no
 polynomial-time adversary can guess its output. The cryptographic
 predictability game is illustrated in Algorithm~\ref{alg.predict-game}.
@@ -138,20 +127,23 @@ We now posit that no adversary can predict the public key of a secure signature 
   unpredictable.
 \end{lemma}
 \begin{proof}
-  Consider an adversary $\mathcal{A}$ against the \textsc{predict} game and let $q$ denote its probability of success. Then modify the challenger game to invoke $\textsf{Gen}(1^\kappa)$ \emph{twice} independently after the adversary is invoked to obtain $pk'_1$ and $pk'_2$. Consider the event $\textsc{predict-both}$ in which the adversary's guess $pk$ matches the result of both invocations of $\textsf{Gen}$, i.e., $pk'_1 = pk$ and $pk'_2 = pk$.
-  Because the invocations of $\textsf{Gen}$ are independent, the probability of the adversary succeeding in guessing \emph{both} invocations of $\textsf{Gen}$ is $q^2$. Therefore
-  $
-  \Pr[\textsf{predict}_{\mathcal{A},X}(\kappa)]^2 = \Pr[\textsc{predict-both}]
-  $.
-
-  Conditioned on the event $\textsc{predict-both}$, we have $pk'_1 = pk'_2$. This is an execution which invokes $\textsf{Gen}$ exactly twice and tries to find non-unique keys in these invocations. Applying Lemma~\ref{lem:distinct-keys} with $p = 2$, we obtain that
-  $
-  \Pr[\textsc{predict-both}] \leq \textsf{negl}(\kappa)
-  $.
-  Therefore
-  $
-  \Pr[\textsf{predict}_{\mathcal{A},X}(\kappa)] \leq \textsf{negl}(\kappa)
-  $.
+  Let $\widehat{pk}$ be an arbitrary $\kappa$-length public key generated
+  by $\textsf{Gen}$ generated with some probability $p$.
+  Then consider the existential forgery adversary $\mathcal{A}$ which works as
+  follows. It receives $pk$ as its input from the challenger, but ignores it
+  and generates a new key pair $(pk', sk') \gets \textsf{Gen}$. Since the
+  two invocations of $\textsf{Gen}$ are independent,
+  $\Pr[pk = pk'] \geq \Pr[pk = \widehat{pk} \land pk' = \widehat{pk}]
+  = \Pr[pk = \widehat{pk}]\Pr[pk = \widehat{pk'}] = p^2$. The adversary checks
+  whether $pk = pk'$. If not, it aborts. Otherwise, it uses $sk'$ to sign the
+  message $m = \epsilon$ and returns the forgery $\sigma = \textsf{Sig}(sk, m)$.
+  From the correctness of the signature scheme, if $pk = pk'$, then
+  $\textsf{Ver}(pk, \textsf{Sig}(sk, m)) = \true$ and the adversary is
+  successful. Since the signature scheme is secure,
+  $\Pr[\textsf{Sig-forge}^{cma}_{\mathcal{A},S}] = negl(\kappa)$.
+  But $\Pr[pk = pk'] \leq \Pr[\textsf{Sig-forge}^{cma}_{\mathcal{A},S}]$ and
+  therefore $p = negl(\kappa)$. Applying Lemma~\ref{lem:negl-pred}, we deduce
+  that the distribution $X$ is unpredictable.
 \end{proof}
 
 \import{.}{./algorithms/alg.predictability-adversary.tex}
