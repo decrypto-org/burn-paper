@@ -1,41 +1,37 @@
 \section{Consumption}
 
-We now describe how a smart contract on the target blockchain can verify that a burn has taken place on the source blockchain. Such a mechanism allows a target cryptocurrency to bootstrap through burns on another source blockchain as outlined in Section~\ref{section:introduction}. Specifically, a user is able to burn some coins on the source blockchain while encoding her receiving target blockchain address in the burn tag. After relaying this information to the smart contract the contract releases to the address in the tag an equivalent amount of target cryptocurrency.
+We now describe how a smart contract on the target blockchain can verify that a burn has taken place on the source blockchain. Note how this puts a constraint on the target blockchain to have smart contract capabilities, however there is no such constraint for the source blockchain. Such a mechanism allows a target cryptocurrency to bootstrap through burns on another source blockchain as outlined in Section~\ref{section:introduction}.
 
-In order to accomplish this, it is necessary for some party to relay the necessary information from the source to the target blockchain. In accordance to the terminology laid out in the Proof-of-Work Sidechains paper~\cite{pow-sidechains}, we call this party the \emph{prover} and we call the smart contract the \emph{verifier}.
+A user who wishes to acquire a target cryptocurrency first has to form a specially crafted address called the burn address, which encodes among other things her receiving address on the target blockchain. The user then sends an amount of the source cryptocurrency to that address, essentially burning this amount in the source blockchain. She then proceeds to submit a proof of this burn on the target blockchain, where the burn is verified and the user is credited an equivalent amount of target cryptocurrency on his receiving address.
 
-\begin{definition}[Source chain protocol]
+In accordance to the terminology laid out in~\cite{pow-sidechains}, we call this party the \emph{prover} and we call the smart contract the \emph{verifier}.
+
+We abstract the functionalities regarding transactions on the source blockchain into a \emph{blockchain transaction protocol}.
+
+\begin{definition}[Blockchain transaction protocol]
+  A \emph{blockchain transaction protocol} $\Pi_\zeta$ consists of two functions $\VerTxIncl$ and $\TxHasTransfer$.
+
   \begin{itemize}
-    \item $\VerTxIncl(b, tx, \tau)$: Given block $b$, transaction $tx$ and a proof $\tau$, return $\true$ if and only if $\tau$ is a valid proof for the fact that $tx \in b$.
-    \item $\TxHasTransfer(tx, addr, amount)$: Given transaction $tx$, an address $addr$ and an amount, return $\true$ if and only if $tx$ contains a value transfer of the specified amount towards the specified address.
+    \item $\VerTxIncl(b, tx, \tau)$: Given block $b$, transaction $tx$ and a proof $\tau$, return $\true$ if $\tau$ is a valid proof for the fact that $tx \in b$.
+    \item $\TxHasTransfer(tx, addr, amount)$: Given transaction $tx$, an address $addr$ and an amount, return $\true$ if $tx$ contains a value transfer of the specified amount towards the specified address.
   \end{itemize}
 \end{definition}
 
-\begin{definition}[Merkle Tree protocol]
-  A \emph{merkle tree} protocol $\mathcal{MT}$ consists of two functions $\mathcal{MT}_t(x_1, \dots, x_t)$ and $\VerMT_t(root, x, \pi)$ which work as follows:
-
-  \begin{itemize}
-    \item $\mathcal{MT}_t(x_1, \dots, x_t)$: Given elements $x_1, \dots, x_t$, return the root of the Merkle Tree with exactly $t$ leaves, where for each $1 \le i \le t$, the $i$-th leaf corresponds to $x_i$.
-
-    \item $\VerMT(root, x, \pi)$: Given a Merkle Tree root, an element $x$ and an inclusion proof $\pi$, return $\sf{true}$ if and only if $\pi$ is a valid proof for the fact that $x$ is contained in the tree rooted at $root$.
-  \end{itemize}
-\end{definition}
-
-For a verifier to be convinced that a burn has taken place on a source blockchain, they need to ensure that the burn is contained in a transaction which belongs to the source blockchain. Specifically, the following data needs to be supplied to the smart contract:
+For a verifier to be convinced that a burn has taken place on a source blockchain, they need to ensure that the burn is contained in a transaction which belongs to the source blockchain. Specifically, the following data need to be supplied to the smart contract:
 
 \begin{itemize}
   \item \textsf{tx}: The transaction which contains the burn on the source blockchain.
   \item \textsf{blk}: The block where the aforementioned transaction is contained.
-  \item \textsf{txInclusion}: An inclusion proof showing that $\mathsf{tx} \in \mathsf{blk}$.
+  \item \textsf{txInclusion}: An inclusion proof showing that $\mathsf{tx} \in \mathsf{blk}$ such that $\VerTxIncl(\textsf{blk}, \textsf{tx}, \textsf{txInclusion}) = \true$.
   \item \textsf{blockConnection}: A proof that \textsf{blk} is contained in the best source blockchain.
 \end{itemize}
 
-Putting these together, the final proof is the quartet $\beta = \sf(tx, txInclusion, blk, blockConnection)$.
+Putting these together, the final proof is the tuple $\beta = \sf(tx, txInclusion, blk, blockConnection)$.
 
 \subsection{Proof-of-Work Sidechains}
-Transferring value from a source to a target blockchain has already been a subject of research. A mechanism for 2-way pegs is described in Proof-of-Work Sidechains~\cite{pow-sidechains}. A 2-way peg is established when there is the the ability to transfer an amount of source cryptocurrency to a target blockchain and back in a trustless manner. The 2-way peg mechanism works roughly as a composition of two 1-way pegs. For our purposes we will focus on the mechanism which facilitates the one-way transfer. The prover is a full node on the source blockchain and the verifier is a smart contract on the target blockchain. The prover wishes to convince the verifier that an event has taken place on the source blockchain. In that work, an event describes a Solidity event emitted by a smart contract on some chain. It is described as a triplet $e = (chain, contract, aux)$, where $chain$ is an identifier for the chain, $contract$ refers to the address of the contract and $aux$ contains the parameters of the event emitted.
+Transferring value from a source to a target blockchain has already been a subject of research. A mechanism for the so-called 1-way pegs is described in~\cite{pow-sidechains}. A 1-way peg is established when there is the ability to transfer an amount of source cryptocurrency to a target blockchain in a trustless manner, as we wish to do. Generally, the prover wishes to convince the verifier that an event has taken place on the source blockchain. In that work, an event describes a Solidity event emitted by a smart contract on some chain. It is described as a triplet $e = (chain, contract, aux)$, where $chain$ is an identifier for the chain, $contract$ refers to the address of the contract and $aux$ contains the parameters of the event emitted.
 
-The contract \textsf{crosschain} is defined, which is initialized with the genesis block of the other blockchain $\mathcal{G}$. This contract is responsible for receiving, verifying and then storing events events on the other blockchain. It relies on a $\mathsf{verify}^{e,\mathcal{G}}(\mathcal{P})$, where $\mathcal{P}$ is a set of proofs for the event, which returns $\true$ if and only if the event is valid based on the set of proofs provided.
+The contract \textsf{crosschain} is defined, which is initialized with the genesis block of the other blockchain $\mathcal{G}$. This contract is responsible for receiving, verifying and then storing events on the other blockchain. It relies on a function $\mathsf{verify}^{e,\mathcal{G}}(\mathcal{P})$, where $\mathcal{P}$ is a set of proofs for the event, which returns $\true$ if and only if the event is valid based on the set of proofs provided.
 
 \begin{itemize}
   \item $\textsf{submit-event-proof}(\pi, e)$: A prover calls this function while putting down a collateral $z$ with an event $e$ and a proof of it $\pi$. The function determines if the proof provided is valid by making use of the \textsf{verify} method. If the proof is valid, a contestation period of $k$ blocks begins where other provers may submit a contesting proof.
@@ -61,6 +57,16 @@ Ethereum stores a similar commitment in its header, in the form of the root of a
 The verification algorithm for $\alpha$ is presented in Algorithm~\ref{alg.verify-tx}. At the heart of the verification is the function $\TxHasTransfer$, which takes a transaction, an address and an amount and determines if a value transfer of that exact amount to the address provided has occurred inside the transaction provided. For Bitcoin, this function locates a P2PKH output with the exact amount and receiving address. For Ethereum, the function ensures that the transaction comprises a fund transfer (i.e. the \textsf{data} field is empty), to the receiving address provided and with the exact amount. If this check passes and the transaction inclusion proofs are valid, \textsf{verify-tx} function accepts the proof $\alpha$ for the specified event $e$.
 
 \subsection{Block Connection Proof}
+
+\begin{definition}[Merkle Tree protocol]
+  A \emph{merkle tree} protocol $\mathcal{MT}$ consists of two functions $\mathcal{MT}_t(x_1, \dots, x_t)$ and $\VerMT_t(root, x, \pi)$ which work as follows:
+
+  \begin{itemize}
+    \item $\mathcal{MT}_t(x_1, \dots, x_t)$: Given elements $x_1, \dots, x_t$, return the root of the Merkle Tree with exactly $t$ leaves, where for each $1 \le i \le t$, the $i$-th leaf corresponds to $x_i$.
+
+    \item $\VerMT(root, x, \pi)$: Given a Merkle Tree root, an element $x$ and an inclusion proof $\pi$, return $\sf{true}$ if and only if $\pi$ is a valid proof for the fact that $x$ is contained in the tree rooted at $root$.
+  \end{itemize}
+\end{definition}
 
 A federation of $m$ nodes is picked. A federation node is responsible for running the source blockchain software and knowing at every moment the honestly adopted source blockchain. More importantly, it is responsible for transmitting this information to the target blockchain. In order to do this, we define a smart contract on the target blockchain where federation nodes are allowed to submit such information. We call this contract the \textsf{TagRepository}. A federation node encodes the honestly adopted chain into a tag and submits this tag to the \textsf{TagRepository}. Once a majority of votes is achieved, the tag is considered valid for use.
 
