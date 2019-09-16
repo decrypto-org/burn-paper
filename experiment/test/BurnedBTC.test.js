@@ -1,6 +1,6 @@
 const BurnedBTC = artifacts.require("BurnedBTC");
 const CheckpointRepo = artifacts.require("CheckpointRepo");
-const { b, getTxFixture, txParamsObject, assertReverts } = require("./utils");
+const { b, getTxFixture, txParamsObject, assertReverts, logGasUsed } = require("./utils");
 
 const ZERO_HASH = '0x00000000000000000000000000000000',
       ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
@@ -45,7 +45,8 @@ contract('BurnedBTC', ([firstAccount, ..._]) => {
         receivingPKH: b("346753e81b93e3f1567a16f3009c7c65c768d865")
       };
       await instance.submitEventProof(event, proof);
-      await instance.claim(event, claimer);
+      const res = await instance.claim(event, claimer);
+      logGasUsed('claim', res);
     };
 
     it('should credit the user for a valid burn event', async () => {

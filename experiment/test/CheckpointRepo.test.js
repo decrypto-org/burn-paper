@@ -1,6 +1,6 @@
 const CheckpointRepo = artifacts.require("CheckpointRepo");
 
-const {b, assertReverts} = require('./utils');
+const {b, assertReverts, logGasUsed} = require('./utils');
 
 contract('CheckpointRepo', (accounts) => {
   describe('#vote', async () => {
@@ -89,7 +89,8 @@ contract('CheckpointRepo', (accounts) => {
       const instance = await CheckpointRepo.new(accounts.slice(0, 2));
       const mmr = b('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
       await instance.vote(mmr, { from: accounts[0] });
-      await instance.vote(mmr, { from: accounts[1] });
+      const res = await instance.vote(mmr, { from: accounts[1] });
+      logGasUsed('vote', res);
       assert.equal(await instance.approvedMMR(), mmr);
     });
   });

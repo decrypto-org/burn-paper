@@ -3,7 +3,7 @@ const Crosschain = artifacts.require("CrosschainMock");
 const ZERO_HASH = '0x00000000000000000000000000000000',
       ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
 
-const {b, getTxFixture, txParamsObject, assertReverts} = require("./utils");
+const {b, getTxFixture, txParamsObject, assertReverts, logGasUsed} = require("./utils");
 const ONE_INPUT_2_OUTPUTS = getTxFixture("./tx-fixtures/1-input-2-outputs-first-p2pkh.json")
 const ALL_ZEROS_TX = getTxFixture("./tx-fixtures/all-zeros.json")
 
@@ -56,7 +56,8 @@ contract('Crosschain', ([firstAccount, ..._]) => {
     const invalidEventBecauseOfAmount = {...validEvent, amount: 123};
 
     async function assertSaves(event, proof) {
-      await instance.submitEventProof(event, proof);
+      const res = await instance.submitEventProof(event, proof);
+      logGasUsed('submitEventProof', res);
       assert.ok(await instance.eventExists(event));
     }
     async function assertDoesNotSave(event, proof) {
@@ -77,7 +78,7 @@ contract('Crosschain', ([firstAccount, ..._]) => {
     it('does not save an event with a proof with wrong transaction', async () => {
       await assertDoesNotSave(validEvent, invalidProofBecauseOfTransaction);
     });
-    
+
     it('does not save an event with a proof with wrong transaction inclusion', async () => {
       await assertDoesNotSave(validEvent, invalidProofBecauseOfTxInclusion);
     });

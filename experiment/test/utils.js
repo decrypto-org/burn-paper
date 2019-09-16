@@ -28,4 +28,8 @@ function txParamsObject(fixture) {
 
 const assertReverts = require("assert").rejects;
 
-module.exports = {b, getTxFixture, txParams, txParamsObject, assertReverts};
+function logGasUsed(what, result) {
+  console.log(what, 'used', result.receipt.gasUsed, 'gas');
+}
+
+module.exports = {b, getTxFixture, txParams, txParamsObject, assertReverts, logGasUsed};
