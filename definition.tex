@@ -39,14 +39,13 @@ We require that the burn scheme is \emph{correct}. That is, if a burn address is
 
 With foresight, we remark that the implementation of $\GenBurnAddress$ and $\BurnVerify$ will be deterministic, which alleviates the need for a probabilistic correctness definition.
 
-To state that the protocol generates addresses which cannot be spent from, we introduce a game-based security definition. The unspendability game \textsc{unsp-game} is illustrated in Algorithm~\ref{alg.unsp-game}.
+To state that the protocol generates addresses which cannot be spent from, we introduce a game-based security definition. The unspendability game \textsc{spend-attack} is illustrated in Algorithm~\ref{alg.spend-game}.
 
 \import{./}{algorithms/alg.spend-game.tex}
 
 \begin{definition}[Unspendability]
   A burn protocol $\Pi$ is \emph{unspendable} with respect to a blockchain address protocol $\Pi_\alpha$ if
-  for all probabilistic polynomial-time adversaries $\mathcal{A}$
-  it holds that
+  for all probabilistic polynomial-time adversaries $\mathcal{A}$ there exists a negligible function $negl$ such that:
 
   \[
     \Pr[\textsc{spend-attack}_{\mathcal{A},
