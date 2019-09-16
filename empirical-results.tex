@@ -19,14 +19,15 @@ The implementation is production-ready and fully tested with 100\% code coverage
 Using prices at the time of writing, we obtain a median gas price of $6.9$ gwei and the price of $1$ ETH = $\$170.07$, giving a gas price of $\$1.173483 * 10^{-6}$.
 
 \begin{center}
-    \begin{tabular}{ |c|c|c| }
+    \begin{tabular}{ |c|r|c| }
      \hline
      Method & Gas cost & Equivalent in USD \\
      \hline
-     \textsf{vote}                                 & 50103 gas  & $\$0.06$ \\
-     \textsf{submit-event-proof}                   & 184550 gas & $\$0.22$ \\
-     \textsf{claim}                                & 78267 gas  & $\$0.09$ \\
-     \textsf{submit-event-proof} \& \textsf{claim} & 262817 gas & $\$0.31$ \\
+     \textsf{vote}                  & 50103 gas  & $\$0.06$ \\
+     \hline
+     \textsf{submit-event-proof}    & 184550 gas & $\$0.22$ \\
+     \textsf{claim}                 & 78267 gas  & $\$0.09$ \\
+     Total claim cost               & 262817 gas & $\$0.31$ \\
      \hline
     \end{tabular}
 \end{center}
