@@ -72,7 +72,7 @@ We are now ready to define what constitutes a \emph{secure proof-of-burn protoco
   Let $\Pi$ be a burn protocol correct with respect to a blockchain address protocol $\Pi_\alpha$. We say that $\Pi$ is \emph{secure} if it is \emph{unspendable} and \emph{binding}.
 \end{definition}
 
-The aforementioned properties form a good basis for a burn protocol. However, it is possible that burns generated with a protocol that satisfies those properties are detectable. In that case, miners have the ability to censor burn transactions if they detect them. There may be economic incentives to do so, e.g. users may burn in order to fundraise for a project which may harm a miner's business. To mitigate this, a miner should not be able to discern between a regular and a burn transaction. Based on this, we define what constitutes an \emph{uncensorable proof-of-burn protocol}.
+The aforementioned properties form a good basis for a burn protocol. We observe that it may be possible to detect whether an address is a burn address. While this is desirable in certain circumstances, it allows miners to censor burn transactions. To mitigate this, we propose \emph{uncensorability}, a property which mandates that a burn address is indistinguishable from a regular address if its tag is not known. During the execution of protocols which satisfy this property, when the burn transaction appears on the network, only the user who performed the burn knows that it constitutes a burn transaction prior to revealing the tag. Naturally, as soon as the tag is revealed, \emph{correctness} mandates that the burn transaction becomes verifiable.
 
 \begin{definition}[Uncensorability]
   A burn protocol $\Pi$ is \emph{uncensorable} if
