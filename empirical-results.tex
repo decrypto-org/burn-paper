@@ -1,1 +1,34 @@
 \section{Empirical Results}
+
+\newcommand{\rref}[1]{}
+
+In order to evaluate our consumption mechanisms, we implement the federated consumption mechanism in Solidity. We provide a concrete implementation of the \textsf{burn-verifier} contract described in Algorithm~\rref{alg.burn-verifier}. We implement the \textsf{crosschain} parent contract from~\cite{pow-sidechains}. In order to achieve this we implement our own verification methods similar to \rref{alg.verify-event-federation}. Specifically, we verify transaction data in similarly to \rref{alg.verify-tx} by making use of the open source bitcoin-spv library~\cite{bitcoin-spv-library}. We verify block connection using a Merkle Mountain Range where each leaf corresponds to a block. The leaf stores the Merkle Tree root of the Merkle Tree which collects the transaction id of the transactions included in the block in question.
+
+We put forth a concrete implementation for our burning protocol, specifically the $\BurnVerify$ function of the protocol. Finally, a federation mechanism is used to vote for the MMR checkpoints. The members can then proceed to call the \textsf{vote} method to vote on their MMR computed from the source blockchain.
+
+We release our implementation as open source software under the MIT license.
+\footnote{
+    \ifanonymous
+        The link to our open source software implementation, which uses the MIT license, has been redacted for anonymity.
+    \else
+        \url{https://github.com/decrypto-org/burn-paper/tree/master/experiment}.
+    \fi
+}
+The implementation is production-ready and fully tested with 100\% code coverage.
+
+Using prices at the time of writing, we obtain a median gas price of $6.9$ gwei and the price of $1$ ETH = $\$170.07$, giving a gas price of $\$1.173483 * 10^{-6}$.
+
+\begin{center}
+    \begin{tabular}{ |c|c|c| }
+     \hline
+     Method & Gas cost & Equivalent in USD \\
+     \hline
+     \textsf{vote}                                 & 50103 gas  & $\$0.06$ \\
+     \textsf{submit-event-proof}                   & 184550 gas & $\$0.22$ \\
+     \textsf{claim}                                & 78267 gas  & $\$0.09$ \\
+     \textsf{submit-event-proof} \& \textsf{claim} & 262817 gas & $\$0.31$ \\
+     \hline
+    \end{tabular}
+\end{center}
+
+For the end user to prove an event and claim his burn, the cost is thus \$0.31. Comparatively, for a Bitcoin transaction to be included in the next block at the time of writing a user would have to spend \$0.77.
