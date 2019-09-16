@@ -93,7 +93,7 @@ predictability game is illustrated in Algorithm~\ref{alg.predict-game}.
 \begin{definition}[Unpredictable distribution]
   A distribution ensemble $\{X_{\kappa}\}_{\kappa\in\mathbb{N}}$ is
   \emph{unpredictable} if for all probabilistic polynomial-time adversaries
-  $\mathcal{A}$ there exists a negligible function $negl$ such that
+  $\mathcal{A}$ there exists a negligible function $\negl$ such that
   $\Pr[\textsc{predict}_{\mathcal{A},X}(\kappa) = \true] < \negl$.
 \end{definition}
 
@@ -166,7 +166,7 @@ Appendix~\ref{sec.comp-ind}.
   Let $\mathcal{A}$ be an arbitrary polynomial distinguisher between
   $X$ and $\uniform(\{0, 1\}^\kappa)$.
   We construct an adversary $\mathcal{A}^*$
-  against $\textsf{predict}_{\mathcal{T}}$.
+  against $\textsc{predict}_{\mathcal{T}}$.
   Let $r$ denote the (polynomial)
   maximum number of random oracle queries of $\mathcal{A}$.
   The adversary $\mathcal{A}^*$ is illustrated in
