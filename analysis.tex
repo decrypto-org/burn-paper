@@ -7,8 +7,6 @@ its correctness is straightforward to show.
   The Proof-of-Burn protocol $\Pi$ of Section~\ref{section:construction} is \emph{correct}.
 \end{theorem}
 \begin{proof}
-  We need to prove that $\forall \kappa, t. \BurnVerify(1^\kappa, t, \GenBurnAddress(1^\kappa, t)) = \textsf{true}$.
-
   Based on Algorithm~\ref{alg.construction}, $\BurnVerify(1^\kappa, t, \GenBurnAddress(1^\kappa, t)) = \textsf{true}$ if and only if $\GenBurnAddress(1^\kappa, t) = \GenBurnAddress(1^\kappa, t)$, which always holds as $\GenBurnAddress$ is deterministic.
 \end{proof}
 
@@ -24,12 +22,10 @@ outputs.
 \begin{proof}
   Let \textsc{Match} denote the event that there exist $1 \leq i \neq j \leq p(\kappa)$ such that $s_i = F(s_j)$.
   Let $\textsc{Match}_{i, j}$ denote the event that $s_i = F(s_j)$. Apply a union bound to obtain
-
-  \begin{align*}
-    \Pr[\bigcup_{i, j}\textsc{Match}_{i, j}] &\leq \sum_{i, j} \Pr[\textsc{Match}_{i, j}] \\
-    \Pr[\textsc{Match}] &\leq \sum_{i, j} \Pr[\textsc{Match}_{i, j}]
-  \end{align*}
-
+  $
+    \Pr[\bigcup_{i, j}\textsc{Match}_{i, j}] \leq \sum_{i, j} \Pr[\textsc{Match}_{i, j}]
+    \Pr[\textsc{Match}] \leq \sum_{i, j} \Pr[\textsc{Match}_{i, j}]
+  $.
   But $\Pr[\textsc{Match}_{i, j}] = 2^{-p(\kappa)}$ and therefore
   $\Pr[\textsc{Match}] \leq \sum_{i \neq j} 2^{-p(\kappa)} \leq p^2(\kappa) 2^{-p(\kappa)}$.
 \end{proof}
@@ -40,17 +36,15 @@ We will now apply the above lemma to show that our scheme is unspenable.
   If $H$ is a \emph{Random Oracle}, then the protocol $\Pi$ of Section~\ref{section:construction} is \emph{unspendable}.
 \end{theorem}
 \begin{proof}
-  Let $\mathcal{A}$ be an arbitrary probabilistic polynomial time \textsc{spend-attack} adversary.
+  Let $\mathcal{A}$ be an arbitrary probabilistic polynomial time $\spendattack$ adversary.
   The adversary $\mathcal{A}$ makes at most a polynomial number of queries $p(\kappa)$ to the Random Oracle.
   Consider the event \textsc{Match} of Lemma~\ref{lem.perturbation}.
 
   If the adversary is successful then it has presented $t, pk, pkh$ such that $H(pk) = pkh$ and $H(t) \xor 1 = pkh$.
-
-  We observe that $\textsc{spend-attack}_{\mathcal{A}, \Pi}(\kappa) = \true \Rightarrow \textsc{Match}$.
-
-  Therefore $\Pr[\textsc{spend-attack}_{\mathcal{A}, \Pi}(\kappa)] \leq Pr[\textsc{Match}]$. Applying Lemma~\ref{lem.perturbation} for the permutation $F(x) = x \xor 1$,
+  We observe that $\spendattack_{\mathcal{A}, \Pi}(\kappa) = \true \Rightarrow \textsc{Match}$.
+  Therefore $\Pr[\spendattack_{\mathcal{A}, \Pi}(\kappa)] \leq Pr[\textsc{Match}]$. Applying Lemma~\ref{lem.perturbation} for the permutation $F(x) = x \xor 1$,
   we obtain
-  $\Pr[\textsc{spend-attack}_{\mathcal{A}, \Pi}(\kappa)] \leq \negl$.
+  $\Pr[\spendattack_{\mathcal{A}, \Pi}(\kappa)] \leq \negl$.
 \end{proof}
 
 We note that the security of the signature scheme is not needed to prove unspendability. Were the signature scheme of the underlying cryptocurrency ever found to be \emph{forgeable}, the coins burned through our scheme would remain unspendable. We additionally remark that the

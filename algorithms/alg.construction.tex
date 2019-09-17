@@ -9,11 +9,7 @@
             \State\Return{th'}
         \EndFunction
         \Function{$\BurnVerify_H$}{$1^\kappa, t, th'$}
-            \If{$\GenBurnAddress_H(1^\kappa, t) = th'$}
-                \State\Return\textsf{true}
-            \Else
-                \State\Return\textsf{false}
-            \EndIf
+            \State\Return{$(\GenBurnAddress_H(1^\kappa, t) = th')$}
         \EndFunction
         \vskip8pt
     \end{algorithmic}

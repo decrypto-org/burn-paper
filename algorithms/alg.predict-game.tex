@@ -5,11 +5,7 @@
         \Function{\textsc{predict}$_{\mathcal{A},X}$}{$\kappa$}
             \Let{x}{X}
             \Let{x^*}{\mathcal{A}(1^\kappa)}
-            \If{$x = x^*$}
-                \State\Return{$\true$}
-            \Else
-                \State\Return{$\false$}
-            \EndIf
+            \State\Return{$(x = x^*)$}
         \EndFunction
     \end{algorithmic}
 \end{algorithm}
