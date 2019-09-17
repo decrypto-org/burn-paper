@@ -14,6 +14,15 @@ Let $\kappa$ be the security parameter.
 
 Intuitively, the protocol works as follows. If Alice wishes to burn coins on a source blockchain in order to generate coins on a destination blockchain, Alice first generates a receiving address on the destination blockchain to which she will receive the coins in question. That receiving address, along with any potential metadata desired, is then encoded into the tag $t$. Alice then calls $\GenBurnAddress(1^\kappa, t)$ to generate a burn address $\burnAddr$, which is a valid address on the source blockchain. Alice can then send money to $\burnAddr$ on the source blockchain. That money is destroyed and unspendable. Alice can present the tag $t$ to Bob who wishes to verify that $\burnAddr$ really is a burn address. Bob calls $\BurnVerify(1^\kappa, t, \burnAddr)$ and ensures that it returns $\true$. When Bob sees Alice's transaction which spends money to $\burnAddr$ on the source blockchain, he knows that the money really is unspendable and was sent by Alice with the intention of receiving the corresponding amount to address $t$ on the destination blockchain.
 
+We require that the burn scheme is \emph{correct}.
+
+\begin{definition}[Correctness]
+  A burn protocol $\Pi$ is \emph{correct} if for all $t \in \{0,1\}^*$ and for all $\kappa \in \mathbb{N}$ it holds that
+  $\BurnVerify(1^\kappa, t, \GenBurnAddress(1^\kappa, t)) = \true$.
+\end{definition}
+
+With foresight, we remark that the implementation of $\GenBurnAddress$ and $\BurnVerify$ will typically be deterministic, which alleviates the need for a probabilistic correctness definition.
+
 Naturally, for $\GenBurnAddress$ to generate addresses that ``look'' valid but are unspendable according to the source blockchain protocol requires that the burn protocol respects the format of the source blockchain protocol. We abstract the functionalities of the source blockchain protocol into a \emph{blockchain address protocol}:
 
 \begin{definition}[Blockchain address protocol]
@@ -26,18 +35,9 @@ Naturally, for $\GenBurnAddress$ to generate addresses that ``look'' valid but a
   \end{itemize}
 \end{definition}
 
-We note that, while the blockchain address protocol is not part of the burn protocol, the \emph{correctness} and \emph{security} properties of a burn protocol $\Pi$ will be defined with respect to a \emph{blockchain address protocol} $\Pi_\alpha$.
+We note that, while the blockchain address protocol is not part of the burn protocol, the \emph{security} properties of a burn protocol $\Pi$ will be defined with respect to a \emph{blockchain address protocol} $\Pi_\alpha$.
 
-These two functionalities are typically implemented using a standard public-key signature scheme and are accompanied by a respective signing algorithm. The signing algorithm is irrelevant for our burn purposes, since burning entails the inability to spend. We intentionally leave the format of the transaction $m$ undefined. We remark here that the format of $m$ is cryptocurrency-specific. In both Bitcoin and Ethereum, $m$ corresponds to transaction data. When a new candidate transaction is received from the network, the blockchain node calls $\textsf{SpendVerify}$, passing the public key $pk$ who is spending money incoming to the new transaction $m$ together with a signature $\sigma$ which should be produced using the respective secret key and signs transaction $m$. In the case of Bitcoin's p2pkh, $pk$ and $\sigma$ can be extracted from the scriptSig data, while $m$ contains the new scriptPubKey~\cite{bitcoin-dev-guide}.
-
-We require that the burn scheme is \emph{correct}. That is, if a burn address is generated correctly it should verify.
-
-\begin{definition}[Correctness]
-  A burn protocol $\Pi$ is \emph{correct} with respect to a blockchain address protocol $\Pi_\alpha$ if for all $t$ and for all $\kappa$ it holds that
-  $\BurnVerify(1^\kappa, t, \GenBurnAddress(1^\kappa, t)) = \textsf{true}$.
-\end{definition}
-
-With foresight, we remark that the implementation of $\GenBurnAddress$ and $\BurnVerify$ will be deterministic, which alleviates the need for a probabilistic correctness definition.
+These two functionalities are typically implemented using a standard public-key signature scheme and are accompanied by a respective signing algorithm. The signing algorithm is irrelevant for our burn purposes, since burning entails the inability to spend. We intentionally leave the format of the transaction $m$ undefined. We remark here that the format of $m$ is cryptocurrency-specific. In both Bitcoin and Ethereum, $m$ corresponds to transaction data. When a new candidate transaction is received from the network, the blockchain node calls $\textsf{SpendVerify}$, passing the public key $pk$ which is spending money incoming to the new transaction $m$ together with a signature $\sigma$ which should be produced using the respective secret key and signs transaction $m$. In the case of Bitcoin's p2pkh, $pk$ and $\sigma$ can be extracted from the scriptSig data, while $m$ contains the new scriptPubKey~\cite{bitcoin-dev-guide}.
 
 To state that the protocol generates addresses which cannot be spent from, we introduce a game-based security definition. The unspendability game $\spendattack$ is illustrated in Algorithm~\ref{alg.spend-game}.
 
@@ -45,7 +45,6 @@ To state that the protocol generates addresses which cannot be spent from, we in
 
 \begin{definition}[Unspendability]
   A burn protocol $\Pi$ is \emph{unspendable} with respect to a blockchain address protocol $\Pi_\alpha$ if
-<<<<<<< HEAD
   for all probabilistic polynomial-time adversaries $\mathcal{A}$ there exists a negligible function $\negl$ such that
   $
     \Pr[\spendattack_{\mathcal{A}, \Pi}(\kappa) = \textsf{true}] \leq \negl
@@ -63,12 +62,12 @@ To state that the protocol generates addresses which cannot be spent from, we in
   \]
 \end{definition}
 
-We note here that the binding property of a burn protocol is irrespective of the blockchain address protocol it was designed for.
+We note here that the correctness and binding properties of a burn protocol are irrespective of the blockchain address protocol it was designed for.
 
 We are now ready to define what constitutes a \emph{secure proof-of-burn protocol}.
 
 \begin{definition}[Security]
-  Let $\Pi$ be a burn protocol correct with respect to a blockchain address protocol $\Pi_\alpha$. We say that $\Pi$ is \emph{secure} if it is \emph{unspendable} and \emph{binding}.
+  Let $\Pi$ be a correct burn protocol correct. We say that $\Pi$ is \emph{secure} with respect to a blockchain address protocol $\Pi_\alpha$ if it is \emph{unspendable} and \emph{binding} with respect to $\Pi_\alpha$.
 \end{definition}
 
 The aforementioned properties form a good basis for a burn protocol. We observe that it may be possible to detect whether an address is a burn address. While this is desirable in certain circumstances, it allows miners to censor burn transactions. To mitigate this, we propose \emph{uncensorability}, a property which mandates that a burn address is indistinguishable from a regular address if its tag is not known. During the execution of protocols which satisfy this property, when the burn transaction appears on the network, only the user who performed the burn knows that it constitutes a burn transaction prior to revealing the tag. Naturally, as soon as the tag is revealed, \emph{correctness} mandates that the burn transaction becomes verifiable.
