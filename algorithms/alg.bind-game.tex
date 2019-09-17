@@ -2,7 +2,7 @@
 \begin{algorithm}[H]
     \caption{\label{alg.bind-game} The challenger for the burn protocol game-based security.}
     \begin{algorithmic}[1]
-        \Function{\textsc{bind-attack}$_{\mathcal{A},\Pi}$}{$\kappa$}
+        \Function{\bindattack$_{\mathcal{A},\Pi}$}{$\kappa$}
             \Let{(t, t', \burnAddr)}{\mathcal{A}(1^\kappa)}
             \State\Return{$(t \neq t' \land \BurnVerify(1^\kappa, t, \burnAddr) \land \BurnVerify(1^\kappa, t', \burnAddr))$}
         \EndFunction

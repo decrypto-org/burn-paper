@@ -39,18 +39,17 @@ We require that the burn scheme is \emph{correct}. That is, if a burn address is
 
 With foresight, we remark that the implementation of $\GenBurnAddress$ and $\BurnVerify$ will be deterministic, which alleviates the need for a probabilistic correctness definition.
 
-To state that the protocol generates addresses which cannot be spent from, we introduce a game-based security definition. The unspendability game \textsc{spend-attack} is illustrated in Algorithm~\ref{alg.spend-game}.
+To state that the protocol generates addresses which cannot be spent from, we introduce a game-based security definition. The unspendability game $\spendattack$ is illustrated in Algorithm~\ref{alg.spend-game}.
 
 \import{./}{algorithms/alg.spend-game.tex}
 
 \begin{definition}[Unspendability]
   A burn protocol $\Pi$ is \emph{unspendable} with respect to a blockchain address protocol $\Pi_\alpha$ if
-  for all probabilistic polynomial-time adversaries $\mathcal{A}$ there exists a negligible function $\negl$ such that:
-
-  \[
-    \Pr[\textsc{spend-attack}_{\mathcal{A},
-    \Pi}(\kappa) = \textsf{true}] \leq \negl
-  \]
+<<<<<<< HEAD
+  for all probabilistic polynomial-time adversaries $\mathcal{A}$ there exists a negligible function $\negl$ such that
+  $
+    \Pr[\spendattack_{\mathcal{A}, \Pi}(\kappa) = \textsf{true}] \leq \negl
+  $.
 \end{definition}
 
 \import{./}{algorithms/alg.bind-game.tex}
@@ -60,7 +59,7 @@ To state that the protocol generates addresses which cannot be spent from, we in
   for all probabilistic polynomial-time adversaries $\mathcal{A}$ it holds that:
 
   \[
-    \Pr[\textsc{bind-attack}_{\mathcal{A},\Pi}(\kappa)] \leq \negl
+    \Pr[\bindattack_{\mathcal{A},\Pi}(\kappa)] \leq \negl
   \]
 \end{definition}
 
