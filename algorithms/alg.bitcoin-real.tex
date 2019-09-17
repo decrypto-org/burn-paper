@@ -9,7 +9,7 @@
             \If{main net}
               \Let{addr}{\texttt{0x00} || pkh'}
             \Else
-              \CommentLine{Test net}
+              \Comment{Test net}
               \Let{addr}{\texttt{0x6f} || pkh'}
             \EndIf
             \Let{checksum}{\textsf{SHA256}(\textsf{SHA256}(addr))[4 * 8]}
