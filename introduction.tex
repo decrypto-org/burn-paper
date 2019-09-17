@@ -50,6 +50,19 @@ proposed for proof-of-stake systems~\cite{pos-sidechains}.
 
 \noindent
 \textbf{Our contributions.}
+A summary of our contributions is as follows:
+\begin{enumerate}[wide, labelwidth=!, labelindent=0pt, label=(\roman*)]
+    \item \textbf{Primitive definition.} Our definitional contribution introduces Proof-of-Burn as a cryptographic primitive for the first time. We
+    define it as a protocol which consists of two algorithms, a burn address \emph{generator} and a burn address \emph{verifier}. We put forth the foundational properties which make for secure burn protocols, namely \emph{unspendability}, \emph{binding}, and \emph{uncensorability}.
+    \item \textbf{Novel construction.} We propose a novel and simple construction which is flexible and can be adapted for use in existing cryptocurrencies, as long as they use public key hashes for address generation. To our knowledge, all popular cryptocurrencies are
+    compatible with our scheme. We prove our construction secure in the Random Oracle model.
+    \item \textbf{Experimental results.} We provide a compehensively tested production-grade implementation of our burn verifier in Ethereum
+    written in Solidity, which we release as open source software. Our implementation can be used to consume proofs of burn of a source blockchain
+    within a target blockchain. We provide experimental measurements for the cost of burn verification and find that, in current Ethereum prices,
+    burn verification costs $\$0.31$ per transaction.
+    This allows coins burned on one blockchain to be consumed on another for the purposes of, for example, ERC-20 tokens creation~\cite{erc20}.
+\end{enumerate}
+
 We propose a cryptocurrency proof-of-burn bootstrapping mechanism which is both
 decentralized and miner-isolated. Our construction in principle allows burning
 from any proof-of-work-based cryptocurrency, but in particular we highlight the
