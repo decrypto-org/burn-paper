@@ -4,11 +4,7 @@
     \begin{algorithmic}[1]
         \Function{\textsc{bind-attack}$_{\mathcal{A},\Pi}$}{$\kappa$}
             \Let{(t, t', \burnAddr)}{\mathcal{A}(1^\kappa)}
-            \If{$t \neq t' \land \BurnVerify(1^\kappa, t, \burnAddr) \land \BurnVerify(1^\kappa, t', \burnAddr)$}
-                \State\Return{\sf true}
-            \Else
-                \State\Return{\sf false}
-            \EndIf
+            \State\Return{$(t \neq t' \land \BurnVerify(1^\kappa, t, \burnAddr) \land \BurnVerify(1^\kappa, t', \burnAddr))$}
         \EndFunction
     \end{algorithmic}
 \end{algorithm}

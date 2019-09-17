@@ -10,10 +10,7 @@
         \EndFunction
         \Function{$\SpendVerify_{S, H}$}{$m, \sigma, pkh$}
             \Let{(pk, \sigma')}{\sigma}
-            \If{$H_\kappa(pk) \neq pkh$}
-                \State\Return\textsf{false}
-            \EndIf
-            \State\Return{$\Ver(m, \sigma', pk)$}
+            \State\Return{$(H_\kappa(pk) \neq pkh \land \Ver(m, \sigma', pk))$}
         \EndFunction
         \vskip8pt
     \end{algorithmic}
