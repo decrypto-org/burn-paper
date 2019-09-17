@@ -55,11 +55,7 @@ To state that the protocol generates addresses which cannot be spent from, we in
 
 \begin{definition}[Binding]
   A burn protocol $\Pi$ is \emph{binding} if
-  for all probabilistic polynomial-time adversaries $\mathcal{A}$ it holds that:
-
-  \[
-    \Pr[\bindattack_{\mathcal{A},\Pi}(\kappa)] \leq \negl
-  \]
+  for all probabilistic polynomial-time adversaries $\mathcal{A}$ it holds that $\Pr[\bindattack_{\mathcal{A},\Pi}(\kappa)] \leq \negl$.
 \end{definition}
 
 We note here that the correctness and binding properties of a burn protocol are irrespective of the blockchain address protocol it was designed for.
