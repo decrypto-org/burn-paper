@@ -1,0 +1,19 @@
+\section{Comparison}
+
+We present a few alternatives for performing proof of burn, all of which are captured by our burn protocol definition.
+
+\noindent
+\textbf{OP\_RETURN.}
+Bitcoin natively employs a mechanism for burning money using a specialized
+opcode called OP\_RETURN~\cite{bartoletti2017analysis}. Unfortunately,
+creating an OP\_RETURN proof-of-burn transaction is complicated and not
+user-friendly. However, it does benefit the Bitcoin network by allowing the UTXO
+to be pruned, at the cost of not being uncensorable.
+
+\noindent
+\textbf{P2SH OP\_RETURN.}
+An OP\_RETURN script can also be used as the redeemScript for a P2SH address. The script is hashed and turned into an address. The scheme is unspendable since there is no scriptSig that could make an OP\_RETURN script succeed. Additionally it is uncensorable if the tag is not revealed. Finally, the scheme is user-friendly since the user can create a burn transaction using any regular wallet.
+
+\noindent
+\textbf{Nothing-up-my-sleeve address.}
+An address is manually crafted, such that it is obvious that it has not been obtained by regular keypair generation through the secure signature scheme's \textsf{Gen}. For example, a public key hash of all zeros could be considered a nothing-up-my-sleeve address. For Bitcoin, nothing-up-my-sleeve addresses are usually created based on the base58 encoding. We remind the reader that base58 addresses are generated from the public key hash, where a magic byte, 0x00 is prepended to the public key hash before it is turned to address. Additionally, it is checksummed nad the first 4 bytes of the checksum are appended to the public key hash before it is base58 encoded. Creation of a nothing-up-my-sleeve address happens as follows: the creator writes a string of their choosing in base58, starting with $1$ so that the magic 0x00 byte is guaranteed to be at the front. The decoded version must be exactly 21 bytes. Afterwards the checksum is calculated and its first 4 bytes appended, yielding the full 25-byte address which is then base58 encoded. Nothing-up-my-sleeve addresses have been used in Counterparty~\cite{counterparty}. The scheme is not binding, since it does not encode any tag as the address is constant.

@@ -7,16 +7,6 @@ The implementation can be seen in Algorithm~\ref{alg.bitcoin}.
 
 \import{./}{algorithms/alg.bitcoin.tex}
 
-\todo{explain the bitcoin protocol here ~gtklocker}
-
-Bitcoin and Bitcoin Cash employ mechanisms for burning money using a specialized
-opcode called \textsf{OP\_RETURN}~\cite{bartoletti2017analysis}. Unfortunately,
-creating an \text{OP\_RETURN} proof-of-burn transaction is complicated and not
-user-friendly. However, it does benefit the Bitcoin network by allowing the UTXO
-to be pruned.
-
-As we wish our proof-of-burn mechanism to be user friendly, we propose a
-different burn protocol. Our protocol appears in
-Algorithm~\ref{alg.construction}.
+Our protocol appears in Algorithm~\ref{alg.construction}.
 
 \import{./}{algorithms/alg.construction.tex}
