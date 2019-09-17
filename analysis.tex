@@ -7,8 +7,6 @@ its correctness is straightforward to show.
   The Proof-of-Burn protocol $\Pi$ of Section~\ref{section:construction} is \emph{correct}.
 \end{theorem}
 \begin{proof}
-  We need to prove that $\forall \kappa, t. \BurnVerify(1^\kappa, t, \GenBurnAddress(1^\kappa, t)) = \textsf{true}$.
-
   Based on Algorithm~\ref{alg.construction}, $\BurnVerify(1^\kappa, t, \GenBurnAddress(1^\kappa, t)) = \textsf{true}$ if and only if $\GenBurnAddress(1^\kappa, t) = \GenBurnAddress(1^\kappa, t)$, which always holds as $\GenBurnAddress$ is deterministic.
 \end{proof}
 
