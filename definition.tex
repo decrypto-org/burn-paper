@@ -12,7 +12,7 @@ Let $\kappa$ be the security parameter.
   \end{itemize}
 \end{definition}
 
-Intuitively, the protocol works as follows. If Alice wishes to burn coins on a source blockchain in order to generate coins on a destination blockchain, Alice first generates a receiving address on the destination blockchain to which she will receive the coins in question. That receiving address, along with any potential metadata desired, is then encoded into the tag $t$. Alice then calls $\GenBurnAddress(1^\kappa, t)$ to generate a burn address $\burnAddr$, which is a valid address on the source blockchain. Alice can then send money to $\burnAddr$ on the source blockchain. That money is destroyed and unspendable. Alice can present the tag $t$ to Bob who wishes to verify that $\burnAddr$ really is a burn address. Bob calls $\BurnVerify(1^\kappa, t, \burnAddr)$ and ensures that it returns $\true$. When Bob sees Alice's transaction which spends money to $\burnAddr$ on the source blockchain, he knows that the money really is unspendable and was sent by Alice with the intention of receiving the corresponding amount to address $t$ on the destination blockchain.
+Intuitively, the protocol works as follows. Alice first generates an address $\burnAddr$ to which she will send some cryptocurrency. The address encodes information contained in a tag $t$ and is generated through $\GenBurnAddress(1^\kappa, t)$. Alice then proceeds to send her cryptocurrency to the generated address. When the transaction is completed, she can provide the transaction and the tag to Bob for him to verify that she has irrecovably destroyed an amount of cryptocurrency while committing to the provided tag. Bob will verify that the receiving address of the transaction provided actually encodes the given tag, by making use of $\BurnVerify(1^\kappa, t, \burnAddr)$.
 
 We require that the burn scheme is \emph{correct}.
 
@@ -23,7 +23,7 @@ We require that the burn scheme is \emph{correct}.
 
 With foresight, we remark that the implementation of $\GenBurnAddress$ and $\BurnVerify$ will typically be deterministic, which alleviates the need for a probabilistic correctness definition.
 
-Naturally, for $\GenBurnAddress$ to generate addresses that ``look'' valid but are unspendable according to the source blockchain protocol requires that the burn protocol respects the format of the source blockchain protocol. We abstract the functionalities of the source blockchain protocol into a \emph{blockchain address protocol}:
+Naturally, for $\GenBurnAddress$ to generate addresses that ``look'' valid but are unspendable according to the blockchain protocol requires that the burn protocol respects the format of the blockchain protocol. We abstract the functionalities of the blockchain protocol into a \emph{blockchain address protocol}:
 
 \begin{definition}[Blockchain address protocol]
   A \emph{blockchain address protocol} $\Pi_\alpha$ consists of two functions $\sf{GenAddress}$ and $\sf{SpendVerify}$:
