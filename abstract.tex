@@ -3,7 +3,7 @@
   verifiable manner. Despite its well known use, the mechanism has not been
   previously formally studied as a primitive. In this paper, we put forth the
   first cryptographic definition of what a proof-of-burn protocol is.
-  The burn protocol consists of two functions. First, a function
+  It consists of two functions: First, a function
   which generates a cryptocurrency address. When a user sends money to this address,
   the money is irrevocably destroyed. Second, a verification
   function which checks that an address is really unspendable.
@@ -12,23 +12,23 @@
   spending; \emph{binding}, which allows associating metadata with a particular burn;
   and \emph{uncensorability}, which mandates that a burn address is indistinguishable
   from a regular cryptocurrency address. Our scheme captures all previously
-  defined proof-of-burn protocols.
+  known proof-of-burn protocols.
   Next, we design a novel construction for burning which is simple
   and flexible, making it compatible with all existing popular cryptocurrencies.
   We prove our scheme is secure in the Random Oracle model.
-  Finally, we explore the applications of burn in the context of destroying
-  value in a legacy cryptocurrency system to bootstrap a new one.
-  Using this application, a user can burn her coins in the source blockchain
-  and subsequently create a proof-of-burn, a
-  special string proving that the burn took place, which she can submit to
-  the destination blockchain to be rewarded with the corresponding amount.
+  We explore the application of destroying
+  value in a legacy cryptocurrency to bootstrap a new one.
+  The user burns coins in the source blockchain
+  and subsequently creates a proof-of-burn, a
+  short string proving that the burn took place, which she then submits to
+  the destination blockchain to be rewarded with a corresponding amount.
   The user can use
-  any standard source blockchain wallet to conduct the burn without
+  a standard wallet to conduct the burn without
   requiring specialized software, making our scheme user friendly.
-  We adapt previous work to create a mechanism through which the target
-  blockchain miners can verify that a burn has occurred in the source blockchain
-  without requiring them to monitor it. Finally, we implement our burn scheme
-  on the Ethereum blockchain and experimentally measure that the gas costs needed for
+  We propose burn verification mechanisms with different security
+  guarantees, noting that the target blockchain miners do not necessarily
+  need to monitor the source blockchain. Finally, we implement the verification of Bitcoin burns
+  as an Ethereum smart contract and experimentally measure that the gas costs needed for
   verification are as low as standard Bitcoin transaction fees, illustrating
   that our scheme is practical.
 \end{abstract}
