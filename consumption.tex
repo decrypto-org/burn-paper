@@ -72,8 +72,6 @@ Being able to verify events, we can finally make use of verified events in order
 
 In the interest of keeping this implementation generic we assume that the user receives a token in return for his burn. However, instead of minting a token, the target cryptocurrency could allow the burn verifier contract to mint native cryptocurrency for any user who successfully claims an event. This would allow the target cryptocurrency to be bootstrapped entirely though burning as desired.
 
-%The workflow is as follows. Once the user has created a burn transaction on the source blockchain, he submits the event along with a proof to the \textsf{submit-event-proof} function. The proof can be either using the MMR approved by the federation or NIPoPoWs, depending on the deployment of the smart contract. Subsequently, he needs to wait for a contestation period of $k$ blocks. Any party who wishes to dispute the proof can do so within this period by calling the \textsf{submit-contesting-proof} function. After the period has passed, the user can finalize the event by calling the \textsf{finalize-event} method.
-
 \subsection{Decentralized Block Connection}
 We introduce a second way for proving and verifying the block connection which does not require a trusted federation. This is possible by making use of NIPoPoWs. The way the proving process works differs quite a bit from the federation, because in the federation there is a trusted source of truth -the federation majority- who vouch for the set of blocks on the source chain. Additionally, if a checkpoint is voted by the federation majority and a valid block connection proof based on that checkpoint is provided, it cannot be disputed.
 
