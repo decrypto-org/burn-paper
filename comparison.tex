@@ -11,10 +11,11 @@ opcode called $\opreturn$~\cite{bartoletti2017analysis}. Unfortunately,
 creating an $\opreturn$ proof-of-burn transaction requires specialized software and thus is not
 user-friendly. However, it does benefit the Bitcoin network by allowing the UTXO
 to be pruned, at the cost of not being uncensorable.
+Before $\opreturn$ came to exist, it was proposed that any provably failing Bitcoin script could be used for burning money~\cite{stewart}, e.g. a script checking whether $2+2=5$.
 
 \noindent
 \textbf{P2SH $\opreturn$.}
-An $\opreturn$ script can also be used as the redeemScript for a P2SH~\cite{p2sh} address. The script is hashed and turned into an address. The scheme is unspendable since there is no scriptSig that could make an $\opreturn$ script succeed. Additionally it is uncensorable if the tag is not revealed. Finally, the scheme is user-friendly since the user can create a burn transaction using any regular wallet.
+An $\opreturn$ or any other provably failing script can also be used as the redeemScript for a P2SH~\cite{p2sh} address. The script is hashed and turned into an address. The scheme is unspendable since there is no scriptSig that could make an $\opreturn$ script succeed. Additionally it is uncensorable if the tag is not revealed. Finally, the scheme is user-friendly since the user can create a burn transaction using any regular wallet.
 
 \noindent
 \textbf{Nothing-up-my-sleeve address.}
