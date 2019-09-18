@@ -45,16 +45,6 @@ This verifier contract is responsible for receiving, verifying and then storing 
 
 Before looking at how the verification works for the whole proof $\beta$ we focus on the part of the proof pertaining to the transaction, specifically $\alpha = \sf(tx, \tau, b)$. Verifying this part of the proof for some event $e$ is straightforward by making use of the blockchain transaction protocol in Definition~\ref{def:blockchain-tx}. We ensure that the transaction \textsf{tx} indeed contains the value transfer claimed in the provided event $e$, and that the transaction is really contained in the block provided. The function, \textsf{verify-tx}, can be seen in detail in Algorithm~\ref{alg.verify-tx}.
 
-\begin{definition}[Merkle Tree protocol]
-  A \emph{merkle tree} protocol $\mathcal{MT}$ consists of two functions $\mathcal{MT}_t(x_1, \dots, x_t)$ and $\VerMT_t(root, x, \pi)$ which work as follows:
-
-  \begin{itemize}
-    \item $\mathcal{MT}_t(x_1, \dots, x_t)$: Given elements $x_1, \dots, x_t$, return the root of the Merkle Tree with exactly $t$ leaves, where for each $1 \le i \le t$, the $i$-th leaf corresponds to $x_i$.
-
-    \item $\VerMT(root, x, \pi)$: Given a Merkle Tree root, an element $x$ and an inclusion proof $\pi$, return $\sf{true}$ if and only if $\pi$ is a valid proof for the fact that $x$ is contained in the tree rooted at $root$.
-  \end{itemize}
-\end{definition}
-
 Now that the issue of verifying the transaction is covered, we move our attention to the issue of verifying that the provided block \textsf{b} really belongs to the best source blockchain. For this we make use of NIPoPoWs. The block connection proof is a NIPoPoW for the block which includes the burn transaction.
 
 \import{./}{algorithms/alg.verify-event-nipopow.tex}
@@ -73,7 +63,7 @@ We now introduce a second way for proving and verifying the block connection.
 
 \import{./}{algorithms/alg.verify-event-federation.tex}
 
-Let us assume that the smart contract holds in its state the continuously updated set of all valid blocks on the best source blockchain, in the form of a Merkle Tree root $\mathcal{M}$. Then, by verifying a Merkle Tree inclusion proof \textsf{blockConnection} for $\textsf{b} \in \mathcal{M}$, such that $\VerMT(\mathcal{M}, \textsf{b}, \textsf{blockConnection}) = \true$, a verifier can be certain that the block provided is indeed part of the best source blockchain. Combined with verifying the transaction this completes our $\textsf{verify}_\mathcal{M}^e$ function, shown in Algorithm~\ref{alg.verify-event-federation}.
+Let us assume that the smart contract holds in its state the continuously updated set of all valid blocks on the best source blockchain, in the form of a Merkle Tree root $\mathcal{M}$. Then, by verifying a Merkle Tree inclusion proof \textsf{blockConnection} for $\textsf{b} \in \mathcal{M}$ a verifier can be certain that the block provided is indeed part of the best source blockchain. Combined with verifying the transaction this completes our $\textsf{verify}_\mathcal{M}^e$ function, shown in Algorithm~\ref{alg.verify-event-federation}.
 
 We now address the final issue of maintaining an up-to-date set of blocks in the form of $\mathcal{M}$. We propose a federation mechanism of source blockchain full nodes that monitor the source chain and vote for the new set of source chain blocks, if and when it changes. A majority of votes is necessary for $\mathcal{M}$ to be updated on the target blockchain. In this manner, the federation federation acts as a bridge from the source to the target blockchain. The security of our scheme relies on the assumption that the federation majority is honest.
 
