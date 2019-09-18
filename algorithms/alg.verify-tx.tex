@@ -5,7 +5,7 @@
             \If{$\neg \TxHasTransfer(a.\mathsf{tx}, e.\textsf{receivingAddress}, e.\textsf{amount})$}
                 \State\Return{$\false$}
             \EndIf
-            \State\Return{$\VerMT(a.\textsf{blk.txMerkleRoot}, \alpha.\textsf{tx}, \alpha.\textsf{txInclusion})$}
+            \State\Return{$\VerMT(a.\textsf{b.txMerkleRoot}, \alpha.\textsf{tx}, \alpha.\tau)$}
         \EndFunction
         \vskip8pt
     \end{algorithmic}
