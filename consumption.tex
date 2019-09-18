@@ -55,8 +55,6 @@ Before looking at how the verification works for the whole proof $\beta$ we focu
   \end{itemize}
 \end{definition}
 
-\import{./}{algorithms/alg.verify-event-federation.tex}
-
 Now that the issue of verifying the transaction is covered, we move our attention to the issue of verifying that the provided block \textsf{b} really belongs to the best source blockchain. For this we make use of NIPoPoWs. The block connection proof is a NIPoPoW for the block which includes the burn transaction.
 
 \import{./}{algorithms/alg.verify-event-nipopow.tex}
@@ -72,6 +70,8 @@ In the interest of keeping this implementation generic we assume that the user r
 
 \subsection{Verifying Block Connection with a Federation}
 We now introduce a second way for proving and verifying the block connection.
+
+\import{./}{algorithms/alg.verify-event-federation.tex}
 
 Let us assume that the smart contract holds in its state the continuously updated set of all valid blocks on the best source blockchain, in the form of a Merkle Tree root $\mathcal{M}$. Then, by verifying a Merkle Tree inclusion proof \textsf{blockConnection} for $\textsf{b} \in \mathcal{M}$, such that $\VerMT(\mathcal{M}, \textsf{b}, \textsf{blockConnection}) = \true$, a verifier can be certain that the block provided is indeed part of the best source blockchain. Combined with verifying the transaction this completes our $\textsf{verify}_\mathcal{M}^e$ function, shown in Algorithm~\ref{alg.verify-event-federation}.
 
