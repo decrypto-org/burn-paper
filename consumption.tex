@@ -77,7 +77,7 @@ In the interest of keeping this implementation generic we assume that the user r
 \subsection{Decentralized Block Connection}
 We introduce a second way for proving and verifying the block connection which does not require a trusted federation. This is possible by making use of NIPoPoWs. The way the proving process works differs quite a bit from the federation, because in the federation there is a trusted source of truth -the federation majority- who vouch for the set of blocks on the source chain. Additionally, if a checkpoint is voted by the federation majority and a valid block connection proof based on that checkpoint is provided, it cannot be disputed.
 
-A NIPoPoW however can be disputed. For example, a malicious verifier could provide an proof for a block on a minority chain. In that case, a honest prover would have to step in and provide a proof for the best chain, which the verifier would then compare with the original proof to detect the fraud. For our decentralized approach, we assume a model where there exist two provers, one honest and one malicious similar to~\cite{nipopows,flyclient}. The block connection proof is a NIPoPoW for the block which includes the burn transaction.
+The block connection proof is a NIPoPoW for the block which includes the burn transaction.
 
 \import{./}{algorithms/alg.verify-event-nipopow.tex}
 
