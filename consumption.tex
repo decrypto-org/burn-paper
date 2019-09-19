@@ -6,18 +6,14 @@ A user who wishes to acquire a target cryptocurrency first has to form a burn ad
 
 In accordance to the terminology laid out in~\cite{pow-sidechains}, we call this party the \emph{prover} and we call the smart contract the \emph{verifier}.
 
-We abstract the functionalities regarding transactions on the source blockchain into a \emph{blockchain transaction protocol}.
+We assume that the source blockchain provides the following two functions which can be written in the smart contract language of the target blockchain:
 
-\begin{definition}[Blockchain transaction protocol]\label{def:blockchain-tx}
-  A \emph{blockchain transaction protocol} $\Pi_\zeta$ consists of two functions $\VerTxIncl$ and $\TxHasTransfer$.
+\begin{itemize}
+  \item $\VerTxIncl(b, tx, \tau)$: Given block $b$, transaction $tx$ and a proof $\tau$, return $\true$ if $\tau$ is a valid proof for the fact that $tx \in b$.
+  \item $\TxHasTransfer(tx, addr, amount)$: Given transaction $tx$, an address $addr$ and an amount, return $\true$ if $tx$ contains a value transfer of the specified amount towards the specified address.
+\end{itemize}
 
-  \begin{itemize}
-    \item $\VerTxIncl(b, tx, \tau)$: Given block $b$, transaction $tx$ and a proof $\tau$, return $\true$ if $\tau$ is a valid proof for the fact that $tx \in b$.
-    \item $\TxHasTransfer(tx, addr, amount)$: Given transaction $tx$, an address $addr$ and an amount, return $\true$ if $tx$ contains a value transfer of the specified amount towards the specified address.
-  \end{itemize}
-\end{definition}
-
-More concretely, in Bitcoin, each block header contains a commitment to the set of transaction ids in the block in the form of a Merkle Tree root. Thus, for Bitcoin the proof $\tau$ for $\VerTxIncl$ is a Merkle Tree inclusion proof. Ethereum stores a similar commitment in its header, in the form of the root of a Merkle--Patricia Trie~\cite{wood2014ethereum}.
+The proof $\tau$ for $\VerTxIncl$ is usually a Merkle Tree inclusion proof. More concretely, in Bitcoin, each block header contains a commitment to the set of transaction ids in the block in the form of a Merkle Tree root. Ethereum stores a similar commitment in its header, in the form of the root of a Merkle--Patricia Trie~\cite{wood2014ethereum}.
 
 For a verifier to be convinced that a burn has taken place on a source blockchain, they need to ensure that the burn is contained in a transaction which belongs to the source blockchain. Specifically, the following data need to be supplied to the smart contract:
 
