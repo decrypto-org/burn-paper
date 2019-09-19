@@ -1,11 +1,11 @@
 \begin{algorithm}[H]
     \caption{\label{alg.verify-tx} A function to verify that a transaction is conforming to the provided event and is included in the provided block.}
     \begin{algorithmic}[1]
-        \Function{\sf verify-tx$_e$}{$\alpha$}
-            \If{$\neg \TxHasTransfer(a.\mathsf{tx}, e.\textsf{addr}, e.\textsf{amount})$}
+        \Function{\sf verify-tx}{$\textsf{addr}, \textsf{amount}, b, \textsf{tx}, \tau$}
+            \If{$\neg \TxHasTransfer(\mathsf{tx}, \textsf{addr}, \textsf{amount})$}
                 \State\Return{$\false$}
             \EndIf
-            \State\Return{$\VerTxIncl(a.b, \alpha.\textsf{tx}, \alpha.\tau)$}
+            \State\Return{$\VerTxIncl(b, \textsf{tx}, \tau)$}
         \EndFunction
         \vskip8pt
     \end{algorithmic}

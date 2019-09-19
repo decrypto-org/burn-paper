@@ -39,7 +39,7 @@ This verifier contract is responsible for receiving, verifying and then storing 
 
 \import{./}{algorithms/alg.verify-tx.tex}
 
-Before looking at how the verification works for the whole proof $\beta$ we focus on the part of the proof pertaining to the transaction, specifically $\alpha = \sf(tx, \tau, b)$. Verifying this part of the proof for some event $e$ is straightforward by making use of the blockchain transaction protocol in Definition~\ref{def:blockchain-tx}. We ensure that the transaction \textsf{tx} indeed contains the value transfer claimed in the provided event $e$, and that the transaction is really contained in the block provided. The function, \textsf{verify-tx}, can be seen in detail in Algorithm~\ref{alg.verify-tx}.
+Before looking at how the verification works for the whole proof $\beta$ we focus on the part of the proof pertaining to the transaction, specifically $\sf(tx, \tau, b)$. Verifying this part of the proof for some event $e$ is straightforward by making use of the blockchain transaction protocol in Definition~\ref{def:blockchain-tx}. We ensure that the transaction \textsf{tx} indeed contains the value transfer claimed in the provided event $e$, and that the transaction is really contained in the block provided. The function, \textsf{verify-tx}, can be seen in detail in Algorithm~\ref{alg.verify-tx}.
 
 We now shift our attention to the issue of verifying that the provided block \textsf{b} really belongs to the best source blockchain. For this we make use of NIPoPoWs. The block connection proof is a NIPoPoW for the block which includes the burn transaction.
 

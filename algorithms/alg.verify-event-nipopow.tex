@@ -4,12 +4,12 @@
         \Function{$Q_b$}{$S$}
             \State\Return{$b \in S$}
         \EndFunction
-        \Function{$\mathsf{verify}_{k,m}^{\mathcal{G},e}$}{$\alpha, \mathcal{P}$}
-            \If{$\neg \textsf{verify-tx}_e(\alpha)$}
+        \Function{$\mathsf{verify}_{k,m}^{\mathcal{G}}$}{$\textsf{addr}, \textsf{amount}, b, \textsf{tx}, \tau, \mathcal{P}$}
+            \If{$\neg \textsf{verify-tx}(\textsf{addr}, \textsf{amount}, b, \textsf{tx}, \tau)$}
                 \State\Return{$\false$}
             \EndIf
 
-            \State\Return{$\textsf{verify-infix}_{m,k}^{\mathcal{G},Q_{a.\textsf{b}}}(\mathcal{P})$}
+            \State\Return{$\textsf{verify-infix}_{m,k}^{\mathcal{G},Q_{b}}(\mathcal{P})$}
         \EndFunction
         \vskip8pt
     \end{algorithmic}
