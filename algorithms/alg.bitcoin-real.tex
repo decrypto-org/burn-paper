@@ -7,8 +7,8 @@
             \Let{pkh}{\textsf{RIPEMD160}(\textsf{SHA256}(\texttt{0x04} || pk)}
             \Let{\addr}{\texttt{0x00} || pkh'}
             \Comment{Magic byte indicating \emph{mainnet}}
-            \Let{checksum}{\textsf{SHA256}(\textsf{SHA256}(addr))[4 * 8]}
-            \State\Return{\textsf{base58}(addr || checksum)}
+            \Let{\checksum}{\textsf{SHA256}(\textsf{SHA256}(\addr))[4 * 8]}
+            \State\Return{\textsf{base58}(\addr || \checksum)}
         \EndFunction
         \vskip8pt
     \end{algorithmic}
