@@ -17,13 +17,6 @@ We define the following properties for a proof-of-burn protocol:
     \item \textbf{Usability.} The user should be able to create a burn transaction using her regular cryptocurrency wallet.
 \end{itemize}
 
-Additionally, we propose a system which allows decentralized proof-of-burn-based bootstrapping. To our knowledge, we are the first to do so.
-
-NIPoPoWs were introduced in~\cite{nipopows}, improving upon previous
-work~\cite{popow,highway}. Cross-chain applications using NIPoPoWs include
-proof-of-work sidechains~\cite{pow-sidechains}. Comparable schemes have been
-proposed for proof-of-stake systems~\cite{pos-sidechains}.
-
 \noindent
 \textbf{Our contributions.}
 A summary of our contributions is as follows:
@@ -32,16 +25,18 @@ A summary of our contributions is as follows:
     define it as a protocol which consists of two algorithms, a burn address \emph{generator} and a burn address \emph{verifier}. We put forth the foundational properties which make for secure burn protocols, namely \emph{unspendability}, \emph{binding}, and \emph{uncensorability}.
     \item \textbf{Novel construction.} We propose a novel and simple construction which is flexible and can be adapted for use in existing cryptocurrencies, as long as they use public key hashes for address generation. To our knowledge, all popular cryptocurrencies are
     compatible with our scheme. We prove our construction secure in the Random Oracle model.
-    \item \textbf{Experimental results.} We provide a compehensively tested production grade implementation of our burn verifier in Ethereum
+    \item \textbf{Bootstrapping mechanism.} We propose a cryptocurrency proof-of-burn bootstrapping mechanism which is both miner-isolated and decentralized by making use of Non-Interactive Proofs of Proof-of-Work (NIPoPoWs)~\cite{nipopows}. Our mechanism in principle allows burning from any proof-of-work-based cryptocurrency.
+    \item \textbf{Experimental results.} We provide a compehensively tested production-grade implementation of the bootstrapping mechanism in Ethereum
     written in Solidity, which we release as open source software. Our implementation can be used to consume proofs of burn of a source blockchain
     within a target blockchain. We provide experimental measurements for the cost of burn verification and find that, in current Ethereum prices,
     burn verification costs $\$0.31$ per transaction.
     This allows coins burned on one blockchain to be consumed on another for the purposes of, for example, ERC-20 tokens creation~\cite{erc20}.
 \end{enumerate}
 
-We propose a cryptocurrency proof-of-burn bootstrapping mechanism which is both
-decentralized and miner-isolated. Our construction in principle allows burning
-from any proof-of-work-based cryptocurrency.
+\noindent
+\textbf{Related work.}
+NIPoPoWs were introduced in~\cite{nipopows}, improving upon previous work~\cite{popow,highway}. Cross-chain applications using NIPoPoWs include proof-of-work sidechains~\cite{pow-sidechains}. Comparable schemes have been proposed for proof-of-stake systems~\cite{pos-sidechains}.
+
 
 \noindent
 \textbf{Notation.} We use $\uniform(S)$ to denote the uniform distribution
