@@ -8,7 +8,7 @@ We wish to allow users to exchange a proof-of-work based cryptocurrency for a ne
 
 \noindent
 \textbf{Workflow.}
-A user who wishes to acquire a target cryptocurrency first has to form a specially crafted address called the \emph{burn address}, which encodes among other things her receiving address on the target blockchain. The user then sends an amount of the source cryptocurrency to that address, burning this amount in the source blockchain. She then proceeds to submit a proof of this burn on the target blockchain, where the burn is verified and the user is credited an equivalent amount of target cryptocurrency on her receiving address. The equivalent amount can be determined based to the macroeconomic model of the target cryptocurrency and is beyond the scope of this work. Upon burning her coins the user can generate a proof-of-burn which is a string which can be verified by any interested party given the metadata. The verification of the proof of the burn can happen in either a centralized manner which is lighter on computation but requires a federation, or in a decentralized manner using Non-Interactive Proofs of Proof-of-Work (NIPoPoWs).
+A user who wishes to acquire a target cryptocurrency first has to form a specially crafted address called the \emph{burn address}, which encodes among other things her receiving address on the target blockchain as metadata. The user then sends an amount of the source cryptocurrency to that address, burning this amount in the source blockchain. She then proceeds to submit a proof of this burn on the target blockchain, where the burn is verified and the user is credited an equivalent amount of target cryptocurrency on her receiving address. The equivalent amount can be determined based on the macroeconomic model of the target cryptocurrency and is beyond the scope of this work. Upon burning her coins the user can generate a proof-of-burn which is a string which can be verified by any interested party given the metadata. The verification of the proof of the burn can happen in either a centralized manner which is lighter on computation but requires a federation, or in a decentralized manner using Non-Interactive Proofs of Proof-of-Work (NIPoPoWs).
 
 \noindent
 \textbf{Properties.}
@@ -25,7 +25,7 @@ Like the rest of the system, proof-of-burn for money creation must be decentrali
 We propose a system which allows decentralized proof-of-burn-based bootstrapping and satisfies all the desired properties. To our knowledge, we are the first to do so.
 
 In the heart of our construction, we make use of a primitive called
-Non-Interactive Proofs of Proof-of-Work (NIPoPoWs), which allows the
+Non-Interactive Proofs of Proof-of-Work (NIPoPoWs)~\cite{nipopows}, which allows the
 construction of cross-chain certificates that can later be embedded in a remote
 blockchain. The remote blockchains require to be \emph{interlinked}, a process
 which can be performed using a velvet fork~\cite{velvet}. These interlinks have

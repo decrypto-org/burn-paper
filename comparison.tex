@@ -8,24 +8,27 @@ We present a few alternatives for performing proof of burn which have been propo
 \textbf{$\opreturn$.}
 Bitcoin natively employs a mechanism for burning money using a specialized
 opcode called $\opreturn$~\cite{bartoletti2017analysis}. Unfortunately,
-creating an $\opreturn$ proof-of-burn transaction requires specialized software and thus is not
-user-friendly. However, it does benefit the Bitcoin network by allowing the UTXO
+standard wallets do not provide a user-friendly interface for creating an $\opreturn$ proof-of-burn transaction.
+However, it does benefit the Bitcoin network by allowing the UTXO
 to be pruned, at the cost of not being uncensorable.
-Before $\opreturn$ came to exist, it was proposed that any provably failing Bitcoin script could be used for burning money~\cite{stewart}, e.g. a script checking whether $2+2=5$.
+Before $\opreturn$ came to exist, it was proposed that any provably failing Bitcoin script could be used for burning money~\cite{stewart}.
 
 \noindent
 \textbf{P2SH $\opreturn$.}
-An $\opreturn$ or any other provably failing script can also be used as the redeemScript for a P2SH~\cite{p2sh} address. The script is hashed and turned into an address. The scheme is unspendable since there is no scriptSig that could make an $\opreturn$ script succeed. Additionally it is uncensorable if the tag is not revealed. Finally, the scheme is user-friendly since the user can create a burn transaction using any regular wallet.
+An $\opreturn$ or any other provably failing script can also be used as the redeemScript for a Pay-to-Script-Hash (P2SH)~\cite{p2sh} address. The script is hashed and turned into an address. The scheme is unspendable since there is no scriptSig that could make an $\opreturn$ script succeed. Additionally it is uncensorable if the tag is not revealed. Finally, the scheme is user-friendly since the user can create a burn transaction using any regular wallet.
 
 \noindent
 \textbf{Nothing-up-my-sleeve address.}
-An address is manually crafted, such that it is obvious that it has not been obtained by regular keypair generation through the secure signature scheme's \textsf{Gen}. For example, a public key hash of all zeros could be considered a nothing-up-my-sleeve address. The public key hash is then converted to an address through the regular procedure of the cryptocurrency. The premise is that it would be very hard for someone to obtain the public and secret key corresponding to this public key hash, thus funds sent to the corresponding address are considered unspendable.
+An address is manually crafted, such that it is obvious that it has not been obtained by regular keypair generation through the secure signature scheme's \textsf{Gen}. For example, a public key hash of all zeros is considered a nothing-up-my-sleeve address. The public key hash is then converted to an address through the regular procedure of the cryptocurrency. It is hard for someone to obtain the public key corresponding to this hash, thus funds sent to the corresponding address are unspendable.
 
-We compare the aforementioned schemes on whether they satisfy the burn protocol properties we define: Binding, unspendability and uncensorability. Additionally, we compare them based on how easily they translate to multiple cryptocurrencies. For instance, $\opreturn$ and P2SH $\opreturn$ rely on Bitcoin Script semantics and do not directly apply to any non-Bitcoin based cryptocurrencies like Ethereum, thus we say they are not flexible. The comparison is illustrated on the table that follows.
+We compare the aforementioned schemes on whether they satisfy the burn protocol properties we define: Binding, unspendability and uncensorability. Additionally, we compare them based on how easily they translate to multiple cryptocurrencies. For instance, $\opreturn$ and P2SH $\opreturn$ rely on Bitcoin Script semantics and do not directly apply to any non-Bitcoin based cryptocurrencies like Monero~\cite{van2013cryptonote}, thus we say they are not flexible. The comparison is illustrated on Table~\ref{table:comparison}.
 
-\begin{center}
+\begin{table}[h!]
     \newcommand{\y}{$\bullet$}
     \newcommand{\n}{}
+    \centering
+    \caption{Comparison between proof-of-burn schemes.\label{table:comparison}}
+
     \begin{tabular}{ |c|c|c|c|c| }
      \hline
                                         & Binding & Flexible & Unspendable & Uncensorable \\
@@ -36,4 +39,4 @@ We compare the aforementioned schemes on whether they satisfy the burn protocol 
      $a \xor 1$ \textbf{(this work)}    & \y      & \y       & \y          & \y \\
      \hline
     \end{tabular}
-\end{center}
+\end{table}
