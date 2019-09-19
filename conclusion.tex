@@ -1,1 +1,5 @@
 \section{Conclusion}
+
+For bootstrapping cryptocurrencies, proof-of-burn has been previously used in systems where direct
+observation allowed for the system to give rise to the new tokens such as
+Counterparty~\cite{counterparty}, a velvet fork of Bitcoin. The construction posed by Counterparty only satisfies two of the desired properties, namely unspendability and binding. It does not satisfy usability as the user needs to create a special type of transaction with an $\opreturn$ output. Because of this it also does not satisfy uncensorability, since this form of transaction can be easily detected by miners. Finally, it does not satisfy miner-isolation as users need to be connected to the Bitcoin network in order for the burn transactions to be verified.

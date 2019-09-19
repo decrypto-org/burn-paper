@@ -18,25 +18,6 @@ A user who wishes to burn her coins generates an address which we call a \emph{b
 
 Additionally, we propose a system which allows decentralized proof-of-burn-based bootstrapping. To our knowledge, we are the first to do so.
 
-In the heart of our construction, we make use of a primitive called
-Non-Interactive Proofs of Proof-of-Work (NIPoPoWs)~\cite{nipopows}, which allows the
-construction of cross-chain certificates that can later be embedded in a remote
-blockchain. The remote blockchains require to be \emph{interlinked}, a process
-which can be performed using a velvet fork~\cite{velvet}. These interlinks have
-already been deployed on some testnets by velvet fork~\cite{gtklocker} as well
-as on some coins from genesis~\cite{ergo}.
-
-\noindent
-\textbf{Previous work.}
-Proof-of-burn has been proposed as a mechanism of consensus akin to
-proof-of-stake (cf. Slimcoin and Factom), as well as a mechanism for
-establishing identity (OpenBazaar~\cite{zindros2016trust}) and notarization
-(Carbon dating~\cite{clark2012commitcoin} and
-OpenTimestamps~\cite{todd2016opentimestamps}). For bootstrapping
-cryptocurrencies, proof-of-burn has been previously used in systems where direct
-observation allowed for the system to give rise to the new tokens such as
-Counterparty~\cite{counterparty}, a velvet fork of Bitcoin. The construction posed by Counterparty only satisfies two of the desired properties, namely unspendability and binding. It does not satisfy usability as the user needs to create a special type of transaction with an \textsf{OP\_RETURN} output. Because of this it also does not satisfy uncensorability, since this form of transaction can be easily detected by miners. Finally, it does not satisfy miner-isolation as users need to be connected to the Bitcoin network in order for the burn transactions to be verified.
-
 NIPoPoWs were introduced in~\cite{nipopows}, improving upon previous
 work~\cite{popow,highway}. Cross-chain applications using NIPoPoWs include
 proof-of-work sidechains~\cite{pow-sidechains}. Comparable schemes have been
