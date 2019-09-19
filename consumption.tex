@@ -1,10 +1,20 @@
 \section{Consumption}
 
+Over the last 5 years there has been an explosion of innovation through new cryptocurrencies. Unfortunately, it is very hard for a new cryptocurrency to gain traction. Without traction, no market depth ensues, a cryptocurrency will have difficulty getting listed in any exchange. But without being listed in any exchange, a cryptocurrency cannot gain sufficient traction. The cryptocurrency can only be sold over-the-counter (OTC) by its miners or stakeholders, but that market is very limited.
+
+This chicken-and-egg situation presents the need for a solution that circumvents exchanges and allows users to acquire the cryptocurrency in a usable manner, in order for it to gain traction. We recommend utilizing proof-of-burn in order to allow users to obtain capital on a new cryptocurrency, automatically and without trusted third parties, by burning a legacy cryptocurrency.
+
+We wish to allow users to exchange a legacy cryptocurrency for a new cryptocurrency. We call the former the \emph{source cryptocurrency}, and the blockchain this cryptocurrency is based on the \emph{source blockchain}. We call the latter the \emph{target cryptocurrency} and its corresponding blockchain the \emph{target blockchain}. The target blockchain may support burning from multiple source blockchains.
+
 We now describe how a smart contract on the target blockchain can verify that a burn has taken place on the source blockchain. Note how this puts a constraint on the target blockchain to have smart contract capabilities. However there is no such constraint for the source blockchain. Such a mechanism allows a target cryptocurrency to bootstrap through burns on another source blockchain as outlined in Section~\ref{section:introduction}.
 
-A user who wishes to acquire a target cryptocurrency first has to form a burn address which encodes her receiving address on the target blockchain by using it as a tag. The user then sends an amount of the source cryptocurrency to that address. She then proceeds to submit a proof of this burn to a smart contract on the target blockchain, where the burn is verified and the user is credited an equivalent amount of target cryptocurrency on her receiving address.
+\noindent
+\textbf{Workflow.}
+A user who wishes to acquire a target cryptocurrency first has to form a burn address which encodes her receiving address on the target blockchain by using it as a tag. The user then sends an amount of the source cryptocurrency to that address. She then proceeds to submit a proof of this burn to a smart contract on the target blockchain, where the burn is verified and the user is credited an equivalent amount of target cryptocurrency on her receiving address. The verification of the proof of the burn can happen in either a centralized manner which is lighter on computation but requires a federation, or in a decentralized manner using Non-Interactive Proofs of Proof-of-Work (NIPoPoWs).
 
-In accordance to the terminology laid out in~\cite{pow-sidechains}, we call this party the \emph{prover} and we call the smart contract the \emph{verifier}.
+Proof-of-burn for money creation must be decentralized, i.e., there cannot be any ``committees'' or individuals verifying that proof-of-burn transactions took place and vouching for them. Additionally, target blockchain miners must remain connected only to the target blockchain network, hence we cannot mandate that every miner connects to every other network that we wish to burn funds from. We call this property \emph{miner-isolation}.
+
+In accordance to the terminology laid out in~\cite{pow-sidechains}, we call the user the \emph{prover} and we call the smart contract the \emph{verifier}.
 
 We assume that the source blockchain provides the following two functions which can be written in the smart contract language of the target blockchain:
 

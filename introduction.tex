@@ -1,18 +1,6 @@
 \section{Introduction}\label{section:introduction}
 
-Over the last 5 years there has been an explosion of innovation through new cryptocurrencies. Unfortunately, it is very hard for a new cryptocurrency to gain traction. Without traction, and the market depth it ensues, a cryptocurrency will have difficulty getting listed in any exchange. But without being listed in any exchange a cryptocurrency cannot gain sufficient traction. The cryptocurrency can only be sold over-the-counter (OTC) by its miners or stakeholders, but the market for OTC trading and especially for an unknown cryptocurrency is traditionally very limited.
 
-This chicken-and-egg situation presents the need for a solution that circumvents exchanges and allows users to acquire the cryptocurrency in a usable manner, in order for it to gain traction. We recommend utilizing proof-of-burn in order to can allow users to obtain capital on a new cryptocurrency, automatically and without trusted third parties, by burning a legacy proof-of-work cryptocurrency.
-
-We wish to allow users to exchange a proof-of-work based cryptocurrency for a new cryptocurrency. We call the former the \emph{source cryptocurrency}, and the blockchain this cryptocurrency is based on the \emph{source blockchain}. We call the latter the \emph{target cryptocurrency} and its corresponding blockchain the \emph{target blockchain}. The target blockchain may support burning from multiple source blockchains.
-
-\noindent
-\textbf{Workflow.}
-A user who wishes to acquire a target cryptocurrency first has to form a specially crafted address called the \emph{burn address}, which encodes among other things her receiving address on the target blockchain as metadata. The user then sends an amount of the source cryptocurrency to that address, burning this amount in the source blockchain. She then proceeds to submit a proof of this burn on the target blockchain, where the burn is verified and the user is credited an equivalent amount of target cryptocurrency on her receiving address. The equivalent amount can be determined based on the macroeconomic model of the target cryptocurrency and is beyond the scope of this work. Upon burning her coins the user can generate a proof-of-burn which is a string which can be verified by any interested party given the metadata. The verification of the proof of the burn can happen in either a centralized manner which is lighter on computation but requires a federation, or in a decentralized manner using Non-Interactive Proofs of Proof-of-Work (NIPoPoWs).
-
-\noindent
-\textbf{Properties.}
-Like the rest of the system, proof-of-burn for money creation must be decentralized, i.e., there cannot be any ``committees'' or individuals verifying that proof-of-burn transactions took place and vouching for them. Additionally, target blockchain miners must remain connected only to the target blockchain network, hence we cannot mandate that every miner connects to every other network that we wish to burn funds from. In addition, the system should be uncensorable by source blockchain miners in case any of them decide that they do not agree with it. Finally the system should be easy to use, meaning that a user should be able to complete this procedure by using her existing wallet for the source cryptocurrency. To summarise, these are the properties that we desire such a system to satisfy:
 
 \begin{itemize}
     \item \textbf{Unspendability.} No one should be able to spend the amount burned on the source blockchain.
