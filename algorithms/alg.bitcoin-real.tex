@@ -2,8 +2,8 @@
 \begin{algorithm}[H]
     \caption{\label{alg.bitcoin-real} The Bitcoin blockchain address protocol, including the engineering details of checksums and practical hash implementation.}
     \begin{algorithmic}[1]
-        \Function{$\GenAddress$}{$1^\kappa$}
-            \Let{(pk, sk)}{\Gen(1^\kappa)}
+        \Function{$\GenAddress$}{\-}
+            \Let{(pk, sk)}{\Gen()}
             \Let{pkh}{\textsf{RIPEMD160}(\textsf{SHA256}(\texttt{0x04} \conc pk)}
             \Let{\addr}{\texttt{0x00} \conc pkh'}
             \Comment{Magic byte indicating \emph{mainnet}}
