@@ -9,7 +9,7 @@ In accordance to the terminology laid out in~\cite{pow-sidechains}, we call this
 We assume that the source blockchain provides the following two functions which can be written in the smart contract language of the target blockchain:
 
 \begin{itemize}
-  \item $\VerTxIncl(b, tx, \tau)$: Given block $b$, transaction $tx$ and a proof $\tau$, return $\true$ if $\tau$ is a valid proof for the fact that $tx \in b$.
+  \item $\VerTxIncl(b, tx, \tau)$: Given block header $b$, transaction $tx$ and a proof $\tau$, return $\true$ if $\tau$ is a valid proof for the fact that $tx \in b$.
   \item $\TxHasTransfer(tx, addr, amount)$: Given transaction $tx$, an address $addr$ and an amount, return $\true$ if $tx$ contains a value transfer of the specified amount towards the specified address.
 \end{itemize}
 
@@ -30,14 +30,14 @@ Transferring value from a source to a target blockchain has already been a subje
 
 \import{./}{algorithms/alg.verify-tx.tex}
 
-Before looking at how the verification works for the whole proof $\beta$ we focus on the part of the proof pertaining to the transaction, specifically $\sf(tx, \tau, b)$. We ensure that the transaction \textsf{tx} indeed contains the value transfer claimed in the provided event $e$, and that the transaction is really contained in the block provided. The function, \textsf{verify-tx}, can be seen in detail in Algorithm~\ref{alg.verify-tx}.
+Before looking at how the verification works for the whole proof $\beta$ we focus on the part of the proof pertaining to the transaction, specifically $\sf(tx, \tau, b)$. We ensure that the transaction \textsf{tx} indeed contains the value transfer claimed in the provided event $e$, and that the transaction is really contained in the block provided. The function \textsf{verify-tx} can be seen in detail in Algorithm~\ref{alg.verify-tx}.
 
 For verifying that a provided block \textsf{b} really belongs to the best source blockchain, we assume the existence of a function $\textsf{is-in-best-chain}(b)$. We will explore how this function can be implemented in Section~\ref{section:block-connection}.
 
 \subsection{Bootstraping Mechanism}
 \import{./}{algorithms/alg.burn-verifier.tex}
 
-Being able to verify events, we can finally grant target cryptocurrency to users who burn source cryptocurrency. After burning on the source blockchain, the user calls the \textsf{claim} function with the aforementioned event. This function ensures that the event provided is valid and has not been claimed before (i.e. noone has been granted target cryptocurrency for this specific event in the past), that it actually corresponds to the transaction $\tx$ provided and that the block $b$ provided actually belongs to the best source chain and contains $\tx$. Then, after verifying through $\BurnVerify$ that the receiving address of the event is a burn address where the tag is the function caller's address, it releases the amount of coins burned in the form of an ERC-20 token. We present a contract with this capability in Algorithm~\ref{alg.burn-verifier} which we call the \textsf{burn-verifier}.
+Being able to verify events, we can grant target cryptocurrency to users who burn source cryptocurrency. After burning on the source blockchain, the user calls the \textsf{claim} function with the aforementioned event. This function ensures that the event provided is valid and has not been claimed before (i.e. no one has been granted target cryptocurrency for this specific event in the past), that it actually corresponds to the transaction $\tx$ provided and that the block $b$ provided actually belongs to the best source chain and contains $\tx$. Then, after verifying through $\BurnVerify$ that the receiving address of the event is a burn address where the tag is the function caller's address, it releases the amount of coins burned in the form of an ERC-20 token. We present a contract with this capability in Algorithm~\ref{alg.burn-verifier} which we call the \textsf{burn-verifier}.
 
 In the interest of keeping this implementation generic we assume that the user receives a token in return for his burn. However, instead of minting a token, the target cryptocurrency could allow the burn verifier contract to mint native cryptocurrency for any user who successfully claims an event. This would allow the target cryptocurrency to be bootstrapped entirely though burning as desired.
 
@@ -47,7 +47,7 @@ We now shift our attention to the problem of verifying whether a block really be
 \noindent
 \textbf{NIPoPoWs.}
 Verifying block connection can be achieved through NIPoPoWs, as in~\cite{pow-sidechains}.
-We remark that with this setup a block connection proof may be considered valid provisionally, but there needs to be a period in which the proof can be disputed for the smart contract to be certain for the validity of the proof. Specifically, when a user performs a claim they have to put down some collateral. If they have provided a valid NIPoPoW, \textsf{is-in-best-chain} will initially be true. However a challenger can dispute the provided proof which would turn the result of \textsf{is-in-best-chain} to false, abort the claim and grant the challenger the user's collateral. If the contestation period ends with the proof undisputed then the collateral gets returned to the user and the claim is performed successfully.
+We remark that with this setup a block connection proof may be considered valid provisionally, but there needs to be a period in which the proof can be disputed for the smart contract to be certain for the validity of the proof. Specifically, when a user performs a claim, they have to put down some collateral. If they have provided a valid NIPoPoW a contestation period begins. Within that period a challenger can dispute the provided proof which would turn the result of \textsf{is-in-best-chain} to false, abort the claim and grant the challenger the user's collateral. If the contestation period ends with the proof undisputed then \textsf{is-in-best-chain} evaluates to true, the collateral gets returned to the user and the claim is performed successfully.
 
 \noindent
 \textbf{Federation.}
@@ -55,7 +55,7 @@ A simpler approach is to allow a federation of nodes monitoring the source chain
 
 \import{./}{algorithms/alg.is-in-best-chain-federation.tex}
 
-Let us assume that the smart contract holds in its state the continuously updated set of all valid blocks on the best source blockchain, in the form of a Merkle Tree root $\mathcal{M}$. Then, by verifying a Merkle Tree inclusion proof \textsf{blockConnection} for $\textsf{b} \in \mathcal{M}$ a verifier can be certain that the block provided is indeed part of the best source blockchain. Combined with verifying the transaction this completes our {\sf is-in-best-chain}$_\mathcal{M}$ function, shown in Algorithm~\ref{alg.is-in-best-chain-federation}.
+Let us assume that the smart contract holds in its state the continuously updated set of all valid blocks on the best source blockchain, in the form of a Merkle Tree root $\mathcal{M}$. Then, by verifying a Merkle Tree inclusion proof \textsf{blockConnection} for $\textsf{b} \in \mathcal{M}$ a verifier can be certain that the block provided is indeed part of the best source blockchain. This completes our {\sf is-in-best-chain}$_\mathcal{M}$ function, shown in Algorithm~\ref{alg.is-in-best-chain-federation}.
 
 We now address the issue of maintaining an up-to-date set of blocks in the form of $\mathcal{M}$. We propose a federation mechanism of source blockchain full nodes that monitor the source chain and vote for the new set of source chain blocks, if and when it changes. A majority of votes is necessary for $\mathcal{M}$ to be updated on the target blockchain. In this manner, the federation acts as a bridge from the source to the target blockchain. The security of our scheme relies on the assumption that the federation majority is honest.
 
