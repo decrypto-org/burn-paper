@@ -31,8 +31,11 @@ As evidence towards unspendability, we now remark that it is difficult for an ad
 \begin{proof}
   Suppose $\mathcal{A}$ is a probabilistic polynomial-time adversary which produces $(t, z)$ with probability of success $p = \Pr[g^z = h g^{H(t)}]$.
   We construct the adversary $\mathcal{A}^*$ which invokes $\mathcal{A}$
-  illustrated in Algorithm~\ref{alg.secret-key-adversary}.
+  illustrated in Algorithm~\ref{alg.secret-key-adversary} and finds the
+  logarithm of $h$.
   Conditioned on the event that $\mathcal{A}$ is successful,
   we have that
-  $g^z = h g^{H(t)} \Rightarrow g^z = g^{y + H(t)} \Rightarrow y \equiv z - H(t) \Mod{q}$
+  $g^z = h g^{H(t)} \Rightarrow g^z = g^{y + H(t)} \Rightarrow y \equiv z - H(t) \Mod{q}$, so $\mathcal{A}^*$ is successful.
+  Therefore $\Pr[\mathcal{A}^*(h) = y] = p$.
+  But $\Pr[\mathcal{A}^*(h) = y]$ is negligible.
 \end{proof}
