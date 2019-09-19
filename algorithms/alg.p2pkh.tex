@@ -5,12 +5,12 @@
     \begin{algorithmic}[1]
         \Function{$\GenAddr_{S, H}$}{$1^\kappa$}
             \Let{(pk, sk)}{\Gen(1^\kappa)}
-            \Let{pkh}{H_\kappa(pk)}
+            \Let{pkh}{H(pk)}
             \State\Return{(pkh, sk)}
         \EndFunction
         \Function{$\SpendVerify_{S, H}$}{$m, \sigma, pkh$}
             \Let{(pk, \sigma')}{\sigma}
-            \State\Return{$(H_\kappa(pk) = pkh \land \Ver(m, \sigma', pk))$}
+            \State\Return{$(H(pk) = pkh \land \Ver(m, \sigma', pk))$}
         \EndFunction
         \vskip8pt
     \end{algorithmic}

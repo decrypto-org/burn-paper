@@ -3,7 +3,7 @@
     \caption{\label{alg.construction} Our uncensorable proof-of-burn protocol for Bitcoin P2PKH.}
     \begin{algorithmic}[1]
         \Function{$\GenBurnAddr_H$}{$1^\kappa, t$}
-            \Let{th}{H_\kappa(t)}
+            \Let{th}{H(t)}
             \Let{th'}{th \xor 1}
             \Comment{Key perturbation}
             \State\Return{th'}
