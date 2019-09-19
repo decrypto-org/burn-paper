@@ -1,0 +1,62 @@
+\section{Consumption}
+
+We now describe how a smart contract on the target blockchain can verify that a burn has taken place on the source blockchain. Note how this puts a constraint on the target blockchain to have smart contract capabilities. However there is no such constraint for the source blockchain. Such a mechanism allows a target cryptocurrency to bootstrap through burns on another source blockchain as outlined in Section~\ref{section:introduction}.
+
+A user who wishes to acquire a target cryptocurrency first has to form a burn address which encodes her receiving address on the target blockchain by using it as a tag. The user then sends an amount of the source cryptocurrency to that address. She then proceeds to submit a proof of this burn to a smart contract on the target blockchain, where the burn is verified and the user is credited an equivalent amount of target cryptocurrency on her receiving address.
+
+In accordance to the terminology laid out in~\cite{pow-sidechains}, we call this party the \emph{prover} and we call the smart contract the \emph{verifier}.
+
+We assume that the source blockchain provides the following two functions which can be written in the smart contract language of the target blockchain:
+
+\begin{itemize}
+  \item $\VerTxIncl(b, tx, \tau)$: Given block header $b$, transaction $tx$ and a proof $\tau$, return $\true$ if $\tau$ is a valid proof for the fact that $tx \in b$.
+  \item $\TxHasTransfer(tx, addr, amount)$: Given transaction $tx$, an address $addr$ and an amount, return $\true$ if $tx$ contains a value transfer of the specified amount towards the specified address.
+\end{itemize}
+
+The proof $\tau$ for $\VerTxIncl$ is usually a Merkle Tree inclusion proof. More concretely, in Bitcoin, each block header contains a commitment to the set of transaction ids in the block in the form of a Merkle Tree root. Ethereum stores a similar commitment in its header, in the form of the root of a Merkle--Patricia Trie~\cite{wood2014ethereum}.
+
+For a verifier to be convinced that a burn has taken place on a source blockchain, they need to ensure that the burn is contained in a transaction which belongs to the source blockchain. Specifically, the following data need to be supplied to the smart contract:
+
+\begin{itemize}
+  \item \textsf{tx}: The transaction which contains the burn on the source blockchain.
+  \item \textsf{b}: The block header for the block which contains the aforementioned transaction.
+  \item $\tau$: An inclusion proof showing that $\mathsf{tx} \in \mathsf{b}$ such that $\VerTxIncl(\textsf{b}, \textsf{tx}, \tau) = \true$.
+  \item \textsf{blockConnection}: A proof that \textsf{b} is contained in the best (i.e., most proof-of-work) source blockchain.
+\end{itemize}
+
+Putting these together, the final proof is the tuple $\beta = \sf(tx, \tau, b, block\-Connection)$.
+
+Transferring value from a source to a target blockchain has already been a subject of research. A mechanism for verifying that a block belongs in another cryptocurrency's best chain is described in~\cite{pow-sidechains}. We adapt a modified version of this scheme for our purposes, to achieve our own 1-way peg by making use of Proof-of-Burn. A 1-way peg is established when there is the ability to transfer an amount of source cryptocurrency to a target blockchain in a trustless manner, as we wish to do. Generally, the prover wishes to convince the verifier that an event has taken place on the source blockchain. We define an event as a simple value transfer described by (a) a transaction id \textsf{txid}, (b) a receiving address \textsf{addr} and (c) an amount \textsf{amount}. Thus our event takes the form of the tuple $e = (\textsf{txid}, \textsf{addr}, \textsf{amount})$. We remark that simple value transfers are supported by all popular cryptocurrencies, allowing a verifier to process burns from a wide range of source blockchains. We also remark that for now this event type does not yet distinguish between burn and non-burn addresses.
+
+\import{./}{algorithms/alg.verify-tx.tex}
+
+Before looking at how the verification works for the whole proof $\beta$ we focus on the part of the proof pertaining to the transaction, specifically $\sf(tx, \tau, b)$. We ensure that the transaction \textsf{tx} indeed contains the value transfer claimed in the provided event $e$, and that the transaction is really contained in the block provided. The function \textsf{verify-tx} can be seen in detail in Algorithm~\ref{alg.verify-tx}.
+
+For verifying that a provided block \textsf{b} really belongs to the best source blockchain, we assume the existence of a function $\textsf{is-in-best-chain}(b)$. We will explore how this function can be implemented in Section~\ref{section:block-connection}.
+
+\subsection{Bootstraping Mechanism}
+\import{./}{algorithms/alg.burn-verifier.tex}
+
+Being able to verify events, we can grant target cryptocurrency to users who burn source cryptocurrency. After burning on the source blockchain, the user calls the \textsf{claim} function with the aforementioned event. This function ensures that the event provided is valid and has not been claimed before (i.e. no one has been granted target cryptocurrency for this specific event in the past), that it actually corresponds to the transaction $\tx$ provided and that the block $b$ provided actually belongs to the best source chain and contains $\tx$. Then, after verifying through $\BurnVerify$ that the receiving address of the event is a burn address where the tag is the function caller's address, it releases the amount of coins burned in the form of an ERC-20 token. We present a contract with this capability in Algorithm~\ref{alg.burn-verifier} which we call the \textsf{burn-verifier}.
+
+In the interest of keeping this implementation generic we assume that the user receives a token in return for his burn. However, instead of minting a token, the target cryptocurrency could allow the burn verifier contract to mint native cryptocurrency for any user who successfully claims an event. This would allow the target cryptocurrency to be bootstrapped entirely though burning as desired.
+
+\subsection{Verifying Block Connection}\label{section:block-connection}
+We now shift our attention to the problem of verifying whether a block really belongs in the best source chain. We provide multiple ways of implementing the aforementioned \textsf{is-in-best-chain} method.
+
+\noindent
+\textbf{NIPoPoWs.}
+Verifying block connection can be achieved through NIPoPoWs, as in~\cite{pow-sidechains}.
+We remark that with this setup a block connection proof may be considered valid provisionally, but there needs to be a period in which the proof can be disputed for the smart contract to be certain for the validity of the proof. Specifically, when a user performs a claim, they have to put down some collateral. If they have provided a valid NIPoPoW a contestation period begins. Within that period a challenger can dispute the provided proof which would turn the result of \textsf{is-in-best-chain} to false, abort the claim and grant the challenger the user's collateral. If the contestation period ends with the proof undisputed then \textsf{is-in-best-chain} evaluates to true, the collateral gets returned to the user and the claim is performed successfully.
+
+\noindent
+\textbf{Federation.}
+A simpler approach is to allow a federation of nodes monitoring the source chain to vote for the blocks that are included in the best source chain.
+
+\import{./}{algorithms/alg.is-in-best-chain-federation.tex}
+
+Let us assume that the smart contract holds in its state the continuously updated set of all valid blocks on the best source blockchain, in the form of a Merkle Tree root $\mathcal{M}$. Then, by verifying a Merkle Tree inclusion proof \textsf{blockConnection} for $\textsf{b} \in \mathcal{M}$ a verifier can be certain that the block provided is indeed part of the best source blockchain. This completes our {\sf is-in-best-chain}$_\mathcal{M}$ function, shown in Algorithm~\ref{alg.is-in-best-chain-federation}.
+
+We now address the issue of maintaining an up-to-date set of blocks in the form of $\mathcal{M}$. We propose a federation mechanism of source blockchain full nodes that monitor the source chain and vote for the new set of source chain blocks, if and when it changes. A majority of votes is necessary for $\mathcal{M}$ to be updated on the target blockchain. In this manner, the federation acts as a bridge from the source to the target blockchain. The security of our scheme relies on the assumption that the federation majority is honest.
+
+We propose encoding the honestly adopted chain by using Merkle Mountain Ranges (MMRs)~\cite{flyclient}. Specifically, to generate a checkpoint we take all the chain's block ids in sequence and use them as leaves in a Merkle Mountain Range. We then use the root of that MMR as our encoding. Our rationale for using MMRs instead of other kinds of Merkle Trees is that we expect the most frequent modifications to the tree to be appends (when the source chain is extended by one block), which is a very efficient operation to perform on an existing MMR.
