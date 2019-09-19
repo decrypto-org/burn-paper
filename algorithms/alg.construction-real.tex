@@ -1,7 +1,6 @@
 \begin{figure}[t]
 \begin{algorithm}[H]
-    \caption{\label{alg.construction-real} The key perturbation algorithm which
-    generates a provable proof-of-burn address.}
+    \caption{\label{alg.construction-real} The key perturbation algorithm which generates a provable proof-of-burn address which validates under Bitcoin.}
     \begin{algorithmic}[1]
         \Function{$\GenBurnAddress$}{$1^\kappa, t$}
             \Let{th}{\textsf{RIPEMD160}(\textsf{SHA256}(t))}
