@@ -23,7 +23,7 @@ Correctness holds unconditionally.
   Based on Algorithm~\ref{alg.construction-crs}, $\BurnVerify(1^\kappa, t, \GenBurnAddr(1^\kappa, t)) = \textsf{true}$ if and only if $\GenBurnAddr(1^\kappa, t) = \GenBurnAddr(1^\kappa, t)$, which always holds as $\GenBurnAddr$ is deterministic.
 \end{proof}
 
-As evidence towards unspendability, we now remark that it is difficult for an adversary to obtain the secret key corresponding to the public key $h g^{H(t)}$. We therefore conjecture that our scheme is unspendable.
+As evidence towards unspendability, we now remark that it is difficult for an adversary to obtain the secret key corresponding to the public key $h g^{H(t)}$ needed to produce signatures. We therefore conjecture that our scheme is unspendable.
 
 \begin{lemma}[Logarithm unknowability]
   If $h$ is a \emph{Common Random String} and assuming the DLOG problem is hard, no probabilistic polynomial-time adversary can produce $(t, z)$ such that $g^z = h g^{H(t)}$, except with negligible probability in $\kappa$.
