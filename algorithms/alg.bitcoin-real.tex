@@ -4,11 +4,11 @@
     \begin{algorithmic}[1]
         \Function{$\GenAddress$}{\-}
             \Let{(pk, sk)}{\Gen()}
-            \Let{pkh}{\textsf{RIPEMD160}(\textsf{SHA256}(\texttt{0x04} \conc pk)}
+            \Let{pkh}{\RIPEMD(\SHA(\texttt{0x04} \conc pk)}
             \Let{\addr}{\texttt{0x00} \conc pkh'}
             \Comment{Magic byte indicating \emph{mainnet}}
-            \Let{\checksum}{\textsf{SHA256}(\textsf{SHA256}(\addr))[4 * 8]}
-            \State\Return{\textsf{base58}($\addr \conc \checksum$)}
+            \Let{\checksum}{\SHA(\SHA(\addr))[4 * 8]}
+            \State\Return{\baseencode($\addr \conc \checksum$)}
         \EndFunction
         \vskip8pt
     \end{algorithmic}
