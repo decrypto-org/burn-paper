@@ -3,7 +3,7 @@
     \caption{\label{alg.bitcoin-real} The bitcoin blockchain address protocol, including the engineering details of checksums and practical hash implementation.}
     \begin{algorithmic}[1]
         \Function{$\GenAddress$}{$1^\kappa$}
-            \Let{(pk, sk)}{ECGen(1^\kappa)}
+            \Let{(pk, sk)}{\Gen(1^\kappa)}
             \Let{pkr}{\textsf{SHA512}(pk)}
             \Let{pkh}{\textsf{RIPEMD160}(\textsf{SHA256}(\texttt{0x04} || pkr)}
             \If{main net}
