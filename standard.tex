@@ -41,3 +41,27 @@ As evidence towards unspendability, we now remark that it is difficult for an ad
 \end{proof}
 
 This observation illustrates the useful fact that, if a single group element with unknowable logarithm is provided, an arbitrary number of such group elements can be found and proven to have unknowable logarithms.
+
+\import{./}{algorithms/alg.collision-adversary-crs.tex}
+
+\begin{theorem}[Binding]
+  If the hash function $H$ is collision resistant and its range lies in $[q]$ where $q$ denotes the group order of $\mathbb{G}$, then the Proof of Burn protocol $\Pi$ of Algorithm~\ref{alg.construction-crs} is \emph{binding}.
+\end{theorem}
+\begin{proof}
+  Let $\mathcal{A}$ be a probabilistic polynomial-time binding adversary against the protocol $\Pi$. We construct the probabilistic polynomial-time collision adversary $\mathcal{A}^*$ against the hash function $H$. The adversary $\mathcal{A}^*$ is illustrated in Algorithm~\ref{alg.collision-adversary-crs} and works as follows. It invokes $\mathcal{A}$ which returns a triplet $(t, t', \burnAddr)$, then returns the collision $(t, t')$. Let $p$ denote the probability that $\mathcal{A}$ is successful.
+
+  Conditioned on the event that $\mathcal{A}$ is successful, it holds that
+  $h g^{H(t)} = h g^{H(t')}$ and $t \neq t'$. This implies that $g^{H(t)} = g^{H(t')}$, which in turns yields $H(t) \equiv H(t') \Mod{q}$. Since the range of $H$ lies in $[q]$, this constitutes a collision and $\mathcal{A}^*$ is successful.
+
+  We thus conclude that $\mathcal{A^*}$ is successful in the $\collisionattack$ game if and only if $\mathcal{A}$ is successful in the $\bindattack$ game.
+
+  \[
+    \Pr[\bindattack_{\mathcal{A},\Pi} = \true]
+    =
+    \Pr[\collisionattack_{\mathcal{A}^*,H} = \true]
+  \]
+
+  From the collision resistance of $H$ it follows that $\Pr[\textsf{Collision}_{\mathcal{A}^*,H} = 1] < \negl$. Therefore,
+  $\Pr[\textsf{Bind}_{\mathcal{A},\Pi} = 1] < \negl$, so
+  the protocol $\Pi$ is binding.
+\end{proof}
