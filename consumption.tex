@@ -24,7 +24,7 @@ For a verifier to be convinced that a burn has taken place on a source blockchai
   \item \textsf{blockConnection}: A proof that \textsf{b} is contained in the best (i.e., most proof-of-work) source blockchain.
 \end{itemize}
 
-Putting these together, the final proof is the tuple $\beta = \sf(tx, \tau, b, blockConnection)$.
+Putting these together, the final proof is the tuple $\beta = \sf(tx, \tau, b, block\-Connection)$.
 
 Transferring value from a source to a target blockchain has already been a subject of research. A mechanism for the so-called 1-way pegs is described in~\cite{pow-sidechains}. We adapt a modified version of this scheme for our purposes, to achieve our own 1-way peg by making use of Proof-of-Burn. A 1-way peg is established when there is the ability to transfer an amount of source cryptocurrency to a target blockchain in a trustless manner, as we wish to do. Generally, the prover wishes to convince the verifier that an event has taken place on the source blockchain. We define an event as a simple value transfer described by (a) a transaction id \textsf{txid}, (b) a receiving address \textsf{addr} and (c) an amount \textsf{amount}. Thus our event takes the form of the tuple $e = (\textsf{txid}, \textsf{addr}, \textsf{amount})$. We remark that simple value transfers are supported by all popular cryptocurrencies, allowing a verifier to process burns from a wide range of source blockchains. We also remark that for now this event type does not yet distinguish between burn and non-burn addresses.
 
