@@ -16,7 +16,7 @@
                 \If{$e \in \textsf{claimed-events} \lor \lnot \textsf{event-exists}(e)$}
                     \State\Return{$\bot$}
                 \EndIf
-                \If{$\lnot \BurnVerify(\{\textsf{targetAddress: msg.sender}\}, e.\textsf{receivingAddress})$}
+                \If{$\lnot \BurnVerify(\{\textsf{targetAddress: msg.sender}\}, e.\textsf{addr})$}
                     \State\Return{$\bot$}
                 \EndIf
 
