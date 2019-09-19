@@ -4,10 +4,10 @@
     generates a provable proof-of-burn address.}
     \begin{algorithmic}[1]
         \Function{$\GenBurnAddress$}{$1^\kappa, t$}
-            \Let{pkh}{\textsf{RIPEMD160}(\textsf{SHA256}(t))}
-            \Let{pkh'}{pkh \xor \texttt{0x01}}
+            \Let{th}{\textsf{RIPEMD160}(\textsf{SHA256}(t))}
+            \Let{th'}{th \xor \texttt{0x01}}
             \Comment{Key perturbation}
-            \Let{addr}{\texttt{0x00} || pkh'}
+            \Let{addr}{\texttt{0x00} || th'}
             \Comment{Magic byte indicating \emph{mainnet}}
             \Let{checksum}{\textsf{SHA256}(\textsf{SHA256}(addr))[4 * 8]}
             \State\Return{\textsf{base58}(addr || checksum)}
