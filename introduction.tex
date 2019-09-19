@@ -7,12 +7,13 @@ While its adoption is undeniable, there has not been a formal treatment for proo
 \textbf{Workflow.}
 A user who wishes to burn her coins generates an address which we call a \emph{burn address} that encodes some metadata (called the \emph{tag}). She can then proceed to send any amount of cryptocurrency to the burn address. After burning her cryptocurrency, she may prove to any interested party that she has actually irrevocably destroyed the cryptocurrency in question.
 
+\noindent
+\textbf{Properties.}
 \begin{itemize}
-    \item \textbf{Unspendability.} No one should be able to spend the amount burned on the source blockchain.
-    \item \textbf{Binding.} The burn must commit to details of the receiver on the target blockchain.
-    \item \textbf{Uncensorability.} Miners who do not agree with this scheme on the source blockchain should not be able to censor burn transactions.
-    \item \textbf{Usability.} The user should be able to create a burn transaction using her regular source cryptocurrency wallet.
-    \item \textbf{Miner-isolation.} No miner on the target blockchain should be required to connect to the network of any of the source blockchains. % TODO mv
+    \item \textbf{Unspendability.} No one should be able to spend the amount burned.
+    \item \textbf{Binding.} The burn must commit only to a single tag.
+    \item \textbf{Uncensorability.} Miners who do not agree with this scheme should not be able to censor burn transactions.
+    \item \textbf{Usability.} The user should be able to create a burn transaction using her regular cryptocurrency wallet.
 \end{itemize}
 
 We propose a system which allows decentralized proof-of-burn-based bootstrapping and satisfies all the desired properties. To our knowledge, we are the first to do so.
