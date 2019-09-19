@@ -1,0 +1,17 @@
+\section{Mathematical Background}\label{sec.background}
+
+\import{.}{./algorithms/alg.dist-game.tex}
+
+We review the definition of computational indistinguishability between two
+distributions $X$ and $Y$. Define the cryptographic game illustrated in
+Algorithm~\ref{alg.dist-game}.
+Computational indistinguishability mandates that no adversary can win the game,
+except with negligible probability.
+
+\begin{definition}[Computational indistinguishability]
+  Two distribution ensembles $\{X_\kappa\}_{\kappa\in\mathbb{N}}$ and $\{Y_\kappa\}_{\kappa\in\mathbb{N}}$ are
+  \emph{computationally indistinguishable}
+  if for every probabilistic polynomial-time adversary $\mathcal{A}$,
+  there exists a negligible function $\negl$ such that
+  $\Pr[\textsc{dist-game}_{\mathcal{A},X,Y}(\kappa) = \true] < \negl$.
+\end{definition}
