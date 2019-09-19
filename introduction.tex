@@ -56,7 +56,7 @@ A summary of our contributions is as follows:
     define it as a protocol which consists of two algorithms, a burn address \emph{generator} and a burn address \emph{verifier}. We put forth the foundational properties which make for secure burn protocols, namely \emph{unspendability}, \emph{binding}, and \emph{uncensorability}.
     \item \textbf{Novel construction.} We propose a novel and simple construction which is flexible and can be adapted for use in existing cryptocurrencies, as long as they use public key hashes for address generation. To our knowledge, all popular cryptocurrencies are
     compatible with our scheme. We prove our construction secure in the Random Oracle model.
-    \item \textbf{Experimental results.} We provide a compehensively tested production-grade implementation of our burn verifier in Ethereum
+    \item \textbf{Experimental results.} We provide a compehensively tested production grade implementation of our burn verifier in Ethereum
     written in Solidity, which we release as open source software. Our implementation can be used to consume proofs of burn of a source blockchain
     within a target blockchain. We provide experimental measurements for the cost of burn verification and find that, in current Ethereum prices,
     burn verification costs $\$0.31$ per transaction.
@@ -76,4 +76,4 @@ ZCash~\cite{SP:BCGGMT14,hopwood2016zcash}.
 \textbf{Notation.} We use $\uniform(S)$ to denote the uniform distribution
 obtained by sampling any item of the set $S$ with probability $\frac{1}{|S|}$.
 We denote the support of a distribution $\mathcal{D}$ by $[\mathcal{D}]$.
-We denote the empty string by $\epsilon$.
+We denote the empty string by $\epsilon$ and string concatenation by $\conc$.

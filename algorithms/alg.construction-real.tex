@@ -1,20 +1,15 @@
 \begin{figure}[t]
 \begin{algorithm}[H]
-    \caption{\label{alg.construction-real} The key perturbation algorithm which
-    generates a provable proof-of-burn address.}
+    \caption{\label{alg.construction-real} The key perturbation algorithm which generates a provable proof-of-burn address which validates under Bitcoin.}
     \begin{algorithmic}[1]
-        \Function{$\GenBurnAddress$}{$1^\kappa, t$}
-            \Let{pkr}{\textsf{SHA512}(t)}
-            \Let{pkh}{\textsf{RIPEMD160}(\textsf{SHA256}(\texttt{0x04} || pkr)}
-            \Let{pkh'}{pkh \xor \texttt{0x01}}
+        \Function{$\GenBurnAddress$}{$t$}
+            \Let{th}{\RIPEMD(\SHA(t))}
+            \Let{th'}{th \xor \texttt{0x01}}
             \Comment{Key perturbation}
-            \If{main net}
-              \Let{addr}{\texttt{0x00} || pkh'}
-            \Else
-              \Let{addr}{\texttt{0x6f} || pkh'}
-            \EndIf
-            \Let{checksum}{\textsf{SHA256}(\textsf{SHA256}(addr))[4 * 8]}
-            \State\Return{\textsf{base58}(addr || checksum)}
+            \Let{\addr}{\texttt{0x00} \conc th'}
+            \Comment{Magic byte indicating \emph{mainnet}}
+            \Let{\checksum}{\SHA(\SHA(\addr))[4 * 8]}
+            \State\Return{\baseencode($\addr \conc \checksum$)}
         \EndFunction
         \vskip8pt
     \end{algorithmic}
