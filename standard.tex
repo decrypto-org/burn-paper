@@ -26,7 +26,7 @@ Correctness holds unconditionally.
 As evidence towards unspendability, we now remark that it is difficult for an adversary to obtain the secret key corresponding to the public key $h g^{H(t)}$. We therefore conjecture that our scheme is unspendable.
 
 \begin{lemma}[Logarithm unknowability]
-  If $h$ is a \emph{Common Random String}, no probabilistic polynomial-time adversary can produce $(t, z)$ such that $g^z = h g^{H(t)}$, except with negligible probability in $\kappa$.
+  If $h$ is a \emph{Common Random String} and assuming the DLOG problem is hard, no probabilistic polynomial-time adversary can produce $(t, z)$ such that $g^z = h g^{H(t)}$, except with negligible probability in $\kappa$.
 \end{lemma}
 \begin{proof}
   Suppose $\mathcal{A}$ is a probabilistic polynomial-time adversary which produces $(t, z)$ with probability of success $p = \Pr[g^z = h g^{H(t)}]$.
