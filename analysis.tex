@@ -88,7 +88,7 @@ predictability game is illustrated in Algorithm~\ref{alg.predict-game}.
   A distribution ensemble $\{X_{\kappa}\}_{\kappa\in\mathbb{N}}$ is
   \emph{unpredictable} if for all probabilistic polynomial-time adversaries
   $\mathcal{A}$ there exists a negligible function $\negl$ such that
-  $\Pr[\textsc{predict}_{\mathcal{A},X}(\kappa) = \true] < \negl$.
+  $\Pr[\predict_{\mathcal{A},X}(\kappa) = \true] < \negl$.
 \end{definition}
 
 \begin{lemma}[Negligible predictability]\label{lem:negl-pred}
@@ -105,7 +105,7 @@ predictability game is illustrated in Algorithm~\ref{alg.predict-game}.
   challenger. Therefore
 
   \begin{align*}
-  \Pr[\textsc{predict}_{\mathcal{A},X}(\kappa) = \true] &=
+  \Pr[\predict_{\mathcal{A},X}(\kappa) = \true] &=
   \sum_{x' \in [X]}\Pr_{x \gets X}[\mathcal{A}(\kappa) = x'\land x = x'] =\\
   \sum_{x' \in [X]}\Pr[\mathcal{A}(\kappa) = x']\Pr_{x \gets X}[x = x']
   &\leq \negl\sum_{x' \in [X]}\Pr[\mathcal{A}(\kappa) = x']
@@ -160,7 +160,7 @@ Appendix~\ref{sec.background}.
   Let $\mathcal{A}$ be an arbitrary polynomial distinguisher between
   $X$ and $\uniform(\{0, 1\}^\kappa)$.
   We construct an adversary $\mathcal{A}^*$
-  against $\textsc{predict}_{\mathcal{T}}$.
+  against $\predict_{\mathcal{T}}$.
   Let $r$ denote the (polynomial)
   maximum number of random oracle queries of $\mathcal{A}$.
   The adversary $\mathcal{A}^*$ is illustrated in
@@ -193,11 +193,11 @@ Appendix~\ref{sec.background}.
   of $\mathcal{A}$, conditioned on $\extqry$ the probability that
   $\mathcal{A}^*$ is able to correctly guess which query caused $\extqry$ will
   be $\frac{1}{r}$. Therefore we obtain that
-  $\Pr[\textsc{predict}_{\mathcal{A}^*,\mathcal{T}}(\kappa) = \true]
+  $\Pr[\predict_{\mathcal{A}^*,\mathcal{T}}(\kappa) = \true]
    = \frac{1}{r}\Pr[\extqry]
    = \frac{1}{r}\Pr[\query]$.
   As
-  $\Pr[\textsc{predict}_{\mathcal{A}^*,\mathcal{T}}(\kappa) = \true] \leq \negl$
+  $\Pr[\predict_{\mathcal{A}^*,\mathcal{T}}(\kappa) = \true] \leq \negl$
   and $r$
   is polynomial in $\kappa$, we deduce that $\Pr[\query] \leq \negl$.
 
