@@ -63,18 +63,18 @@ resistant and is in the standard model.
   Let $\mathcal{A}$ be an arbitrary adversary against $\Pi$.
   We will construct the Collision Resistance adversary $\mathcal{A}^*$ against $H$.
 
-  The collision resistance adversary, illustrated in Algorithm~\ref{alg.collision-resistance-adversary}, calls $\mathcal{A}$ and obtains two outputs, $t$ and $t'$. If $\mathcal{A}$ is successful then $t \neq t'$ and $H(t) \xor 1 = H(t') \xor 1$. Therefore $H(t) = H(t')$.
+  The collision resistance adversary, illustrated in Algorithm~\ref{alg.collision-adversary}, calls $\mathcal{A}$ and obtains two outputs, $t$ and $t'$. If $\mathcal{A}$ is successful then $t \neq t'$ and $H(t) \xor 1 = H(t') \xor 1$. Therefore $H(t) = H(t')$.
 
-  We thus conclude that $\mathcal{A^*}$ is successful in the \textsf{Collision} game if and only if $\mathcal{A}$ is successful in the \textsf{Bind} game.
+  We thus conclude that $\mathcal{A^*}$ is successful in the $\collisionattack$ game if and only if $\mathcal{A}$ is successful in the $\bindattack$ game.
 
   \[
-    \Pr[\textsf{Bind}_{\mathcal{A},\Pi} = \true]
+    \Pr[\bindattack_{\mathcal{A},\Pi}(\kappa) = \true]
     =
-    \Pr[\textsf{Collision}_{\mathcal{A}^*,H} = \true]
+    \Pr[\collisionattack_{\mathcal{A}^*,H}(\kappa) = \true]
   \]
 
-  From the collision resistance of $H$ it follows that $\Pr[\textsf{Collision}_{\mathcal{A}^*,H} = 1] < \negl$. Therefore,
-  $\Pr[\textsf{Bind}_{\mathcal{A},\Pi} = 1] < \negl$, so
+  From the collision resistance of $H$ it follows that $\Pr[\collisionattack_{\mathcal{A}^*,H} = 1] < \negl$. Therefore,
+  $\Pr[\bindattack_{\mathcal{A},\Pi} = 1] < \negl$, so
   the protocol $\Pi$ is binding.
 \end{proof}
 
