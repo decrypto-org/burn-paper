@@ -4,11 +4,12 @@
         \Contract{\textsf{burn-verifier}\text{ extends }\textsf{crosschain}$_{k,m,z}$; \textsf{ERC20}}
             \State\textsf{mapping}(\textsf{address} $\Rightarrow$ \textsf{uint256}) \textsf{balances}
             \State{$\textsf{claimed-events} \gets \emptyset$}
+            \Function{\sf is-claimable-event}{$e$}
+                \State\Return{$e \notin \textsf{claimed-events} \land \textsf{event-exists}(e)$}
+            \EndFunction
             \Function{\sf claim}{$e$}
-                \If{$e \in \textsf{claimed-events} \lor \lnot \textsf{event-exists}(e)$}
-                    \State\Return{$\bot$}
-                \EndIf
-                \If{$\lnot \BurnVerify(\{\textsf{targetAddress: msg.sender}\}, e.\textsf{addr})$}
+                \If{$\lnot \textsf{is-claimable-event}(e)
+                    \lor \lnot \BurnVerify(\textsf{msg.sender}, e.\textsf{addr})$}
                     \State\Return{$\bot$}
                 \EndIf
 
