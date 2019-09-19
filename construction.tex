@@ -9,6 +9,6 @@ The blockchain address protocol is illustrated in Algorithm~\ref{alg.p2pkh}.
 \import{./}{algorithms/alg.p2pkh.tex}
 
 We now present our construction for an uncensorable proof-of-burn protocol. To generate a burn address, the tag $t$ is hashed and a perturbation is performed on the hash by toggling the last bit.
-Verifying a burn address $\burnAddr$ encodes a certain tag $t$ is achieved by invoking $\GenBurnAddr$ with tag $t$ and checking whether the result matches $\burnAddr$. If it matches, the $\burnAddr$ correctly encodes $t$. Our construction is illustrated in Algorithm~\ref{alg.construction}.
+Verifying a burn address $\burnAddr$ encodes a certain tag $t$ is achieved by invoking $\GenBurnAddr$ with tag $t$ and checking whether the result matches $\burnAddr$. If it matches, the $\burnAddr$ correctly encodes $t$. Our construction is illustrated in Algorithm~\ref{alg.construction-ro}.
 
 \import{./}{algorithms/alg.construction-ro.tex}
