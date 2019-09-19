@@ -17,7 +17,7 @@ Our scheme is illustrated in Algorithm~\ref{alg.construction-crs}. $\GenBurnAddr
 Correctness holds unconditionally.
 
 \begin{theorem}[Correctness]
-  The Proof-of-Burn protocol $\Pi$ of Section~\ref{sec:standard} is \emph{correct}.
+  The Proof of Burn protocol $\Pi$ of Algorithm~\ref{alg.construction-crs} is \emph{correct}.
 \end{theorem}
 \begin{proof}
   Based on Algorithm~\ref{alg.construction-crs}, $\BurnVerify(1^\kappa, t, \GenBurnAddr(1^\kappa, t)) = \textsf{true}$ if and only if $\GenBurnAddr(1^\kappa, t) = \GenBurnAddr(1^\kappa, t)$, which always holds as $\GenBurnAddr$ is deterministic.
