@@ -86,7 +86,6 @@ library Verifier {
         byte[] memory proofSides,
         bytes32 txIDRoot
     ) public pure returns (bool) {
-        // TODO: handle cases of <= 1 proofHashes
         require(proofHashes.length == proofSides.length, "there should be one side for each hash");
         require(proofHashes[0] == mmrHashLeaf(txIDRoot), "the first proof hash should correspond to the tx id root");
         byte LEFT = hex"01";
