@@ -56,13 +56,8 @@ library Verifier {
         ) && verifyVoutIsValueTransfer(vout, amount, receivingPKH);
     }
 
-    function verifyTxInclusion(bytes32 txID, bytes32 txIDRoot, uint txIndex, bytes32[] memory proof) public pure returns (bool) {
-        // TODO: ensure the user sends the proof pre concatenated to be efficient
-        bytes memory _proof = hex"";
-        for (uint i = 0; i < proof.length; ++i) {
-            _proof = abi.encodePacked(_proof, proof[i]);
-        }
-        return ValidateSPV.prove(txID, txIDRoot, _proof, txIndex);
+    function verifyTxInclusion(bytes32 txID, bytes32 txIDRoot, uint txIndex, bytes memory proof) public pure returns (bool) {
+        return ValidateSPV.prove(txID, txIDRoot, proof, txIndex);
     }
 
     function mmrHashLeaf(bytes32 payload) internal pure returns (bytes32) {

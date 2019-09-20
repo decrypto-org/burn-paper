@@ -50,4 +50,8 @@ function logGasUsed(what, result) {
   console.log(what, 'used', result.receipt.gasUsed, 'gas');
 }
 
-module.exports = {b, rb, getTxFixture, getMMRFixture, txParams, txParamsObject, assertReverts, logGasUsed};
+function concatHashes(hashes) {
+  return b(hashes.join(''));
+}
+
+module.exports = {b, rb, getTxFixture, getMMRFixture, txParams, txParamsObject, assertReverts, logGasUsed, concatHashes};

@@ -32,7 +32,7 @@ contract('BurnedBTC', ([firstAccount, ..._]) => {
         txInclusion: {
           txIDRoot: txid,
           txIndex: 0,
-          hashes: []
+          hashes: '0x',
         },
         blockConnection: {
           hashes: [],
@@ -72,7 +72,7 @@ contract('BurnedBTC', ([firstAccount, ..._]) => {
       const claimer = b("3333333333333333333333333333333333333333");
       const proof = {
         transaction: b("00"),
-        txInclusion: { txIDRoot: ZERO_HASH, txIndex: 0, hashes: [] },
+        txInclusion: { txIDRoot: ZERO_HASH, txIndex: 0, hashes: '' },
         blockConnection: { hashes: [], sides: [] }
       };
       const event = {

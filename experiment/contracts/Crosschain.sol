@@ -20,7 +20,7 @@ contract Crosschain {
     struct TxInclusion {
         bytes32 txIDRoot;
         uint txIndex;
-        bytes32[] hashes;
+        bytes hashes;
     }
 
     struct BlockConnection {
