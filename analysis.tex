@@ -122,15 +122,22 @@ We now posit that no adversary can predict the public key of a secure signature 
   unpredictable.
 \end{lemma}
 \begin{proof}
-  Let $\widehat{pk}$ be an arbitrary $\kappa$-length public key generated
-  by $\textsf{Gen}$ with some probability $p$.
+  Let
+  $p = \max_{\widehat{pk} \in [X_\kappa]}\Pr_{pk \gets X_\kappa}[pk = \widehat{pk}]$.
   Consider the existential forgery adversary $\mathcal{A}$ which works as
   follows. It receives $pk$ as its input from the challenger, but ignores it
   and generates a new key pair $(pk', sk') \gets \textsf{Gen}(1^\kappa)$.
   Since the
   two invocations of $\textsf{Gen}$ are independent,
-  $\Pr[pk = pk'] \geq \Pr[pk = \widehat{pk} \land pk' = \widehat{pk}]
-  = \Pr[pk = \widehat{pk}]\Pr[pk = \widehat{pk'}] = p^2$. The adversary checks
+  \begin{align*}
+    \Pr[pk = pk'] \geq \max_{\widehat{pk} \in [X_\kappa]}\Pr[pk = \widehat{pk} \land pk' = \widehat{pk}]\\
+  = \max_{\widehat{pk} \in [X_\kappa]}\Pr[pk = \widehat{pk}]\Pr[pk' = \widehat{pk}]\\
+  = \max_{\widehat{pk} \in [X_\kappa]}\left(\Pr[pk = \widehat{pk}]\right)^2
+  = p^2
+  \,.
+  \end{align*}
+
+  The adversary checks
   whether $pk = pk'$. If not, it aborts. Otherwise, it uses $sk'$ to sign the
   message $m = \epsilon$ and returns the forgery $\sigma = \textsf{Sig}(sk, m)$.
   From the correctness of the signature scheme, if $pk = pk'$, then
@@ -138,8 +145,8 @@ We now posit that no adversary can predict the public key of a secure signature 
   successful. Since the signature scheme is secure,
   $\Pr[\textsf{Sig-forge}^{cma}_{\mathcal{A},S}] = \negl$.
   But $\Pr[pk = pk'] \leq \Pr[\textsf{Sig-forge}^{cma}_{\mathcal{A},S}]$ and
-  therefore $p = \sqrt{\Pr[pk = pk']} \leq \negl$. Applying
-  Lemma~\ref{lem:negl-pred}, we deduce that the distribution $X$ is
+  therefore $p \leq \sqrt{\Pr[pk = pk']} \leq \negl$. Applying
+  Lemma~\ref{lem:negl-pred}, we deduce that the distribution ensemble $X_\kappa$ is
   unpredictable.
 \end{proof}
 
