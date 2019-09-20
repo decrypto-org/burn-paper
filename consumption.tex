@@ -45,6 +45,10 @@ In the interest of keeping this implementation generic we assume that the user r
 We now shift our attention to the problem of verifying whether a block really belongs in the best source chain. We provide multiple ways of implementing the aforementioned \textsf{is-in-best-chain} method.
 
 \noindent
+\textbf{Direct observation.}
+Miners connect to the source blockchain network and have access to the best source chain. A miner can thus evaluate if a block is included in that chain. This mechanism does not provide miner-isolation. It is adopted by Counterparty.
+
+\noindent
 \textbf{NIPoPoWs.}
 Verifying block connection can be achieved through NIPoPoWs, as in~\cite{pow-sidechains}.
 We remark that with this setup a block connection proof may be considered valid provisionally, but there needs to be a period in which the proof can be disputed for the smart contract to be certain for the validity of the proof. Specifically, when a user performs a claim, they have to put down some collateral. If they have provided a valid NIPoPoW a contestation period begins. Within that period a challenger can dispute the provided proof which would turn the result of \textsf{is-in-best-chain} to false, abort the claim and grant the challenger the user's collateral. If the contestation period ends with the proof undisputed then \textsf{is-in-best-chain} evaluates to true, the collateral gets returned to the user and the claim is performed successfully.
