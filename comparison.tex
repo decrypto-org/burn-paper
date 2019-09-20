@@ -19,7 +19,7 @@ An $\opreturn$ or any other provably failing script can also be used as the rede
 
 \noindent
 \textbf{Nothing-up-my-sleeve.}
-An address is manually crafted, such that it is obvious that it has not been obtained by regular keypair generation through the secure signature scheme's \textsf{Gen}. For example, a public key hash of all zeros is considered a nothing-up-my-sleeve address. The public key hash is then converted to an address through the regular procedure of the cryptocurrency. It is hard for someone to obtain the public key corresponding to this hash, thus funds sent to the corresponding address are unspendable.
+An address is manually crafted, such that it is obvious that it has not been obtained by regular keypair generation through the secure signature scheme's \textsf{Gen}. For example, a public key hash of all zeros is considered a nothing-up-my-sleeve address. The public key hash is then converted to an address through the regular procedure of the cryptocurrency. It is hard for someone to obtain the public key corresponding to this hash, thus funds sent to the corresponding address are unspendable. Because no metadata can be associated with such a burn, this scheme does not exhibit the binding property.
 
 We compare the aforementioned schemes on whether they satisfy the burn protocol properties we define: Binding, unspendability and uncensorability. Additionally, we compare them based on how easily they translate to multiple cryptocurrencies. For instance, $\opreturn$ and P2SH $\opreturn$ rely on Bitcoin Script semantics and do not directly apply to any non-Bitcoin based cryptocurrencies like Monero~\cite{van2013cryptonote}, thus we say they are not flexible. The comparison is illustrated on Table~\ref{table:comparison}.
 
