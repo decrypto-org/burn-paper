@@ -93,10 +93,9 @@ predictability game is illustrated in Algorithm~\ref{alg.predict-game}.
 
 \begin{lemma}[Negligible unpredictability]\label{lem:negl-pred}
   Consider a distribution ensemble $\{X_{\kappa}\}_{\kappa\in\mathbb{N}}$ and
-  a negligible function $\negl$. If for all $\kappa$ for all
-  $x \in [X_\kappa]$ we have that
-  $\Pr_{x^* \gets X_\kappa}[x^* = x] \leq \negl$, then
-  $X$ is unpredictable.
+  a negligible function $\negl$. If
+  $\max_{x \in [X_\kappa]}\Pr_{x^* \gets X_\kappa}[x^* = x] \leq \negl$,
+  then $X$ is unpredictable.
 \end{lemma}
 \begin{proof}
   Consider a probabilistic polynomial-time adversary $\mathcal{A}$ which
