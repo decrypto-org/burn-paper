@@ -26,10 +26,10 @@ With foresight, we remark that the implementation of $\GenBurnAddr$ and $\BurnVe
 Naturally, for $\GenBurnAddr$ to generate addresses that ``look'' valid but are unspendable according to the blockchain protocol requires that the burn protocol respects its format. We abstract these functionalities into a \emph{blockchain address protocol}:
 
 \begin{definition}[Blockchain address protocol]
-  A \emph{blockchain address protocol} $\Pi_\alpha$ consists of two functions $\GenAddress$ and $\sf{SpendVerify}$:
+  A \emph{blockchain address protocol} $\Pi_\alpha$ consists of two functions $\GenAddr$ and $\sf{SpendVerify}$:
 
   \begin{itemize}
-    \item $\GenAddress(1^\kappa)$: Returns a tuple $(\sf{pk}, \sf{sk})$, denoting the cryptocurrency address $\sf{pk}$ (a public key) used to receive money and its respective secret key $\sf{sk}$ which allows spending from that address.
+    \item $\GenAddr(1^\kappa)$: Returns a tuple $(\sf{pk}, \sf{sk})$, denoting the cryptocurrency address $\sf{pk}$ (a public key) used to receive money and its respective secret key $\sf{sk}$ which allows spending from that address.
 
     \item $\sf{SpendVerify}(m, \sigma, pk)$: Returns $\sf{true}$ if the transaction $m$ spending from receiving address $pk$ has been authorized by the signature $\sigma$ (by being signed by the respective private key).
   \end{itemize}
@@ -74,6 +74,6 @@ The aforementioned properties form a good basis for a burn protocol. We observe 
 
 \begin{definition}[Uncensorability]
   A burn protocol $\Pi$ is \emph{uncensorable} if
-  the distribution ensembles $\{A_\kappa \gets \GenAddress(1^\kappa)\}_\kappa$ and
+  the distribution ensembles $\{A_\kappa \gets \GenAddr(1^\kappa)\}_\kappa$ and
   $\{B_\kappa \gets \GenBurnAddr(1^\kappa, \cdot)\}_\kappa$ are computationally indistinguishable.
 \end{definition}

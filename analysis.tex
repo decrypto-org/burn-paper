@@ -169,7 +169,7 @@ Appendix~\ref{sec.background}.
   sets $Z = X$ if $b = 0$, otherwise
   sets $Z = \uniformk$.
   It samples $z \gets Z$.
-  If $b = 0$, then $z$ is chosen by applying $\GenAddress$ which involves
+  If $b = 0$, then $z$ is chosen by applying $\GenAddr$ which involves
   calling the random oracle $H$ with some input $pk$.
   It then chooses one of $\mathcal{A}$'s queries $j \stackrel{\$}{\gets} [r]$
   uniformly at random. Finally, it outputs the input received by the random
@@ -252,7 +252,7 @@ Appendix~\ref{sec.background}.
 \begin{proof}
   From Lemma~\ref{lem:pk-unpredictability} the distribution of
   public keys generated from $S$ is unpredictable. The
-  function $\GenAddress$ samples a public key from $S$ and applies the
+  function $\GenAddr$ samples a public key from $S$ and applies the
   random oracle $H$ to it. Applying
   Lemma~\ref{lem:ro-unpredictability}, we obtain that
   $X \cind \uniform(\{0, 1\}^\kappa)$.
