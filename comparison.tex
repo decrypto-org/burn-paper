@@ -18,7 +18,7 @@ Before $\opreturn$ came to exist, it was proposed that any provably failing Bitc
 An $\opreturn$ or any other provably failing script can also be used as the redeemScript for a Pay to Script Hash (P2SH)~\cite{p2sh} address. The script is hashed and turned into an address. The scheme is unspendable since there is no scriptSig that could make an $\opreturn$ script succeed. Additionally it is uncensorable if the tag is not revealed. Finally, the scheme is user-friendly since the user can create a burn transaction using any regular wallet.
 
 \noindent
-\textbf{Nothing-up-my-sleeve address.}
+\textbf{Nothing-up-my-sleeve.}
 An address is manually crafted, such that it is obvious that it has not been obtained by regular keypair generation through the secure signature scheme's \textsf{Gen}. For example, a public key hash of all zeros is considered a nothing-up-my-sleeve address. The public key hash is then converted to an address through the regular procedure of the cryptocurrency. It is hard for someone to obtain the public key corresponding to this hash, thus funds sent to the corresponding address are unspendable.
 
 We compare the aforementioned schemes on whether they satisfy the burn protocol properties we define: Binding, unspendability and uncensorability. Additionally, we compare them based on how easily they translate to multiple cryptocurrencies. For instance, $\opreturn$ and P2SH $\opreturn$ rely on Bitcoin Script semantics and do not directly apply to any non-Bitcoin based cryptocurrencies like Monero~\cite{van2013cryptonote}, thus we say they are not flexible. The comparison is illustrated on Table~\ref{table:comparison}.
@@ -35,7 +35,7 @@ We compare the aforementioned schemes on whether they satisfy the burn protocol 
      \hline
      $\opreturn$                        & \y      & \n       & \y          & \n \\
      P2SH $\opreturn$                   & \y      & \n       & \y          & \y \\
-     Nothing-up-my-sleeve address       & \n      & \y       & \y          & \y \\
+     Nothing-up-my-sleeve               & \n      & \y       & \y          & \y \\
      $a \xor 1$ \textbf{(this work)}    & \y      & \y       & \y          & \y \\
      \hline
     \end{tabular}
