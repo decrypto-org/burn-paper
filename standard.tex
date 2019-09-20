@@ -74,13 +74,15 @@ holds for distributions that are efficiently samplable.
 \import{./}{algorithms/alg.predictability-adversary-guess.tex}
 
 \begin{lemma}[Non-negligible predictability]
-  Consider an efficiently samplable unpredictable distribution ensemble $\{X_\kappa\}_{\kappa\in\mathbb{N}}$. Then for all $x \in [X_\kappa]$ there exists a negligible function $\negl$ such that $\Pr_{x^* \gets X_\kappa}[x^* = x] \leq \negl$.
+  Consider an efficiently samplable unpredictable distribution ensemble $\{X_\kappa\}_{\kappa\in\mathbb{N}}$. Then there exists a negligible function $\negl$ such that $\max_{x \in X_\kappa}\Pr_{x^* \gets X_\kappa}[x^* = x] \leq \negl$.
 \end{lemma}
 \begin{proof}
-  Let $x \in [X_\kappa]$ be arbitrary and consider the probability
-  $p = \Pr_{x^* \gets X_\kappa}[x^* = x]$.
-  Consider the probabilistic polynomial-time predictability adversary $\mathcal{A}$ which samples from $X_\kappa$ and returns its sample illustrated in Algorithm~\ref{alg.predictability-adversary-guess}. We have that $\Pr[\predict_{\mathcal{A},X}(\kappa) = \true] = p^2$, which is negligible by the assumption that $X$ is unpredictable. Hence
-  $p = \sqrt{\Pr[\predict_{\mathcal{A},X}(\kappa) = \true]}$ is also negligible.
+  Consider the probabilistic polynomial-time predictability adversary $\mathcal{A}$ which samples from $X_\kappa$ and returns its sample illustrated in Algorithm~\ref{alg.predictability-adversary-guess}. By the independence of the
+  sampling from $X_\kappa$ of the challenger and the adversary, we have that
+  $\Pr[\predict_{\mathcal{A},X}(\kappa) = \true]
+   = \sum_{x \in [X_\kappa]} \Pr^2_{x^* \gets X_\kappa}[x^* = x]$,
+  which is negligible from the assumption that $X$ is unpredictable. Hence
+  $\max_{x \in X_\kappa}\Pr_{x^* \gets X_\kappa}[x^* = x]$ is also negligible.
 \end{proof}
 
 We remark that it is instrumental to the above proof that the distribution ensemble $\{X_\kappa\}_{\kappa\in\mathbb{N}}$ is efficiently samplable; otherwise the statement does not hold.
