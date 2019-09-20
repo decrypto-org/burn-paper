@@ -7,7 +7,7 @@ its correctness is straightforward to show.
   The Proof-of-Burn protocol $\Pi$ of Section~\ref{section:construction} is \emph{correct}.
 \end{theorem}
 \begin{proof}
-  Based on Algorithm~\ref{alg.construction}, $\BurnVerify(1^\kappa, t, \GenBurnAddress(1^\kappa, t)) = \textsf{true}$ if and only if $\GenBurnAddress(1^\kappa, t) = \GenBurnAddress(1^\kappa, t)$, which always holds as $\GenBurnAddress$ is deterministic.
+  Based on Algorithm~\ref{alg.construction}, $\BurnVerify(1^\kappa, t, \GenBurnAddr(1^\kappa, t)) = \textsf{true}$ if and only if $\GenBurnAddr(1^\kappa, t) = \GenBurnAddr(1^\kappa, t)$, which always holds as $\GenBurnAddr$ is deterministic.
 \end{proof}
 
 We now state a simple lemma pertaining to the distribution of Random Oracle
