@@ -1,0 +1,38 @@
+{
+    "txIDRoot": "fc074723d089d5338b65800707544f509bf111bc4d17a2b0353978319145fc5a",
+    "mmrRoot": "0423e89e6c32bcbc59ace7433d3ee340a84efc921cb7cbe6d7a67caf442b8b9e",
+    "proof": [
+        [
+            "51d87417a1939fd76b8997ed8f5eff23621c3bf119257f9ec823442bdcf5b13f",
+            "RIGHT"
+        ],
+        [
+            "680287383cd32a021c302ec5a5ea6c5da9a07d42297ba0046b3b160beb5be200",
+            "RIGHT"
+        ],
+        [
+            "6b568c5a2b892d3082329c612a0ab9451a41def50363a5e09e5e6402ef7f5a8d",
+            "RIGHT"
+        ],
+        [
+            "ce45c8efbd958465ef76ffd40dab543b1a452b25d9b0224c9d3cda1116baca41",
+            "LEFT"
+        ],
+        [
+            "a010a0f7405c541c877324c23096351441ff8e63dfbd466b50314648a45b0e46",
+            "RIGHT"
+        ],
+        [
+            "cf92d30492f52af8357177cf2cbf7e95dd066362cc2b2b89aa999fe30dda32f7",
+            "LEFT"
+        ],
+        [
+            "b43efb88f2158164fe882d6ae6d04577f171a79c4f1bc130010b69666ceded76",
+            "RIGHT"
+        ],
+        [
+            "5e0d376bd7189ebf231ff704a476988a5657163f059a813fd4948ea66e83fe3d",
+            "RIGHT"
+        ]
+    ]
+}

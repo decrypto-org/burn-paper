@@ -11,11 +11,11 @@ tx.vin.append(CMutableTxIn())
 tx.vout.append(CMutableTxOut(10, receiver.to_scriptPubKey()))
 print('tx: "%s"' % tx.serialize().hex())
 
-print('txid: "%s"' % tx.GetTxid()[::-1].hex())
+print('txid: "%s"' % tx.GetTxid().hex())
 
 blk = CBlock(vtx=[tx])
 blk_mtr = blk.calc_merkle_root()
 print('block_mtr: "%s"' % blk_mtr.hex())
 
-mmr = hashlib.sha256(b'\x00'+blk_mtr[::-1]).digest()
+mmr = hashlib.sha256(b'\x00'+blk_mtr).digest()
 print('mmr: "%s"' % mmr.hex())
