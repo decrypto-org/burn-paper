@@ -1,27 +1,28 @@
 \section{Comparison}
 
-We present a few alternatives for performing proof of burn which have been proposed in previous work. All of the schemes presented are captured by our burn protocol definition.
+We now compare alternatives for proof of burn proposed in previous work. Our burn primitive captures all of these schemes.
 
 \newcommand{\opreturn}{\texttt{OP\_RETURN}}
 
 \noindent
 \textbf{$\opreturn$.}
-Bitcoin natively employs a mechanism for burning money using a specialized
-opcode called $\opreturn$~\cite{bartoletti2017analysis}. Unfortunately,
-standard wallets do not provide a user-friendly interface for creating an $\opreturn$ proof-of-burn transaction.
-However, it does benefit the Bitcoin network by allowing the UTXO
-to be pruned, at the cost of not being uncensorable.
-Before $\opreturn$ came to exist, it was proposed that any provably failing Bitcoin script could be used for burning money~\cite{stewart}.
+Bitcoin provides a native opcode called  $\opreturn$~\cite{bartoletti2017analysis} which can be used for burning.
+Unfortunately,
+standard wallets do not provide a user friendly interface for creating $\opreturn$ transactions.
+However, it benefits the Bitcoin network by allowing the UTXO to be pruned, at
+the cost of not being uncensorable.
+Similarly to $\opreturn$, any provably failing Bitcoin script can be used for
+burning~\cite{stewart}.
 
 \noindent
 \textbf{P2SH $\opreturn$.}
-An $\opreturn$ or any other provably failing script can also be used as the redeemScript for a Pay to Script Hash (P2SH)~\cite{p2sh} address. The script is hashed and turned into an address. The scheme is unspendable since there is no scriptSig that could make an $\opreturn$ script succeed. Additionally it is uncensorable if the tag is not revealed. Finally, the scheme is user-friendly since the user can create a burn transaction using any regular wallet.
+An $\opreturn$ or other provably failing script can also be used as the redeemScript for a Pay to Script Hash (P2SH)~\cite{p2sh} address. It is unspendable since there is no scriptSig that could the script succeed. Additionally, it is uncensorable if the tag is not revealed. Finally, the scheme is user friendly since any regular wallet can create a burn transaction.
 
 \noindent
 \textbf{Nothing-up-my-sleeve.}
-An address is manually crafted, such that it is obvious that it has not been obtained by regular keypair generation through the secure signature scheme's \textsf{Gen}. For example, a public key hash of all zeros is considered a nothing-up-my-sleeve address. The public key hash is then converted to an address through the regular procedure of the cryptocurrency. It is hard for someone to obtain the public key corresponding to this hash, thus funds sent to the corresponding address are unspendable. Because no metadata can be associated with such a burn, this scheme does not exhibit the binding property.
+An address is manually crafted, so that it is clear it was not generated from a regular keypair. For example, the all-zeros address is considered nothing-up-my-sleeve. It is hard to obtain a public key hashing to this address, thus funds sent to it are unspendable. Because no metadata can be associated with such a burn, this scheme is not binding.
 
-We compare the aforementioned schemes on whether they satisfy the burn protocol properties we define: Binding, unspendability and uncensorability. Additionally, we compare them based on how easily they translate to multiple cryptocurrencies. For instance, $\opreturn$ and P2SH $\opreturn$ rely on Bitcoin Script semantics and do not directly apply to any non-Bitcoin based cryptocurrencies like Monero~\cite{van2013cryptonote}, thus we say they are not flexible. The comparison is illustrated on Table~\ref{table:comparison}.
+We compare the aforementioned schemes on whether they satisfy the burn protocol properties we define: Binding, unspendability and uncensorability. Additionally, we compare them based on how easily they translate to multiple cryptocurrencies. For instance, $\opreturn$ and P2SH $\opreturn$ rely on Bitcoin Script semantics and do not directly apply to any non-Bitcoin based cryptocurrencies like Monero~\cite{van2013cryptonote}, thus we say they are not \emph{flexible}. The comparison is illustrated on Table~\ref{table:comparison}.
 
 \begin{table}[h!]
     \newcommand{\y}{$\bullet$}
