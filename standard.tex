@@ -25,7 +25,7 @@ Correctness holds unconditionally.
 
 As evidence towards unspendability, we now remark that it is difficult for an adversary to obtain the secret key corresponding to the public key $h g^{H(t)}$ needed to produce signatures. We therefore conjecture that our scheme is unspendable.
 
-\begin{lemma}[Logarithm unknowability]
+\begin{lemma}[Logarithm ignorance]
   If $h$ is a \emph{Common Random String} and assuming the DLOG problem is hard, no probabilistic polynomial-time adversary can produce $(t, z)$ such that $g^z = h g^{H(t)}$, except with negligible probability in $\kappa$.
 \end{lemma}
 \begin{proof}
@@ -40,7 +40,7 @@ As evidence towards unspendability, we now remark that it is difficult for an ad
   But $\Pr[\mathcal{A}^*(h) = y]$ is negligible.
 \end{proof}
 
-This observation illustrates the useful fact that, if a single group element with unknowable logarithm is provided, an arbitrary number of such group elements can be found and proven to have unknowable logarithms.
+This observation illustrates the useful fact that, if a single group element with unknown logarithm is provided, an arbitrary number of such group elements can be found and logarithm ignorance can be proven.
 
 \import{./}{algorithms/alg.collision-adversary-crs.tex}
 
