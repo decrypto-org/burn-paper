@@ -183,3 +183,16 @@ We are now ready to prove uncensorability.
 \noindent
 \textbf{Trusted setup.}
 We remark here that we \emph{do not} require a trusted setup. In particular, we do not generate a Common Reference String $g^y$ by selecting a random $y$ and computing $g^y$, as this would require ensuring $y$ is destroyed. Instead, we select a random group element $h$ directly, which is possible in many finite groups. As an example of such a construction in practice, a point can be selected on the secp256k1 elliptic curve by starting with an $X$ coordinate corresponding to a well-known number such as $X = \SHA(\text{``Whereof one cannot speak, thereof one must be silent''})$ and incremented until a solution of the elliptic curve equation exists for $Y$, then taking the positive such $Y$ and using the point $h = (X, Y)$.
+
+\noindent
+\textbf{Perturbation of group element labels.}
+Yet another scheme that can potentially realize the above properties is the burn
+address generation by evaluating $(g^t) + 1$, where the $+1$ does not pertain to
+the group operation, but operates on the label of the group element. For
+example, in the group $\mathbb{Z}_p^*$, the $+1$ can be taken to be literally
+the next integer. Such a scheme is clearly correct and binding. Its
+uncensorability is comparable to our above scheme. Lastly, its unspendability,
+given appropriate restrictions ($t \neq 0$) seems to intuitively hold: It is
+hard to know the logarithm of both a group element and its next. Whether this is
+provable in the Generic Group Model or using appropriate hardness assumptions is
+left for future work.
