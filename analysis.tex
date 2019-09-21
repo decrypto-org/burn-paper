@@ -91,7 +91,7 @@ predictability game is illustrated in Algorithm~\ref{alg.predict-game}.
   $\Pr[\predict_{\mathcal{A},X}(\kappa) = \true] < \negl$.
 \end{definition}
 
-\begin{lemma}[Negligible unpredictability]\label{lem:negl-pred}
+\begin{lemma}[Negligible unpredictability]\label{lem:negl-unpred}
   Consider a distribution ensemble $\{X_{\kappa}\}_{\kappa\in\mathbb{N}}$ and
   a negligible function $\negl$. If
   $\max_{x \in [X_\kappa]}\Pr_{x^* \gets X_\kappa}[x^* = x] \leq \negl$,
@@ -146,7 +146,7 @@ We now posit that no adversary can predict the public key of a secure signature 
   $\Pr[\textsf{Sig-forge}^{cma}_{\mathcal{A},S}] = \negl$.
   But $\Pr[pk = pk'] \leq \Pr[\textsf{Sig-forge}^{cma}_{\mathcal{A},S}]$ and
   therefore $p \leq \sqrt{\Pr[pk = pk']} \leq \negl$. Applying
-  Lemma~\ref{lem:negl-pred}, we deduce that the distribution ensemble $X_\kappa$ is
+  Lemma~\ref{lem:negl-unpred}, we deduce that the distribution ensemble $X_\kappa$ is
   unpredictable.
 \end{proof}
 
