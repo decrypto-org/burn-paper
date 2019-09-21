@@ -156,3 +156,12 @@ To complete the proof of uncensorability, we note that applying an efficiently c
    \Pr[\distattack_{\mathcal{A}}(\kappa) = \true]$.
   As $\Pr[\distattack_{\mathcal{A}^*}(\kappa) = \true] \leq \frac{1}{2} + \negl$, therefore $\Pr[\distattack_{\mathcal{A}}(\kappa) = \true] \leq \frac{1}{2} + \negl$.
 \end{proof}
+
+We are now ready to prove uncensorability.
+
+\begin{theorem}[Uncensorability]
+  Let $\mathcal{T}$ be an efficiently samplable unpredictable tag distribution and $H$ be a hash function such that $\{t \gets \mathcal{T}_\kappa; H(t)\} \cind \uniform([q])$ where $q$ denotes the order of the group $\mathbb{G}$. Then the Proof of Burn protocol $\Pi$ of Algorithm~\ref{alg.construction-crs} is \emph{uncensorable} with respect to blockchain address protocol $\Pi_\alpha$ of Algorithm~\ref{alg.p2pk}.
+\end{theorem}
+\begin{proof}
+  Apply Lemma~\ref{lem:ind-pres} to the computationally indistinguishable distribution ensembles $\{t \gets \mathcal{T}_\kappa; H(t)\}$ and $\uniform([q])$ mapped through the function $f(x) = h g^x$.
+\end{proof}
