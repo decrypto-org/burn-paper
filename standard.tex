@@ -27,9 +27,9 @@ As evidence towards unspendability, we now remark that it is difficult for an ad
 
 \import{./}{algorithms/alg.secret-key-adversary.tex}
 
-\begin{lemma}[Logarithm ignorance]
+\begin{lem}[Logarithm ignorance]
   If $h$ is a \emph{Common Random String} and assuming the DLOG problem is hard, no probabilistic polynomial-time adversary can produce $(t, z)$ such that $g^z = h g^{H(t)}$, except with negligible probability in $\kappa$.
-\end{lemma}
+\end{lem}
 \begin{proof}
   Suppose $\mathcal{A}$ is a probabilistic polynomial-time adversary which produces $(t, z)$ with probability of success $p = \Pr[g^z = h g^{H(t)}]$.
   We construct the adversary $\mathcal{A}^*$ which invokes $\mathcal{A}$
@@ -83,37 +83,17 @@ polynomial-time adversaries remains a question for future work.
 \end{proof}
 
 We now give some evidence towards the uncensorability of our scheme.
-% We introduce a helpful lemma on the nature of unpredictable
-% distributions which shows that the converse of Lemma~\ref{lem:negl-unpred}
-% holds for distributions that are efficiently samplable.
-%
-% \import{./}{algorithms/alg.predictability-adversary-guess.tex}
-%
-% \begin{lemma}[Unpredictable negligibility]\label{lem:unpred-negl}
-%   Consider an efficiently samplable unpredictable distribution ensemble $\{X_\kappa\}_{\kappa\in\mathbb{N}}$. Then there exists a negligible function $\negl$ such that $\max_{x \in X_\kappa}\Pr_{x^* \gets X_\kappa}[x^* = x] \leq \negl$.
-% \end{lemma}
-% \begin{proof}
-%   Consider the probabilistic polynomial-time predictability adversary $\mathcal{A}$ which samples from $X_\kappa$ and returns its sample illustrated in Algorithm~\ref{alg.predictability-adversary-guess}. By the independence of the
-%   sampling from $X_\kappa$ of the challenger and the adversary, we have that
-%   $\Pr[\predict_{\mathcal{A},X}(\kappa) = \true]
-%    = \sum_{x \in [X_\kappa]} \Pr^2_{x^* \gets X_\kappa}[x^* = x]$,
-%   which is negligible from the assumption that $X$ is unpredictable. Hence
-%   $\max_{x \in X_\kappa}\Pr_{x^* \gets X_\kappa}[x^* = x]$ is also negligible.
-% \end{proof}
-%
-% We remark that it is instrumental to the above proof that the distribution ensemble $\{X_\kappa\}_{\kappa\in\mathbb{N}}$ is efficiently samplable; otherwise the statement does not hold.
-%
 The following lemma expands on the results of Lemma~\ref{lem:ro-unpredictability} without making use of the Random Oracle model.
 
 \import{./}{algorithms/alg.collision-adversary-unpred-crs.tex}
 
 \newcommand{\collstar}{\textsc{Coll}_{h^*}}
 
-\begin{lemma}[Collision resistant unpredictability]
+\begin{lem}[Collision resistant unpredictability]
   Let $H$ be a collision resistant hash function and $\{\mathcal{T}\}_{\kappa\in\mathbb{N}}$ be an
   efficiently samplable unpredictable distribution ensemble. Then the
   distribution ensemble $X_\kappa = \{ t \gets \mathcal{T}; H(t) \}$ is unpredictable.
-\end{lemma}
+\end{lem}
 \begin{proof}
   Consider the collision adversary $\mathcal{A}$ against the hash function $H$ illustrated in Algorithm~\ref{alg.collision-adversary-unpred-crs} which samples $t_1$ and $t_2$ independently from $\mathcal{T}_\kappa$ and hopes for a collision. Let $\collstar$ denote the event that $H(t_1) = H(t_2) = h^*$.
   Applying total probability
@@ -157,7 +137,7 @@ To complete the proof of uncensorability, we note that applying an efficiently c
 
 \import{./}{algorithms/alg.pres-distinguisher.tex}
 
-\begin{lemma}[Indistinguishability preservation]\label{lem:ind-pres}
+\begin{lem}[Indistinguishability preservation]\label{lem:ind-pres}
   Given two
   computationally indistinguishable distribution ensembles
   $\{X_\kappa\}_{\kappa\in\mathbb{N}}$ and $\{Y_\kappa\}_{\kappa\in\mathbb{N}}$,
@@ -169,7 +149,7 @@ To complete the proof of uncensorability, we note that applying an efficiently c
   and
   $Y' = \{f_\kappa(Y_\kappa)\}_{\kappa\in\mathbb{N}}$
   are computationally indistinguishable.
-\end{lemma}
+\end{lem}
 \begin{proof}
   Let $\mathcal{A}$ be a probabilistic polynomial-time distinguisher
   between $X'$ and $Y'$. Consider the probabilistic polynomial-time distinguisher $\mathcal{A}^*$ between $X$ and $Y$ illustrated in Algorithm~\ref{alg.pres-distinguisher}. Then
