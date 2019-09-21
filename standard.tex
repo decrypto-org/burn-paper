@@ -133,6 +133,7 @@ The following lemma expands on the results of Lemma~\ref{lem:ro-unpredictability
 
 Unfortunately, a merely unpredictable distribution on the exponent does not allow us to prove uncensorability. However, we can prove uncensorability if we assume the hash function maps the tag distribution to the uniform distribution $\uniform([q])$ of the exponents of $\mathbb{G}$, which is an assumption closely related to the Random Oracle. We leave the relaxation of this additional assumption for future work.
 
+<<<<<<< HEAD
 To complete the proof of uncensorability, we note that applying an efficiently computable function to indistinguishable distributions preserves indistinguishability.
 
 \import{./}{algorithms/alg.pres-distinguisher.tex}
@@ -159,6 +160,8 @@ To complete the proof of uncensorability, we note that applying an efficiently c
 \end{proof}
 
 We are now ready to prove uncensorability.
+=======
+>>>>>>> Move ind-pres lem into indistinguishability sec
 
 \begin{theorem}[Uncensorability]
   Let $\mathcal{T}$ be an efficiently samplable unpredictable tag distribution and $H$ be a hash function such that $\{t \gets \mathcal{T}_\kappa; H(t)\} \cind \uniform([q])$ where $q$ denotes the order of the group $\mathbb{G}$. Then the proof-of-burn protocol $\Pi$ of Algorithm~\ref{alg.construction-crs} is \emph{uncensorable} with respect to blockchain address protocol $\Pi_\alpha$ of Algorithm~\ref{alg.p2pk}.
