@@ -107,11 +107,14 @@ probability, then the distribution must be unpredictable.
 Finally, we observe that public keys generated from secure signature schemes must
 be unpredictable.
 
+\import{./}{algorithms/alg.forgery-adversary.tex}
+
 \restateLemPkUnpredictability*
 \begin{proof}
   Let
   $p = \max_{\widehat{pk} \in [X_\kappa]}\Pr_{pk \gets X_\kappa}[pk = \widehat{pk}]$.
-  Consider the existential forgery adversary $\mathcal{A}$ which works as
+  Consider the existential forgery adversary $\mathcal{A}$ illustrated in
+  Algorithm~\ref{alg.forgery-adversary} which works as
   follows. It receives $pk$ as its input from the challenger, but ignores it
   and generates a new key pair $(pk', sk') \gets \textsf{Gen}(1^\kappa)$.
   Since the
