@@ -62,6 +62,32 @@ except with negligible probability.
   $\Pr[\distattack_{\mathcal{A},X,Y}(\kappa) = \true] < \negl$.
 \end{definition}
 
+It is clear that applying an efficiently computable function to
+indistinguishable distributions preserves indistinguishability.
+
+\import{./}{algorithms/alg.pres-distinguisher.tex}
+
+\begin{lem}[Indistinguishability preservation]\label{lem:ind-pres}
+  Given two
+  computationally indistinguishable distribution ensembles
+  $\{X_\kappa\}_{\kappa\in\mathbb{N}}$ and $\{Y_\kappa\}_{\kappa\in\mathbb{N}}$,
+  let
+  $\{f_\kappa\}_{\kappa\in\mathbb{N}}$,
+  be an efficiently computable family of functions $X_\kappa \longrightarrow Y_\kappa$.
+  Then the distribution ensembles
+  $X' = \{f_\kappa(X_\kappa)\}_{\kappa\in\mathbb{N}}$
+  and
+  $Y' = \{f_\kappa(Y_\kappa)\}_{\kappa\in\mathbb{N}}$
+  are computationally indistinguishable.
+\end{lem}
+\begin{proof}
+  Let $\mathcal{A}$ be a probabilistic polynomial-time distinguisher
+  between $X'$ and $Y'$. Consider the probabilistic polynomial-time distinguisher $\mathcal{A}^*$ between $X$ and $Y$ illustrated in Algorithm~\ref{alg.pres-distinguisher}. Then
+  $\Pr[\distattack_{\mathcal{A}^*}(\kappa) = \true] =
+   \Pr[\distattack_{\mathcal{A}}(\kappa) = \true]$.
+  As $\Pr[\distattack_{\mathcal{A}^*}(\kappa) = \true] \leq \frac{1}{2} + \negl$, therefore $\Pr[\distattack_{\mathcal{A}}(\kappa) = \true] \leq \frac{1}{2} + \negl$.
+\end{proof}
+
 \subsection{Unpredictable distributions}
 
 We call a distribution ensemble \emph{unpredictable} if no
