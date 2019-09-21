@@ -35,7 +35,7 @@ As evidence towards unspendability, we now remark that it is difficult for an ad
   logarithm of $h$.
   Conditioned on the event that $\mathcal{A}$ is successful,
   we have that
-  $g^z = h g^{H(t)} \Rightarrow g^z = g^{y + H(t)} \Rightarrow y \equiv z - H(t) \Mod{q}$, so $\mathcal{A}^*$ is successful.
+  $g^z = h g^{H(t)} \Rightarrow g^z = g^{y + H(t)} \Rightarrow y \equiv z - H(t) \Modulo{q}$, so $\mathcal{A}^*$ is successful.
   Therefore $\Pr[\mathcal{A}^*(h) = y] = p$.
   But $\Pr[\mathcal{A}^*(h) = y]$ is negligible.
 \end{proof}
@@ -51,7 +51,7 @@ This observation illustrates the useful fact that, if a single group element wit
   Let $\mathcal{A}$ be a probabilistic polynomial-time binding adversary against the protocol $\Pi$. We construct the probabilistic polynomial-time collision adversary $\mathcal{A}^*$ against the hash function $H$. The adversary $\mathcal{A}^*$ is illustrated in Algorithm~\ref{alg.collision-adversary-crs} and works as follows. It invokes $\mathcal{A}$ which returns a triplet $(t, t', \burnAddr)$, then returns the collision $(t, t')$. Let $p$ denote the probability that $\mathcal{A}$ is successful.
 
   Conditioned on the event that $\mathcal{A}$ is successful, it holds that
-  $h g^{H(t)} = h g^{H(t')}$ and $t \neq t'$. This implies that $g^{H(t)} = g^{H(t')}$, which in turns yields $H(t) \equiv H(t') \Mod{q}$. Since the range of $H$ lies in $[q]$, this constitutes a collision and $\mathcal{A}^*$ is successful.
+  $h g^{H(t)} = h g^{H(t')}$ and $t \neq t'$. This implies that $g^{H(t)} = g^{H(t')}$, which in turns yields $H(t) \equiv H(t') \Modulo{q}$. Since the range of $H$ lies in $[q]$, this constitutes a collision and $\mathcal{A}^*$ is successful.
 
   We thus conclude that $\mathcal{A^*}$ is successful in the $\collisionattack$ game if and only if $\mathcal{A}$ is successful in the $\bindattack$ game.
 
