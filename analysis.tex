@@ -23,8 +23,7 @@ outputs.
   Let \textsc{Match} denote the event that there exist $1 \leq i \neq j \leq p(\kappa)$ such that $s_i = F(s_j)$.
   Let $\textsc{Match}_{i, j}$ denote the event that $s_i = F(s_j)$. Apply a union bound to obtain
   $
-    \Pr[\bigcup_{i, j}\textsc{Match}_{i, j}] \leq \sum_{i, j} \Pr[\textsc{Match}_{i, j}]
-    \Pr[\textsc{Match}] \leq \sum_{i, j} \Pr[\textsc{Match}_{i, j}]
+    \Pr[\bigcup_{i \neq j}\textsc{Match}_{i, j}] \leq \sum_{i \neq j} \Pr[\textsc{Match}_{i, j}]
   $.
   But $\Pr[\textsc{Match}_{i, j}] = 2^{-p(\kappa)}$ and therefore
   $\Pr[\textsc{Match}] \leq \sum_{i \neq j} 2^{-p(\kappa)} \leq p^2(\kappa) 2^{-p(\kappa)}$.
