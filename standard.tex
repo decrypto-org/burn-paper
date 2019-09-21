@@ -130,3 +130,29 @@ The following lemma expands on the results of Lemma~\ref{lem:ro-unpredictability
  Since $\Pr[\collisionattack_{\mathcal{A}}(\kappa) = \true] \leq \negl$
  and $\Pr[t_1 = t_2] \leq \negl$, therefore $\max_{h^* \in [X_\kappa]} \Pr[\collstar \land t_1 \neq t_2] \leq \negl$. Applying Lemma~\ref{lem:unpred-negl}, we deduce that the distribution ensemble $X_\kappa$ is unpredictable.
 \end{proof}
+
+Unfortunately, a merely unpredictable distribution on the exponent does not allow us to prove uncensorability. However, we can prove uncensorability if we assume the hash function maps the tag distribution to the uniform distribution $\uniform([q])$ of the exponents of $\mathbb{G}$, which is an assumption closely related to the Random Oracle. We leave the relaxation of this additional assumption for future work.
+
+To complete the proof of uncensorability, we note that applying an efficiently computable function to indistinguishable distributions preserves indistinguishability.
+
+\import{./}{algorithms/alg.pres-distinguisher.tex}
+
+\begin{lemma}[Indistinguishability preservation]\label{lem:ind-pres}
+  Let
+  $\{X_\kappa\}_{\kappa\in\mathbb{N}}$ and $\{Y_\kappa\}_{\kappa\in\mathbb{N}}$
+  be computationally indistinguishable distribution ensembles and
+  $\{f_\kappa\}_{\kappa\in\mathbb{N}}$
+  be an efficiently computable family of functions $X_\kappa \longrightarrow Y_\kappa$.
+  Then the distribution ensembles
+  $X' = \{f_\kappa(X_\kappa)\}_{\kappa\in\mathbb{N}}$
+  and
+  $Y' = \{f_\kappa(Y_\kappa)\}_{\kappa\in\mathbb{N}}$
+  are computationally indistinguishable.
+\end{lemma}
+\begin{proof}
+  Let $\mathcal{A}$ be a probabilistic polynomial-time distinguisher
+  between $X'$ and $Y'$. Then consider the probabilistic polynomial-time distinguisher $\mathcal{A}^*$ between $X$ and $Y$ illustrated in Algorithm~\ref{alg.pres-distinguisher}. Then
+  $\Pr[\distattack_{\mathcal{A}^*}(\kappa) = \true] =
+   \Pr[\distattack_{\mathcal{A}}(\kappa) = \true]$.
+  As $\Pr[\distattack_{\mathcal{A}^*}(\kappa) = \true] \leq \frac{1}{2} + \negl$, therefore $\Pr[\distattack_{\mathcal{A}}(\kappa) = \true] \leq \frac{1}{2} + \negl$.
+\end{proof}
