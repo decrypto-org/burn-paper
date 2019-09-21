@@ -1,6 +1,6 @@
 const BurnedBTC = artifacts.require("BurnedBTC");
 const CheckpointRepo = artifacts.require("CheckpointRepo");
-const { b, getTxFixture, txParamsObject, assertReverts, logGasUsed } = require("./utils");
+const { b, rb, getTxFixture, txParamsObject, assertReverts, logGasUsed } = require("./utils");
 
 const ZERO_HASH = '0x00000000000000000000000000000000',
       ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
@@ -24,19 +24,19 @@ contract('BurnedBTC', ([firstAccount, ..._]) => {
     const submitClaim = async (claimer) => {
       const NONE = '0x00';
       const tx = txParamsObject(VALID_BURN);
-      const txid = b("70cc4606ef094d2429c5c65780c6049b5000e56c2ca69b8831cc3b6a8fe24cca");
-      const mmrRoot = b("5be8c0d419d7c8dce32a5a35fb3be0a2756571ff8565a915bc71154b67512de0");
+      const txid = rb("70cc4606ef094d2429c5c65780c6049b5000e56c2ca69b8831cc3b6a8fe24cca");
+      const mmrRoot = b("ad8e9f44e2eecc7b9b852b8f24ebc3465395818297a4658df9d932ec545c7bae");
       await checkpointRepoInstance.vote(mmrRoot);
       const proof = {
         transaction: tx,
         txInclusion: {
           txIDRoot: txid,
           txIndex: 0,
-          hashes: []
+          hashes: '0x',
         },
         blockConnection: {
-          hashes: [ mmrRoot ],
-          sides: [ NONE ]
+          hashes: [],
+          sides: []
         }
       };
       const event = {
@@ -72,7 +72,7 @@ contract('BurnedBTC', ([firstAccount, ..._]) => {
       const claimer = b("3333333333333333333333333333333333333333");
       const proof = {
         transaction: b("00"),
-        txInclusion: { txIDRoot: ZERO_HASH, txIndex: 0, hashes: [] },
+        txInclusion: { txIDRoot: ZERO_HASH, txIndex: 0, hashes: '' },
         blockConnection: { hashes: [], sides: [] }
       };
       const event = {

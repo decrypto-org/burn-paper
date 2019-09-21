@@ -45,7 +45,7 @@ contract('CheckpointRepo', (accounts) => {
 
       it('should not allow a federation member to double-vote', async () => {
         await instance.vote(firstMMR, { from: accounts[0] });
-        for (let i = 1; i < 4; ++i) { // TODO: should be 3
+        for (let i = 1; i < 3; ++i) {
           assertReverts(instance.vote(firstMMR, { from: accounts[0] }));
         }
         assert.notEqual(await instance.approvedMMR(), firstMMR);

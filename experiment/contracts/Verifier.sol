@@ -16,7 +16,7 @@ library Verifier {
         bytes32 txID
     ) public pure returns (bool) {
         bytes32 computedTxID = abi.encodePacked(version, vin, vout, locktime).hash256();
-        return abi.encodePacked(computedTxID).reverseEndianness().toBytes32() == txID;
+        return computedTxID == txID;
     }
 
     function extractNumOutputs(bytes memory vout) public pure returns (uint8) {
@@ -56,20 +56,8 @@ library Verifier {
         ) && verifyVoutIsValueTransfer(vout, amount, receivingPKH);
     }
 
-    function reverseEndianness32(bytes32 b) internal pure returns (bytes32) {
-        return abi.encodePacked(b).reverseEndianness().toBytes32();
-    }
-
-    function verifyTxInclusion(bytes32 txID, bytes32 txIDRoot, uint txIndex, bytes32[] memory proof) public pure returns (bool) {
-        // TODO: ensure the user sends LE to be efficient
-        bytes32 _txID = reverseEndianness32(txID);
-        bytes32 _txIDRoot = reverseEndianness32(txIDRoot);
-        // TODO: ensure the user sends the proof pre concatenated to be efficient
-        bytes memory _proof = hex"";
-        for (uint i = 0; i < proof.length; ++i) {
-            _proof = abi.encodePacked(_proof, proof[i]);
-        }
-        return ValidateSPV.prove(_txID, _txIDRoot, _proof, txIndex);
+    function verifyTxInclusion(bytes32 txID, bytes32 txIDRoot, uint txIndex, bytes memory proof) public pure returns (bool) {
+        return ValidateSPV.prove(txID, txIDRoot, proof, txIndex);
     }
 
     function mmrHashLeaf(bytes32 payload) internal pure returns (bytes32) {
@@ -86,12 +74,10 @@ library Verifier {
         byte[] memory proofSides,
         bytes32 txIDRoot
     ) public pure returns (bool) {
-        // TODO: handle cases of <= 1 proofHashes
         require(proofHashes.length == proofSides.length, "there should be one side for each hash");
-        require(proofHashes[0] == mmrHashLeaf(txIDRoot), "the first proof hash should correspond to the tx id root");
         byte LEFT = hex"01";
         byte RIGHT = hex"02";
-        bytes32 h = proofHashes[0];
+        bytes32 h = mmrHashLeaf(txIDRoot);
         for (uint i = 0; i < proofHashes.length; ++i) {
             bytes32 proofHash = proofHashes[i];
             if (proofSides[i] == LEFT) {
