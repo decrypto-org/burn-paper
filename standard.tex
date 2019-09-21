@@ -73,7 +73,7 @@ holds for distributions that are efficiently samplable.
 
 \import{./}{algorithms/alg.predictability-adversary-guess.tex}
 
-\begin{lemma}[Non-negligible predictability]
+\begin{lemma}[Unpredictable negligibility]\label{lem:unpred-negl}
   Consider an efficiently samplable unpredictable distribution ensemble $\{X_\kappa\}_{\kappa\in\mathbb{N}}$. Then there exists a negligible function $\negl$ such that $\max_{x \in X_\kappa}\Pr_{x^* \gets X_\kappa}[x^* = x] \leq \negl$.
 \end{lemma}
 \begin{proof}
@@ -86,3 +86,47 @@ holds for distributions that are efficiently samplable.
 \end{proof}
 
 We remark that it is instrumental to the above proof that the distribution ensemble $\{X_\kappa\}_{\kappa\in\mathbb{N}}$ is efficiently samplable; otherwise the statement does not hold.
+
+The following lemma expands on the results of Lemma~\ref{lem:ro-unpredictability} without making use of the Random Oracle model.
+
+\import{./}{algorithms/alg.collision-adversary-unpred-crs.tex}
+
+\newcommand{\collstar}{\textsc{Coll}_{h^*}}
+
+\begin{lemma}[Collision resistant unpredictability]
+  Let $H$ be a collision resistant hash function and $\{\mathcal{T}\}_{\kappa\in\mathbb{N}}$ be an
+  efficiently samplable unpredictable distribution ensemble. Then the
+  distribution ensemble $X_\kappa = \{ t \gets \mathcal{T}; H(t) \}$ is unpredictable.
+\end{lemma}
+\begin{proof}
+  Let $p = \max_{h^* \in [X_\kappa]}\Pr_{x \gets X_\kappa}[x = h^*]$.
+  Consider the collision adversary $\mathcal{A}$ against the hash function $H$ illustrated in Algorithm~\ref{alg.collision-adversary-unpred-crs} which samples $t_1$ and $t_2$ independently from $\mathcal{T}_\kappa$ and hopes for a collision. Let $\collstar$ denote the event that $H(t_1) = H(t_2) = h^*$.
+  Applying total probability
+  \begin{align*}
+  \max_{h^* \in [X_\kappa]}\Pr[\collstar]&
+  \\=
+  \max_{h^* \in [X_\kappa]}(\Pr[\collstar|t_1 = t_2]\Pr[t_1 = t_2]
+   + \Pr[\collstar|t_1 \neq t_2]\Pr[t_1 \neq t_2])&
+  \\\leq
+  \max_{h^* \in [X_\kappa]}\Pr[\collstar|t_1 = t_2]\Pr[t_1 = t_2]&
+  \\ + \max_{h^* \in [X_\kappa]}\Pr[\collstar|t_1 \neq t_2]\Pr[t_1 \neq t_2]&
+  \\\leq
+  \max_{h^* \in [X_\kappa]}\Pr[t_1 = t_2]
+  + \max_{h^* \in [X_\kappa]}\Pr[\collstar|t_1 \neq t_2]\Pr[t_1 \neq t_2]&
+  \\=
+  \Pr[t_1 = t_2]
+  + \max_{h^* \in [X_\kappa]}\Pr[\collstar \land t_1 \neq t_2]&
+  \,.
+  \end{align*}
+  Therefore $\max_{h^* \in [X_\kappa]}\Pr[\collstar \land t_1 \neq t_2] \geq \max_{h^* \in [X_\kappa]}\Pr[\collstar] - \Pr[t_1 = t_2]$.
+  We have that
+  \begin{align*}
+    \Pr[\collisionattack_{\mathcal{A}}(\kappa) = \true] &=
+    \sum_{h^* \in [X_\kappa]} \Pr[\collstar \land t_1 \neq t_2]\\\geq
+    \max_{h^* \in [X_\kappa]} \Pr[\collstar \land t_1 \neq t_2]
+    &\geq
+    \max_{h^* \in [X_\kappa]}\Pr[\collstar] - \Pr[t_1 = t_2]\,.
+  \end{align*}
+ Since $\Pr[\collisionattack_{\mathcal{A}}(\kappa) = \true] \leq \negl$
+ and $\Pr[t_1 = t_2] \leq \negl$, therefore $\max_{h^* \in [X_\kappa]} \Pr[\collstar \land t_1 \neq t_2] \leq \negl$. Applying Lemma~\ref{lem:unpred-negl}, we deduce that the distribution ensemble $X_\kappa$ is unpredictable.
+\end{proof}
