@@ -42,6 +42,19 @@ As evidence towards unspendability, we now remark that it is difficult for an ad
 
 This observation illustrates the useful fact that, if a single group element with unknown logarithm is provided, an arbitrary number of such group elements can be found and logarithm ignorance can be proven.
 
+\noindent\textbf{Proofs-of-ignorance.}
+There are other constructions which can give similar results. In fact, recent
+work on \emph{proofs-of-ignorance}~\cite{deshpande2018proofs} has shown that any
+$\NP$ language can support proofs-of-ignorance, which are a prerequisite for our
+need of unspendability. Therefore, we conjecture that such constructions
+are possible using any secure signature scheme in which the secret key
+constitutes a witness for the fact that the public key is an element of an $\NP$
+language. Additionally, they argue that such constructions are not possible in
+the standard model given non-uniform probabilistic polynomial-time adversaries,
+supporting our construction in the Common Random String model. Whether burn
+constructions in the Standard Model exist against uniform probabilistic
+polynomial-time adversaries remains a question for future work.
+
 \import{./}{algorithms/alg.collision-adversary-crs.tex}
 
 \begin{theorem}[Binding]
