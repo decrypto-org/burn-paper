@@ -165,3 +165,7 @@ We are now ready to prove uncensorability.
 \begin{proof}
   Apply Lemma~\ref{lem:ind-pres} to the computationally indistinguishable distribution ensembles $\{t \gets \mathcal{T}_\kappa; H(t)\}$ and $\uniform([q])$ mapped through the function $f(x) = h g^x$.
 \end{proof}
+
+\noindent
+\textbf{Trusted setup.}
+We remark here that we \emph{do not} require a trusted setup. In particular, we do not generate a Common Reference String $g^y$ by selecting a random $y$ and computing $g^y$, as this would require ensuring $y$ is destroyed. Instead, we select a random group element $h$ directly, which is possible in many finite groups. As an example of such a construction in practice, a point can be selected on the secp256k1 elliptic curve by starting with an $X$ coordinate corresponding to a well-known number such as $X = \SHA(\text{``Whereof one cannot speak, thereof one must be silent''})$ and incremented until a solution of the elliptic curve equation exists for $Y$, then taking the positive such $Y$ and using the point $h = (X, Y)$.
