@@ -17,7 +17,7 @@ Our scheme is illustrated in Algorithm~\ref{alg.construction-crs}. $\GenBurnAddr
 Correctness holds unconditionally.
 
 \begin{theorem}[Correctness]
-  The Proof of Burn protocol $\Pi$ of Algorithm~\ref{alg.construction-crs} is \emph{correct}.
+  The proof-of-burn protocol $\Pi$ of Algorithm~\ref{alg.construction-crs} is \emph{correct}.
 \end{theorem}
 \begin{proof}
   Based on Algorithm~\ref{alg.construction-crs}, $\BurnVerify(1^\kappa, t, \GenBurnAddr(1^\kappa, t)) = \textsf{true}$ if and only if $\GenBurnAddr(1^\kappa, t) = \GenBurnAddr(1^\kappa, t)$, which always holds as $\GenBurnAddr$ is deterministic.
@@ -61,7 +61,7 @@ polynomial-time adversaries remains a question for future work.
 \import{./}{algorithms/alg.collision-adversary-crs.tex}
 
 \begin{theorem}[Binding]
-  If the hash function $H$ is collision resistant and its range lies in $[q]$ where $q$ denotes the group order of $\mathbb{G}$, then the Proof of Burn protocol $\Pi$ of Algorithm~\ref{alg.construction-crs} is \emph{binding}.
+  If the hash function $H$ is collision resistant and its range lies in $[q]$ where $q$ denotes the group order of $\mathbb{G}$, then the proof-of-burn protocol $\Pi$ of Algorithm~\ref{alg.construction-crs} is \emph{binding}.
 \end{theorem}
 \begin{proof}
   Let $\mathcal{A}$ be a probabilistic polynomial-time binding adversary against the protocol $\Pi$. We construct the probabilistic polynomial-time collision adversary $\mathcal{A}^*$ against the hash function $H$. The adversary $\mathcal{A}^*$ is illustrated in Algorithm~\ref{alg.collision-adversary-crs} and works as follows. It invokes $\mathcal{A}$ which returns a triplet $(t, t', \burnAddr)$, then returns the collision $(t, t')$. Let $p$ denote the probability that $\mathcal{A}$ is successful.
@@ -177,7 +177,7 @@ To complete the proof of uncensorability, we note that applying an efficiently c
 We are now ready to prove uncensorability.
 
 \begin{theorem}[Uncensorability]
-  Let $\mathcal{T}$ be an efficiently samplable unpredictable tag distribution and $H$ be a hash function such that $\{t \gets \mathcal{T}_\kappa; H(t)\} \cind \uniform([q])$ where $q$ denotes the order of the group $\mathbb{G}$. Then the Proof of Burn protocol $\Pi$ of Algorithm~\ref{alg.construction-crs} is \emph{uncensorable} with respect to blockchain address protocol $\Pi_\alpha$ of Algorithm~\ref{alg.p2pk}.
+  Let $\mathcal{T}$ be an efficiently samplable unpredictable tag distribution and $H$ be a hash function such that $\{t \gets \mathcal{T}_\kappa; H(t)\} \cind \uniform([q])$ where $q$ denotes the order of the group $\mathbb{G}$. Then the proof-of-burn protocol $\Pi$ of Algorithm~\ref{alg.construction-crs} is \emph{uncensorable} with respect to blockchain address protocol $\Pi_\alpha$ of Algorithm~\ref{alg.p2pk}.
 \end{theorem}
 \begin{proof}
   Apply Lemma~\ref{lem:ind-pres} to the computationally indistinguishable distribution ensembles $\{t \gets \mathcal{T}_\kappa; H(t)\}$ and $\uniform([q])$ mapped through the function $f(x) = h g^x$.
