@@ -83,26 +83,26 @@ polynomial-time adversaries remains a question for future work.
 \end{proof}
 
 We now give some evidence towards the uncensorability of our scheme.
-We introduce a helpful lemma on the nature of unpredictable
-distributions which shows that the converse of Lemma~\ref{lem:negl-unpred}
-holds for distributions that are efficiently samplable.
-
-\import{./}{algorithms/alg.predictability-adversary-guess.tex}
-
-\begin{lemma}[Unpredictable negligibility]\label{lem:unpred-negl}
-  Consider an efficiently samplable unpredictable distribution ensemble $\{X_\kappa\}_{\kappa\in\mathbb{N}}$. Then there exists a negligible function $\negl$ such that $\max_{x \in X_\kappa}\Pr_{x^* \gets X_\kappa}[x^* = x] \leq \negl$.
-\end{lemma}
-\begin{proof}
-  Consider the probabilistic polynomial-time predictability adversary $\mathcal{A}$ which samples from $X_\kappa$ and returns its sample illustrated in Algorithm~\ref{alg.predictability-adversary-guess}. By the independence of the
-  sampling from $X_\kappa$ of the challenger and the adversary, we have that
-  $\Pr[\predict_{\mathcal{A},X}(\kappa) = \true]
-   = \sum_{x \in [X_\kappa]} \Pr^2_{x^* \gets X_\kappa}[x^* = x]$,
-  which is negligible from the assumption that $X$ is unpredictable. Hence
-  $\max_{x \in X_\kappa}\Pr_{x^* \gets X_\kappa}[x^* = x]$ is also negligible.
-\end{proof}
-
-We remark that it is instrumental to the above proof that the distribution ensemble $\{X_\kappa\}_{\kappa\in\mathbb{N}}$ is efficiently samplable; otherwise the statement does not hold.
-
+% We introduce a helpful lemma on the nature of unpredictable
+% distributions which shows that the converse of Lemma~\ref{lem:negl-unpred}
+% holds for distributions that are efficiently samplable.
+%
+% \import{./}{algorithms/alg.predictability-adversary-guess.tex}
+%
+% \begin{lemma}[Unpredictable negligibility]\label{lem:unpred-negl}
+%   Consider an efficiently samplable unpredictable distribution ensemble $\{X_\kappa\}_{\kappa\in\mathbb{N}}$. Then there exists a negligible function $\negl$ such that $\max_{x \in X_\kappa}\Pr_{x^* \gets X_\kappa}[x^* = x] \leq \negl$.
+% \end{lemma}
+% \begin{proof}
+%   Consider the probabilistic polynomial-time predictability adversary $\mathcal{A}$ which samples from $X_\kappa$ and returns its sample illustrated in Algorithm~\ref{alg.predictability-adversary-guess}. By the independence of the
+%   sampling from $X_\kappa$ of the challenger and the adversary, we have that
+%   $\Pr[\predict_{\mathcal{A},X}(\kappa) = \true]
+%    = \sum_{x \in [X_\kappa]} \Pr^2_{x^* \gets X_\kappa}[x^* = x]$,
+%   which is negligible from the assumption that $X$ is unpredictable. Hence
+%   $\max_{x \in X_\kappa}\Pr_{x^* \gets X_\kappa}[x^* = x]$ is also negligible.
+% \end{proof}
+%
+% We remark that it is instrumental to the above proof that the distribution ensemble $\{X_\kappa\}_{\kappa\in\mathbb{N}}$ is efficiently samplable; otherwise the statement does not hold.
+%
 The following lemma expands on the results of Lemma~\ref{lem:ro-unpredictability} without making use of the Random Oracle model.
 
 \import{./}{algorithms/alg.collision-adversary-unpred-crs.tex}
@@ -148,7 +148,7 @@ The following lemma expands on the results of Lemma~\ref{lem:ro-unpredictability
   \[
   \max_{h^* \in [X_\kappa]}\Pr_{x \gets X_\kappa}[x = h^*] = \sqrt{\max_{h^* \in [X_\kappa]} \Pr[\collstar]} \leq \negl\,.
   \]
-  Applying Lemma~\ref{lem:unpred-negl}, we deduce that the distribution ensemble $X_\kappa$ is unpredictable.
+  Applying Lemma~\ref{lem:negl-unpred}, we deduce that the distribution ensemble $X_\kappa$ is unpredictable.
 \end{proof}
 
 Unfortunately, a merely unpredictable distribution on the exponent does not allow us to prove uncensorability. However, we can prove uncensorability if we assume the hash function maps the tag distribution to the uniform distribution $\uniform([q])$ of the exponents of $\mathbb{G}$, which is an assumption closely related to the Random Oracle. We leave the relaxation of this additional assumption for future work.
