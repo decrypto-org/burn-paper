@@ -172,7 +172,7 @@ To complete the proof of uncensorability, we note that applying an efficiently c
 \end{lemma}
 \begin{proof}
   Let $\mathcal{A}$ be a probabilistic polynomial-time distinguisher
-  between $X'$ and $Y'$. Then consider the probabilistic polynomial-time distinguisher $\mathcal{A}^*$ between $X$ and $Y$ illustrated in Algorithm~\ref{alg.pres-distinguisher}. Then
+  between $X'$ and $Y'$. Consider the probabilistic polynomial-time distinguisher $\mathcal{A}^*$ between $X$ and $Y$ illustrated in Algorithm~\ref{alg.pres-distinguisher}. Then
   $\Pr[\distattack_{\mathcal{A}^*}(\kappa) = \true] =
    \Pr[\distattack_{\mathcal{A}}(\kappa) = \true]$.
   As $\Pr[\distattack_{\mathcal{A}^*}(\kappa) = \true] \leq \frac{1}{2} + \negl$, therefore $\Pr[\distattack_{\mathcal{A}}(\kappa) = \true] \leq \frac{1}{2} + \negl$.
