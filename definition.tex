@@ -74,6 +74,6 @@ The aforementioned properties form a good basis for a burn protocol. We observe 
 
 \begin{definition}[Uncensorability]
   A burn protocol $\Pi$ is \emph{uncensorable} if
-  the distribution ensembles $\{A_\kappa \gets \GenAddr(1^\kappa)\}_\kappa$ and
-  $\{B_\kappa \gets \GenBurnAddr(1^\kappa, \cdot)\}_\kappa$ are computationally indistinguishable.
+  the distribution ensembles $\{(pk, sk) \gets \GenAddr(1^\kappa); pk\}_\kappa$ and
+  $\{pk \gets \GenBurnAddr(1^\kappa, \cdot); pk\}_\kappa$ are computationally indistinguishable.
 \end{definition}
