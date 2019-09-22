@@ -5,7 +5,7 @@
     \begin{algorithmic}[1]
         \Function{$\GenAddr_S$}{$1^\kappa$}
             \Let{(pk, sk)}{\Gen(1^\kappa)}
-            \State\Return{pk}
+            \State\Return{(pk, sk)}
         \EndFunction
         \Function{$\SpendVerify_S$}{$m, \sigma, pkh$}
             \State\Return{$\Ver(m, \sigma', pk)$}
