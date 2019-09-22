@@ -7,7 +7,7 @@
             \Let{(pk, sk)}{\Gen(1^\kappa)}
             \State\Return{(pk, sk)}
         \EndFunction
-        \Function{$\SpendVerify_S$}{$m, \sigma, pkh$}
+        \Function{$\SpendVerify_S$}{$m, \sigma, pk$}
             \State\Return{$\Ver(m, \sigma', pk)$}
         \EndFunction
         \vskip8pt
