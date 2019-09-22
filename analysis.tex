@@ -257,6 +257,9 @@ Appendix~\ref{sec.background}.
   $H, S, \mathcal{T}$ is \emph{uncensorable}.
 \end{theorem}
 \begin{proof}
+  Let $X$ be the distribution ensemble of public keys generated using $\GenAddr$
+  and $Y$ that of keys generated using $\GenBurnAddr$.
+
   From Lemma~\ref{lem:pk-unpredictability} the distribution of
   public keys generated from $S$ is unpredictable. The
   function $\GenAddr$ samples a public key from $S$ and applies the
