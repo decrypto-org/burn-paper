@@ -14,7 +14,9 @@ We now describe how a smart contract on the target blockchain can verify that a 
 
 In accordance to the terminology laid out in~\cite{pow-sidechains}, we call the user the \emph{prover} and the smart contract the \emph{verifier}.
 
-For a verifier to be convinced that a burn has taken place on a source blockchain, they need to ensure that the burn is contained in a transaction which belongs to the source blockchain. Specifically, the following data need to be supplied to the smart contract:
+The prover wishes to convince the verifier that an event has taken place on the source blockchain. We define an event as a simple value transfer described by (a) a transaction id \textsf{txid}, (b) a receiving address \textsf{addr} and (c) an amount \textsf{amount}. We remark that simple value transfers are supported by all popular cryptocurrencies, allowing a verifier to process burns from a wide range of source blockchains. We also remark that for now this event type does not yet distinguish between burn and non-burn addresses.
+
+For a verifier to be convinced that an event has taken place on a source blockchain, they need to ensure that its transaction is contained the best source chain. Specifically, the following data need to be supplied to the smart contract:
 
 \begin{itemize}
   \item \textsf{tx}: The transaction which contains the burn on the source blockchain.
@@ -24,8 +26,6 @@ For a verifier to be convinced that a burn has taken place on a source blockchai
 \end{itemize}
 
 Putting these together, the final proof is the tuple $\beta = \sf(tx, \tau, b, block\-Connection)$.
-
-The prover wishes to convince the verifier that an event has taken place on the source blockchain. We define an event as a simple value transfer described by (a) a transaction id \textsf{txid}, (b) a receiving address \textsf{addr} and (c) an amount \textsf{amount}. We remark that simple value transfers are supported by all popular cryptocurrencies, allowing a verifier to process burns from a wide range of source blockchains. We also remark that for now this event type does not yet distinguish between burn and non-burn addresses.
 
 We assume that the source blockchain provides a function \verifytx$(\textsf{addr}, \textsf{amount}, b, \textsf{tx}, \tau)$ which can be written in the smart contract language of the target blockchain and verifies the validity of a source blockchain transaction. It takes a source blockchain address \textsf{addr}, an amount of source cryptocurrency \textsf{amount}, a block $b$, a transaction \textsf{tx} and a proof $\tau$ for the inclusion of \textsf{tx} in $b$. It returns $\true$ if \textsf{tx} contains a transfer of \textsf{amount} to \textsf{addr} and the proof $\tau$ is valid for $b$.
 
