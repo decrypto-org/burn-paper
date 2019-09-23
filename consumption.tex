@@ -60,4 +60,4 @@ The best source chain is expressed as the root $\mathcal{M}$ of a Merkle Tree co
 
 Having a valid $\mathcal{M}$, a verifier verifies a Merkle Tree inclusion proof $\blockConnection$ for $\textsf{b} \in \mathcal{M}$ and is certain the block provided is part of the best source chain. This approach is illustrated in Algorithm~\ref{alg.in-best-chain-federation}.
 
-We propose making use of a Merkle Tree variant called Merkle Mountain Range (MMR)~\cite{flyclient} for $\mathcal{M}$ as it provides an efficient way of extending a tree by a single block.
+The more suitable Merkle Mountain Range~\cite{flyclient} data structure can be used to store $\mathcal{M}$ in place of regular Merkle Trees, as they constitute a more efficient append-only structure.
