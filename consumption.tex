@@ -12,18 +12,18 @@ Target blockchain miners need not be connected to every other source blockchain 
 
 We now describe how a smart contract on the target blockchain can verify a burn took place on the source blockchain. Note how this puts a constraint on the target blockchain to have smart contract capabilities. However there is no such constraint for the source blockchain.
 
-In accordance to the terminology laid out in~\cite{pow-sidechains}, we call the user the \emph{prover} and the smart contract the \emph{verifier}. The prover wishes to convince the verifier that an event occurred on the source blockchain. We define an event as a simple value transfer described by (a) a transaction id \textsf{txid}, (b) a receiving address \textsf{addr} and (c) an amount \textsf{amount}. Simple value transfers are supported by all popular cryptocurrencies, allowing a verifier to process burns from a wide range of source blockchains. Note that this event type does not yet distinguish between burn and non-burn addresses.
+In accordance to the terminology laid out in~\cite{pow-sidechains}, we call the user the \emph{prover} and the smart contract the \emph{verifier}. The prover wishes to convince the verifier that an event occurred on the source blockchain. We define an event as a simple value transfer described by a transaction id \textsf{txid}, a receiving address \textsf{addr} and an amount \textsf{amount}. Simple value transfers are supported by all cryptocurrencies, allowing a verifier to process burns from a wide range of source blockchains. Note that this event type does not yet distinguish between burn and non-burn addresses.
 
-For a verifier to be convinced that an event occurred on a source blockchain, they need to ensure that its transaction is contained the best source chain. Specifically, the following data needs to be supplied to the smart contract as a proof:
+For a verifier to be convinced that an event occurred on a source blockchain, they ensure its transaction is contained the best source chain. Specifically, the following data are supplied to the smart contract as a proof:
 
 \begin{itemize}
-  \item \textsf{tx}: The transaction which contains the burn on the source blockchain.
-  \item \textsf{b}: The block header for the block which contains the aforementioned transaction.
-  \item $\txInclusion$: An inclusion proof showing that $\mathsf{tx} \in \mathsf{b}$.
+  \item $\tx$: The transaction which contains the burn on the source blockchain.
+  \item \textsf{b}: The block header for the block which contains $\tx$.
+  \item $\txInclusion$: An inclusion proof showing $\mathsf{tx} \in \mathsf{b}$.
   \item $\blockConnection$: A proof that \textsf{b} is contained in the best (i.e., most proof-of-work) source blockchain.
 \end{itemize}
 
-We assume that the source blockchain provides a function \verifytx$(\textsf{addr}, \textsf{amount}, b, \textsf{tx}, \txInclusion)$ which can be written in the smart contract language of the target blockchain and verifies the validity of a source blockchain transaction. It takes a source blockchain address \textsf{addr}, an amount of source cryptocurrency \textsf{amount}, a block $b$, a transaction \textsf{tx} and a proof $\txInclusion$ for the inclusion of \textsf{tx} in $b$. It returns $\true$ if \textsf{tx} contains a transfer of \textsf{amount} to \textsf{addr} and the proof $\txInclusion$ is valid for $b$.
+We assume the source blockchain provides a function \verifytx$(\textsf{addr}, \textsf{amount}, b, \textsf{tx}, \txInclusion)$ which can be written in the smart contract language of the target blockchain and verifies the validity of a source blockchain transaction. It takes a source blockchain address \textsf{addr}, an amount of source cryptocurrency \textsf{amount}, a block $b$, a transaction \textsf{tx} and a proof $\txInclusion$ for the inclusion of \textsf{tx} in $b$. It returns $\true$ if \textsf{tx} contains a transfer of \textsf{amount} to \textsf{addr} and the proof $\txInclusion$ is valid for $b$.
 
 The proof $\txInclusion$ is usually a Merkle Tree inclusion proof. More concretely, in Bitcoin, each block header contains a commitment to the set of transaction ids in the block in the form of a Merkle Tree root. Ethereum stores a similar commitment in its header --- the root of a Merkle--Patricia Trie~\cite{wood2014ethereum}.
 
