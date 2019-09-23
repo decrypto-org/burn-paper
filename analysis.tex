@@ -4,10 +4,10 @@ We now move on to the analysis of our scheme. As the scheme is deterministic,
 its correctness is straightforward to show.
 
 \begin{theorem}[Correctness]
-  The proof-of-burn protocol $\Pi$ of Section~\ref{section:construction} is \emph{correct}.
+  The proof-of-burn protocol $\Pi$ of Section~\ref{sec:construction} is \emph{correct}.
 \end{theorem}
 \begin{proof}
-  Based on Algorithm~\ref{alg.construction}, $\BurnVerify(1^\kappa, t, \GenBurnAddr(1^\kappa, t)) = \textsf{true}$ if and only if $\GenBurnAddr(1^\kappa, t) = \GenBurnAddr(1^\kappa, t)$, which always holds as $\GenBurnAddr$ is deterministic.
+  Based on Algorithm~\ref{alg.construction-ro}, $\BurnVerify(1^\kappa, t, \GenBurnAddr(1^\kappa, t)) = \textsf{true}$ if and only if $\GenBurnAddr(1^\kappa, t) = \GenBurnAddr(1^\kappa, t)$, which always holds as $\GenBurnAddr$ is deterministic.
 \end{proof}
 
 We now state a simple lemma pertaining to the distribution of Random Oracle
@@ -23,8 +23,7 @@ outputs.
   Let \textsc{Match} denote the event that there exist $1 \leq i \neq j \leq p(\kappa)$ such that $s_i = F(s_j)$.
   Let $\textsc{Match}_{i, j}$ denote the event that $s_i = F(s_j)$. Apply a union bound to obtain
   $
-    \Pr[\bigcup_{i, j}\textsc{Match}_{i, j}] \leq \sum_{i, j} \Pr[\textsc{Match}_{i, j}]
-    \Pr[\textsc{Match}] \leq \sum_{i, j} \Pr[\textsc{Match}_{i, j}]
+    \Pr[\bigcup_{i \neq j}\textsc{Match}_{i, j}] \leq \sum_{i \neq j} \Pr[\textsc{Match}_{i, j}]
   $.
   But $\Pr[\textsc{Match}_{i, j}] = 2^{-p(\kappa)}$ and therefore
   $\Pr[\textsc{Match}] \leq \sum_{i \neq j} 2^{-p(\kappa)} \leq p^2(\kappa) 2^{-p(\kappa)}$.
@@ -33,7 +32,7 @@ outputs.
 We will now apply the above lemma to show that our scheme is unspenable.
 
 \begin{theorem}[Unspendability]
-  If $H$ is a \emph{Random Oracle}, then the protocol $\Pi$ of Section~\ref{section:construction} is \emph{unspendable}.
+  If $H$ is a \emph{Random Oracle}, then the protocol $\Pi$ of Section~\ref{sec:construction} is \emph{unspendable}.
 \end{theorem}
 \begin{proof}
   Let $\mathcal{A}$ be an arbitrary probabilistic polynomial time $\spendattack$ adversary.
@@ -54,27 +53,27 @@ function beyond the identity function would work equally well.
 Next, our binding theorem only requires that the hash function used is collision
 resistant and is in the standard model.
 
-\import{./}{algorithms/alg.collision-resistance-adversary.tex}
+\import{./}{algorithms/alg.collision-adversary.tex}
 
 \begin{theorem}[Binding]
-  If $H$ is a \emph{collision resistant} hash function then the protocol of Section~\ref{section:construction} is \emph{binding}.
+  If $H$ is a \emph{collision resistant} hash function then the protocol of Section~\ref{sec:construction} is \emph{binding}.
 \end{theorem}
 \begin{proof}
   Let $\mathcal{A}$ be an arbitrary adversary against $\Pi$.
   We will construct the Collision Resistance adversary $\mathcal{A}^*$ against $H$.
 
-  The collision resistance adversary, illustrated in Algorithm~\ref{alg.collision-resistance-adversary}, calls $\mathcal{A}$ and obtains two outputs, $t$ and $t'$. If $\mathcal{A}$ is successful then $t \neq t'$ and $H(t) \xor 1 = H(t') \xor 1$. Therefore $H(t) = H(t')$.
+  The collision resistance adversary, illustrated in Algorithm~\ref{alg.collision-adversary}, calls $\mathcal{A}$ and obtains two outputs, $t$ and $t'$. If $\mathcal{A}$ is successful then $t \neq t'$ and $H(t) \xor 1 = H(t') \xor 1$. Therefore $H(t) = H(t')$.
 
-  We thus conclude that $\mathcal{A^*}$ is successful in the \textsf{Collision} game if and only if $\mathcal{A}$ is successful in the \textsf{Bind} game.
+  We thus conclude that $\mathcal{A^*}$ is successful in the $\collisionattack$ game if and only if $\mathcal{A}$ is successful in the $\bindattack$ game.
 
   \[
-    \Pr[\textsf{Bind}_{\mathcal{A},\Pi} = \true]
+    \Pr[\bindattack_{\mathcal{A},\Pi}(\kappa) = \true]
     =
-    \Pr[\textsf{Collision}_{\mathcal{A}^*,H} = \true]
+    \Pr[\collisionattack_{\mathcal{A}^*,H}(\kappa) = \true]
   \]
 
-  From the collision resistance of $H$ it follows that $\Pr[\textsf{Collision}_{\mathcal{A}^*,H} = 1] < \negl$. Therefore,
-  $\Pr[\textsf{Bind}_{\mathcal{A},\Pi} = 1] < \negl$, so
+  From the collision resistance of $H$ it follows that $\Pr[\collisionattack_{\mathcal{A}^*,H} = 1] < \negl$. Therefore,
+  $\Pr[\bindattack_{\mathcal{A},\Pi} = 1] < \negl$, so
   the protocol $\Pi$ is binding.
 \end{proof}
 
@@ -88,15 +87,14 @@ predictability game is illustrated in Algorithm~\ref{alg.predict-game}.
   A distribution ensemble $\{X_{\kappa}\}_{\kappa\in\mathbb{N}}$ is
   \emph{unpredictable} if for all probabilistic polynomial-time adversaries
   $\mathcal{A}$ there exists a negligible function $\negl$ such that
-  $\Pr[\textsc{predict}_{\mathcal{A},X}(\kappa) = \true] < \negl$.
+  $\Pr[\predict_{\mathcal{A},X}(\kappa) = \true] < \negl$.
 \end{definition}
 
-\begin{lemma}[Negligible predictability]\label{lem:negl-pred}
+\begin{lemma}[Negligible unpredictability]\label{lem:negl-unpred}
   Consider a distribution ensemble $\{X_{\kappa}\}_{\kappa\in\mathbb{N}}$ and
-  a negligible function $\negl$. If for all $\kappa$ for all
-  $x \in [X_\kappa]$ we have that
-  $\Pr_{x^* \gets X_\kappa}[x^* = x] \leq \negl$, then
-  $X$ is unpredictable.
+  a negligible function $\negl$. If
+  $\max_{x \in [X_\kappa]}\Pr_{x^* \gets X_\kappa}[x^* = x] \leq \negl$,
+  then $X$ is unpredictable.
 \end{lemma}
 \begin{proof}
   Consider a probabilistic polynomial-time adversary $\mathcal{A}$ which
@@ -105,16 +103,18 @@ predictability game is illustrated in Algorithm~\ref{alg.predict-game}.
   challenger. Therefore
 
   \begin{align*}
-  \Pr[\textsc{predict}_{\mathcal{A},X}(\kappa) = \true] &=
+  \Pr[\predict_{\mathcal{A},X}(\kappa) = \true] &=
   \sum_{x' \in [X]}\Pr_{x \gets X}[\mathcal{A}(\kappa) = x'\land x = x'] =\\
   \sum_{x' \in [X]}\Pr[\mathcal{A}(\kappa) = x']\Pr_{x \gets X}[x = x']
   &\leq \negl\sum_{x' \in [X]}\Pr[\mathcal{A}(\kappa) = x']
   \leq \negl
+  \,.
   \end{align*}
 \end{proof}
 
 We now posit that no adversary can predict the public key of a secure signature scheme, except with negligible probability.
 
+% TODO(dionyziz): If this pf is moved to appendix, write out \mathcal{A} as algorithm
 \begin{lemma}[Public key unpredictability]\label{lem:pk-unpredictability}
   Let $S = (\textsf{Gen}, \textsf{Sig}, \textsf{Ver})$ be a secure signature scheme.
   Then the distribution ensemble
@@ -122,15 +122,22 @@ We now posit that no adversary can predict the public key of a secure signature 
   unpredictable.
 \end{lemma}
 \begin{proof}
-  Let $\widehat{pk}$ be an arbitrary $\kappa$-length public key generated
-  by $\textsf{Gen}$ with some probability $p$.
+  Let
+  $p = \max_{\widehat{pk} \in [X_\kappa]}\Pr_{pk \gets X_\kappa}[pk = \widehat{pk}]$.
   Consider the existential forgery adversary $\mathcal{A}$ which works as
   follows. It receives $pk$ as its input from the challenger, but ignores it
   and generates a new key pair $(pk', sk') \gets \textsf{Gen}(1^\kappa)$.
   Since the
   two invocations of $\textsf{Gen}$ are independent,
-  $\Pr[pk = pk'] \geq \Pr[pk = \widehat{pk} \land pk' = \widehat{pk}]
-  = \Pr[pk = \widehat{pk}]\Pr[pk = \widehat{pk'}] = p^2$. The adversary checks
+  \begin{align*}
+    \Pr[pk = pk'] \geq \max_{\widehat{pk} \in [X_\kappa]}\Pr[pk = \widehat{pk} \land pk' = \widehat{pk}]\\
+  = \max_{\widehat{pk} \in [X_\kappa]}\Pr[pk = \widehat{pk}]\Pr[pk' = \widehat{pk}]\\
+  = \max_{\widehat{pk} \in [X_\kappa]}\left(\Pr[pk = \widehat{pk}]\right)^2
+  = p^2
+  \,.
+  \end{align*}
+
+  The adversary checks
   whether $pk = pk'$. If not, it aborts. Otherwise, it uses $sk'$ to sign the
   message $m = \epsilon$ and returns the forgery $\sigma = \textsf{Sig}(sk, m)$.
   From the correctness of the signature scheme, if $pk = pk'$, then
@@ -138,8 +145,8 @@ We now posit that no adversary can predict the public key of a secure signature 
   successful. Since the signature scheme is secure,
   $\Pr[\textsf{Sig-forge}^{cma}_{\mathcal{A},S}] = \negl$.
   But $\Pr[pk = pk'] \leq \Pr[\textsf{Sig-forge}^{cma}_{\mathcal{A},S}]$ and
-  therefore $p = \sqrt{\Pr[pk = pk']} \leq \negl$. Applying
-  Lemma~\ref{lem:negl-pred}, we deduce that the distribution $X$ is
+  therefore $p \leq \sqrt{\Pr[pk = pk']} \leq \negl$. Applying
+  Lemma~\ref{lem:negl-unpred}, we deduce that the distribution ensemble $X_\kappa$ is
   unpredictable.
 \end{proof}
 
@@ -160,7 +167,7 @@ Appendix~\ref{sec.background}.
   Let $\mathcal{A}$ be an arbitrary polynomial distinguisher between
   $X$ and $\uniform(\{0, 1\}^\kappa)$.
   We construct an adversary $\mathcal{A}^*$
-  against $\textsc{predict}_{\mathcal{T}}$.
+  against $\predict_{\mathcal{T}}$.
   Let $r$ denote the (polynomial)
   maximum number of random oracle queries of $\mathcal{A}$.
   The adversary $\mathcal{A}^*$ is illustrated in
@@ -193,11 +200,11 @@ Appendix~\ref{sec.background}.
   of $\mathcal{A}$, conditioned on $\extqry$ the probability that
   $\mathcal{A}^*$ is able to correctly guess which query caused $\extqry$ will
   be $\frac{1}{r}$. Therefore we obtain that
-  $\Pr[\textsc{predict}_{\mathcal{A}^*,\mathcal{T}}(\kappa) = \true]
+  $\Pr[\predict_{\mathcal{A}^*,\mathcal{T}}(\kappa) = \true]
    = \frac{1}{r}\Pr[\extqry]
    = \frac{1}{r}\Pr[\query]$.
   As
-  $\Pr[\textsc{predict}_{\mathcal{A}^*,\mathcal{T}}(\kappa) = \true] \leq \negl$
+  $\Pr[\predict_{\mathcal{A}^*,\mathcal{T}}(\kappa) = \true] \leq \negl$
   and $r$
   is polynomial in $\kappa$, we deduce that $\Pr[\query] \leq \negl$.
 
@@ -223,7 +230,7 @@ Appendix~\ref{sec.background}.
 
   Then
   $
-    \Pr[\textsc{dist-game}_{\mathcal{A},X,\uniformk} = \true]
+    \Pr[\distattack_{\mathcal{A},X,\uniformk} = \true]
     =
     \Pr[b = b^*]
   $ is the probability of success of the distinguisher.
@@ -246,10 +253,13 @@ Appendix~\ref{sec.background}.
   Let $S = (\Gen, \Sig, \Ver)$ be a \emph{secure signature scheme},
   $H$ be a \emph{Random Oracle},
   and $\mathcal{T}$ be an unpredictable tag distribution.
-  Then the protocol of Section~\ref{section:construction} instantiated with
+  Then the protocol of Section~\ref{sec:construction} instantiated with
   $H, S, \mathcal{T}$ is \emph{uncensorable}.
 \end{theorem}
 \begin{proof}
+  Let $X$ be the distribution ensemble of public keys generated using $\GenAddr$
+  and $Y$ that of keys generated using $\GenBurnAddr$.
+
   From Lemma~\ref{lem:pk-unpredictability} the distribution of
   public keys generated from $S$ is unpredictable. The
   function $\GenAddr$ samples a public key from $S$ and applies the
