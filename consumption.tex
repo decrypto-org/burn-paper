@@ -53,8 +53,8 @@ Being able to verify events, we can grant target cryptocurrency to users who bur
 In the interest of keeping this implementation generic we assume that the user receives a token in return for his burn. However, instead of minting a token, the target cryptocurrency could allow the burn verifier contract to mint native cryptocurrency for any user who successfully claims an event. This would allow the target cryptocurrency to be bootstrapped entirely though burning as desired.
 
 \noindent
-\textbf{Verifying block connection.}\label{section:block-connection}
-We now shift our attention to the problem of verifying whether a block really belongs in the best source chain. We provide multiple ways of implementing the aforementioned \textsf{is-in-best-chain} method.
+\textbf{Verifying block connection.}
+We now shift our attention to the problem of verifying a block belongs in the best source chain. We provide multiple ways of implementing the aforementioned \textsf{is-in-best-chain} method.
 
 \noindent
 \textbf{Direct observation.}
