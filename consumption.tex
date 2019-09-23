@@ -42,7 +42,7 @@ Transferring value from a source to a target blockchain has already been a subje
 
 Before looking at how the verification works for the whole proof $\beta$ we focus on the part of the proof pertaining to the transaction, specifically $\sf(tx, \tau, b)$. We ensure that the transaction \textsf{tx} indeed contains the value transfer claimed in the provided event $e$, and that the transaction is really contained in the block provided. The function \textsf{verify-tx} can be seen in detail in Algorithm~\ref{alg.verify-tx}.
 
-For verifying that a provided block \textsf{b} really belongs to the best source blockchain, we assume the existence of a function $\textsf{is-in-best-chain}(b)$. We will explore how this function can be implemented in Section~\ref{section:block-connection}.
+For verifying that a provided block \textsf{b} really belongs to the best source blockchain, we assume the existence of a function $\textsf{is-in-best-chain}(b)$.
 
 \noindent
 \textbf{Bootstraping mechanism.}
