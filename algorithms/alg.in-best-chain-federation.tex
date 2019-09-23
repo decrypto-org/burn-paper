@@ -1,0 +1,9 @@
+\begin{algorithm}[H]
+    \caption{\label{alg.in-best-chain-federation} A \textsf{in-best-chain} implementation which verifies that a block $b$ is included in the best source chain using the federation mechanism. $\mathcal{M}$ denotes the latest MMR approved by the federation majority.}
+    \begin{algorithmic}[1]
+        \Function{{\sf in-best-chain}$_\mathcal{M}$}{$b, \blockConnection$}
+            \State\Return{$\VerMT(\mathcal{M}, b, \blockConnection)$}
+        \EndFunction
+        \vskip8pt
+    \end{algorithmic}
+\end{algorithm}

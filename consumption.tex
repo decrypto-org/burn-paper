@@ -27,7 +27,7 @@ We assume that the source blockchain provides a function \verifytx$(\textsf{addr
 
 The proof $\txInclusion$ is usually a Merkle Tree inclusion proof. More concretely, in Bitcoin, each block header contains a commitment to the set of transaction ids in the block in the form of a Merkle Tree root. Ethereum stores a similar commitment in its header --- the root of a Merkle--Patricia Trie~\cite{wood2014ethereum}.
 
-For verifying that a provided block \textsf{b} really belongs to the best source blockchain, we assume the existence of a function $\textsf{is-in-best-chain}(b)$.
+For verifying that a provided block \textsf{b} really belongs to the best source blockchain, we assume the existence of a function $\textsf{in-best-chain}(b)$.
 
 \noindent
 \textbf{Bootstraping mechanism.}
@@ -39,7 +39,7 @@ In the interest of keeping this implementation generic we assume that the user r
 
 \noindent
 \textbf{Verifying block connection.}
-We now shift our attention to the problem of verifying a block belongs in the best source chain. We provide multiple ways of implementing the aforementioned \textsf{is-in-best-chain} method.
+We now shift our attention to the problem of verifying a block belongs in the best source chain. We provide multiple ways of implementing the aforementioned \textsf{in-best-chain} method.
 
 \noindent
 \textbf{Direct observation.}
@@ -48,16 +48,16 @@ Miners connect to the source blockchain network and have access to the best sour
 \noindent
 \textbf{NIPoPoWs.}
 Verifying block connection can be achieved through NIPoPoWs, as in~\cite{pow-sidechains}.
-We remark that with this setup a block connection proof may be considered valid provisionally, but there needs to be a period in which the proof can be disputed for the smart contract to be certain for the validity of the proof. Specifically, when a user performs a claim, they have to put down some collateral. If they have provided a valid NIPoPoW a contestation period begins. Within that period a challenger can dispute the provided proof which would turn the result of \textsf{is-in-best-chain} to false, abort the claim and grant the challenger the user's collateral. If the contestation period ends with the proof undisputed then \textsf{is-in-best-chain} evaluates to true, the collateral gets returned to the user and the claim is performed successfully.
+We remark that with this setup a block connection proof may be considered valid provisionally, but there needs to be a period in which the proof can be disputed for the smart contract to be certain for the validity of the proof. Specifically, when a user performs a claim, they have to put down some collateral. If they have provided a valid NIPoPoW a contestation period begins. Within that period a challenger can dispute the provided proof which would turn the result of \textsf{in-best-chain} to false, abort the claim and grant the challenger the user's collateral. If the contestation period ends with the proof undisputed then \textsf{in-best-chain} evaluates to true, the collateral gets returned to the user and the claim is performed successfully.
 
 \noindent
 \textbf{Federation.}
 A simpler approach is to allow a federation of $n$ nodes monitoring the source chain to vote for their view of the best source chain.
 
-\import{./}{algorithms/alg.is-in-best-chain-federation.tex}
+\import{./}{algorithms/alg.in-best-chain-federation.tex}
 
 The best source chain is expressed as the root $\mathcal{M}$ of a Merkle Tree containing the chain's blocks as leaves. Each federation node calculates $\mathcal{M}$ and submits their vote for it. When a majority of $\lfloor\frac{n}{2}\rfloor + 1$ nodes agrees on the same $\mathcal{M}$, it is considered valid.
 
-Having a valid $\mathcal{M}$, a verifier verifies a Merkle Tree inclusion proof $\blockConnection$ for $\textsf{b} \in \mathcal{M}$ and is certain the block provided is part of the best source chain. This approach is illustrated in Algorithm~\ref{alg.is-in-best-chain-federation}.
+Having a valid $\mathcal{M}$, a verifier verifies a Merkle Tree inclusion proof $\blockConnection$ for $\textsf{b} \in \mathcal{M}$ and is certain the block provided is part of the best source chain. This approach is illustrated in Algorithm~\ref{alg.in-best-chain-federation}.
 
 We propose making use of a Merkle Tree variant called Merkle Mountain Range (MMR)~\cite{flyclient} for $\mathcal{M}$ as it provides an efficient way of extending a tree by a single block.
