@@ -4,9 +4,9 @@
         \Contract{\textsf{burn-verifier}\text{ extends }\textsf{crosschain}; \textsf{ERC20}}
             \State\textsf{mapping}(\textsf{address} $\Rightarrow$ \textsf{uint256}) \textsf{balances}
             \State{$\textsf{claimed-events} \gets \emptyset$}
-            \Function{\sf claim}{$e, b, \tau$}
-                \Let{\textsf{block-ok}}{\textsf{is-in-best-chain}(b)}
-                \Let{\textsf{tx-ok}}{\textsf{verify-tx}(e.\textsf{addr}, e.\textsf{amount}, b, e.\tx, \tau)}
+            \Function{\sf claim}{$e, b, \txInclusion$}
+                \Let{\textsf{block-ok}}{\textsf{in-best-chain}(b)}
+                \Let{\textsf{tx-ok}}{\textsf{verify-tx}(e.\textsf{addr}, e.\textsf{amount}, b, e.\tx, \txInclusion)}
                 \Let{\textsf{event-ok}}{e \notin \textsf{claimed-events}}
                 \If{$\textsf{block-ok} \land \textsf{tx-ok} \land \textsf{event-ok} \land
                     \BurnVerify(\textsf{msg.sender}, e.\textsf{addr})$}
