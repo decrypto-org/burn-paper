@@ -44,14 +44,16 @@ Before looking at how the verification works for the whole proof $\beta$ we focu
 
 For verifying that a provided block \textsf{b} really belongs to the best source blockchain, we assume the existence of a function $\textsf{is-in-best-chain}(b)$. We will explore how this function can be implemented in Section~\ref{section:block-connection}.
 
-\subsection{Bootstraping Mechanism}
-\import{./}{algorithms/alg.burn-verifier.tex}
-
+\noindent
+\textbf{Bootstraping mechanism.}
 Being able to verify events, we can grant target cryptocurrency to users who burn source cryptocurrency. After burning on the source blockchain, the user calls the \textsf{claim} function with the aforementioned event. This function ensures that the event provided is valid and has not been claimed before (i.e. no one has been granted target cryptocurrency for this specific event in the past), that it actually corresponds to the transaction $\tx$ provided and that the block $b$ provided actually belongs to the best source chain and contains $\tx$. Then, after verifying through $\BurnVerify$ that the receiving address of the event is a burn address where the tag is the function caller's address, it releases the amount of coins burned in the form of an ERC-20 token. We present a contract with this capability in Algorithm~\ref{alg.burn-verifier} which we call the \textsf{burn-verifier}.
+
+\import{./}{algorithms/alg.burn-verifier.tex}
 
 In the interest of keeping this implementation generic we assume that the user receives a token in return for his burn. However, instead of minting a token, the target cryptocurrency could allow the burn verifier contract to mint native cryptocurrency for any user who successfully claims an event. This would allow the target cryptocurrency to be bootstrapped entirely though burning as desired.
 
-\subsection{Verifying Block Connection}\label{section:block-connection}
+\noindent
+\textbf{Verifying block connection.}\label{section:block-connection}
 We now shift our attention to the problem of verifying whether a block really belongs in the best source chain. We provide multiple ways of implementing the aforementioned \textsf{is-in-best-chain} method.
 
 \noindent
