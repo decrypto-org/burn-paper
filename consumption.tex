@@ -54,12 +54,12 @@ We remark that with this setup a block connection proof may be considered valid 
 
 \noindent
 \textbf{Federation.}
-A simpler approach is to allow a federation of nodes monitoring the source chain to vote for the blocks that are included in the best source chain.
+A simpler approach is to allow a federation of $n$ nodes monitoring the source chain to vote for their view of the best source chain.
 
 \import{./}{algorithms/alg.is-in-best-chain-federation.tex}
 
-Let us assume that the smart contract holds in its state the continuously updated set of all valid blocks on the best source blockchain, in the form of a Merkle Tree root $\mathcal{M}$. Then, by verifying a Merkle Tree inclusion proof \textsf{blockConnection} for $\textsf{b} \in \mathcal{M}$ a verifier can be certain that the block provided is indeed part of the best source blockchain. This completes our {\sf is-in-best-chain}$_\mathcal{M}$ function, shown in Algorithm~\ref{alg.is-in-best-chain-federation}.
+The best source chain is expressed as the root $\mathcal{M}$ of a Merkle Tree containing the chain's blocks as leaves. Each federation node calculates $\mathcal{M}$ and submits their vote for it. When a majority of $\lfloor\frac{n}{2}\rfloor + 1$ nodes agrees on the same $\mathcal{M}$, it is considered valid.
 
-We now address the issue of maintaining an up-to-date set of blocks in the form of $\mathcal{M}$. We propose a federation mechanism of source blockchain full nodes that monitor the source chain and vote for the new set of source chain blocks, if and when it changes. A majority of votes is necessary for $\mathcal{M}$ to be updated on the target blockchain. In this manner, the federation acts as a bridge from the source to the target blockchain. The security of our scheme relies on the assumption that the federation majority is honest.
+Having a valid $\mathcal{M}$, a verifier verifies a Merkle Tree inclusion proof \textsf{blockConnection} for $\textsf{b} \in \mathcal{M}$ and is certain the block provided is part of the best source chain. This approach is illustrated in Algorithm~\ref{alg.is-in-best-chain-federation}.
 
-We propose encoding the honestly adopted chain by using Merkle Mountain Ranges (MMRs)~\cite{flyclient}. Specifically, to generate a checkpoint we take all the chain's block ids in sequence and use them as leaves in a Merkle Mountain Range. We then use the root of that MMR as our encoding. Our rationale for using MMRs instead of other kinds of Merkle Trees is that we expect the most frequent modifications to the tree to be appends (when the source chain is extended by one block), which is a very efficient operation to perform on an existing MMR.
+We propose making use of a Merkle Tree variant called Merkle Mountain Range (MMR)~\cite{flyclient} for $\mathcal{M}$ as it provides an efficient way of extending a tree by a single block.
