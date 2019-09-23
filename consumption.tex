@@ -10,13 +10,11 @@ A user who wishes to acquire a target cryptocurrency first forms a burn address 
 
 Target blockchain miners need not be connected to every other source blockchain network. We call this property \emph{miner-isolation} and we propose methods to achieve it.
 
-We now describe how a smart contract on the target blockchain can verify that a burn has taken place on the source blockchain. Note how this puts a constraint on the target blockchain to have smart contract capabilities. However there is no such constraint for the source blockchain.
+We now describe how a smart contract on the target blockchain can verify a burn took place on the source blockchain. Note how this puts a constraint on the target blockchain to have smart contract capabilities. However there is no such constraint for the source blockchain.
 
-In accordance to the terminology laid out in~\cite{pow-sidechains}, we call the user the \emph{prover} and the smart contract the \emph{verifier}.
+In accordance to the terminology laid out in~\cite{pow-sidechains}, we call the user the \emph{prover} and the smart contract the \emph{verifier}. The prover wishes to convince the verifier that an event occurred on the source blockchain. We define an event as a simple value transfer described by (a) a transaction id \textsf{txid}, (b) a receiving address \textsf{addr} and (c) an amount \textsf{amount}. Simple value transfers are supported by all popular cryptocurrencies, allowing a verifier to process burns from a wide range of source blockchains. Note that this event type does not yet distinguish between burn and non-burn addresses.
 
-The prover wishes to convince the verifier that an event has taken place on the source blockchain. We define an event as a simple value transfer described by (a) a transaction id \textsf{txid}, (b) a receiving address \textsf{addr} and (c) an amount \textsf{amount}. We remark that simple value transfers are supported by all popular cryptocurrencies, allowing a verifier to process burns from a wide range of source blockchains. We also remark that for now this event type does not yet distinguish between burn and non-burn addresses.
-
-For a verifier to be convinced that an event has taken place on a source blockchain, they need to ensure that its transaction is contained the best source chain. Specifically, the following data needs to be supplied to the smart contract as a proof:
+For a verifier to be convinced that an event occurred on a source blockchain, they need to ensure that its transaction is contained the best source chain. Specifically, the following data needs to be supplied to the smart contract as a proof:
 
 \begin{itemize}
   \item \textsf{tx}: The transaction which contains the burn on the source blockchain.
@@ -27,13 +25,13 @@ For a verifier to be convinced that an event has taken place on a source blockch
 
 We assume that the source blockchain provides a function \verifytx$(\textsf{addr}, \textsf{amount}, b, \textsf{tx}, \txInclusion)$ which can be written in the smart contract language of the target blockchain and verifies the validity of a source blockchain transaction. It takes a source blockchain address \textsf{addr}, an amount of source cryptocurrency \textsf{amount}, a block $b$, a transaction \textsf{tx} and a proof $\txInclusion$ for the inclusion of \textsf{tx} in $b$. It returns $\true$ if \textsf{tx} contains a transfer of \textsf{amount} to \textsf{addr} and the proof $\txInclusion$ is valid for $b$.
 
-The proof $\txInclusion$ is usually a Merkle Tree inclusion proof. More concretely, in Bitcoin, each block header contains a commitment to the set of transaction ids in the block in the form of a Merkle Tree root. Ethereum stores a similar commitment in its header, in the form of the root of a Merkle--Patricia Trie~\cite{wood2014ethereum}.
+The proof $\txInclusion$ is usually a Merkle Tree inclusion proof. More concretely, in Bitcoin, each block header contains a commitment to the set of transaction ids in the block in the form of a Merkle Tree root. Ethereum stores a similar commitment in its header --- the root of a Merkle--Patricia Trie~\cite{wood2014ethereum}.
 
 For verifying that a provided block \textsf{b} really belongs to the best source blockchain, we assume the existence of a function $\textsf{is-in-best-chain}(b)$.
 
 \noindent
 \textbf{Bootstraping mechanism.}
-Being able to verify events, we can grant target cryptocurrency to users who burn source cryptocurrency. After burning on the source blockchain, the user calls the \textsf{claim} function with the aforementioned event and a proof for it. This function ensures that the event provided is valid and has not been claimed before (i.e. no one has been granted target cryptocurrency for this specific event in the past), that it actually corresponds to the transaction $\tx$ provided and that the block $b$ provided actually belongs to the best source chain and contains $\tx$. Then, after verifying through $\BurnVerify$ that the receiving address of the event is a burn address where the tag is the function caller's address, it releases the amount of coins burned in the form of an ERC-20 token. We present a contract with this capability in Algorithm~\ref{alg.burn-verifier} which we call the \textsf{burn-verifier}.
+Being able to verify events, we can grant target cryptocurrency to users who burn source cryptocurrency. After burning on the source blockchain, the user calls the \textsf{claim} function with the aforementioned event and a proof for it. This function ensures that the event provided is valid and has not been claimed before (i.e. no one has been granted target cryptocurrency for this specific event in the past), that it corresponds to the transaction $\tx$ provided and that the block $b$ provided belongs to the best source chain and contains $\tx$. Then, after verifying through $\BurnVerify$ that the receiving address of the event is a burn address where the tag is the function caller's address, it releases the amount of coins burned in the form of an ERC-20 token. We present the contract \textsf{burn-verifier} with this capability in Algorithm~\ref{alg.burn-verifier}.
 
 \import{./}{algorithms/alg.burn-verifier.tex}
 
