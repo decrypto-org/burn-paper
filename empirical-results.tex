@@ -6,14 +6,13 @@ In order to evaluate our consumption mechanisms, we implement the federated cons
 
 We put forth a concrete implementation for our burning protocol, specifically the $\BurnVerify$ function of the protocol. Finally, a federation mechanism is used to vote for the MMR checkpoints. The members can then proceed to call the \textsf{vote} method to vote on their MMR computed from the source blockchain.
 
-We release our implementation as open source software under the MIT license.
-\footnote{
+We release our implementation as open source software under the MIT license\footnote{
     \ifanonymous
         \url{https://github.com/fc20-submission-105/proof-of-burn-bootstrapping}.
     \else
         \url{https://github.com/decrypto-org/burn-paper/tree/master/experiment}.
     \fi
-}
+}.
 The implementation is production-ready and fully tested with 100\% code coverage.
 
 Using prices at the time of writing, we obtain a median gas price of $6.9$ gwei and the price of $1$ ETH = $\$170.07$, giving a gas price of $\$1.173483 * 10^{-6}$.
