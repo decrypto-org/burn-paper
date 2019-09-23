@@ -85,25 +85,6 @@ probability, then the distribution must be unpredictable.
   \end{align*}
 \end{proof}
 
-% The converse of Lemma~\ref{lem:negl-unpred}
-% also holds for distributions that are efficiently samplable.
-%
-% \import{./}{algorithms/alg.predictability-adversary-guess.tex}
-%
-% \begin{lem}[Unpredictable negligibility]\label{lem:unpred-negl}
-%   Consider an efficiently samplable unpredictable distribution ensemble $\{X_\kappa\}_{\kappa\in\mathbb{N}}$. Then there exists a negligible function $\negl$ such that $\max_{x \in X_\kappa}\Pr_{x^* \gets X_\kappa}[x^* = x] \leq \negl$.
-% \end{lem}
-% \begin{proof}
-%   Consider the probabilistic polynomial-time predictability adversary $\mathcal{A}$ which samples from $X_\kappa$ and returns its sample illustrated in Algorithm~\ref{alg.predictability-adversary-guess}. By the independence of the
-%   sampling from $X_\kappa$ of the challenger and the adversary, we have that
-%   $\Pr[\predict_{\mathcal{A},X}(\kappa) = \true]
-%    = \sum_{x \in [X_\kappa]} \Pr^2_{x^* \gets X_\kappa}[x^* = x]$,
-%   which is negligible from the assumption that $X$ is unpredictable. Hence
-%   $\max_{x \in X_\kappa}\Pr_{x^* \gets X_\kappa}[x^* = x]$ is also negligible.
-% \end{proof}
-%
-% We remark that it is instrumental to the above proof that the distribution ensemble $\{X_\kappa\}_{\kappa\in\mathbb{N}}$ is efficiently samplable; otherwise the statement does not hold.
-%
 Finally, we observe that public keys generated from secure signature schemes must
 be unpredictable.
 
