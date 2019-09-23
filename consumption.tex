@@ -27,7 +27,7 @@ We assume the source blockchain provides a function \verifytx$(\textsf{addr}, \t
 
 The proof $\txInclusion$ is usually a Merkle Tree inclusion proof. More concretely, in Bitcoin, each block header contains a commitment to the set of transaction ids in the block in the form of a Merkle Tree root. Ethereum stores a similar commitment in its header --- the root of a Merkle--Patricia Trie~\cite{wood2014ethereum}.
 
-For verifying that a provided block \textsf{b} belongs to the best source blockchain and is stable, we assume the existence of a function $\textsf{in-best-chain}(b)$. We explore how it can be implemented in the "Verifying block connection" paragraph below.
+For verifying that a provided block \textsf{b} belongs to the best source blockchain and is stable, we assume the existence of a function $\textsf{in-best-chain}(b)$. We explore how it can be implemented in the ``Verifying block connection'' paragraph below.
 
 \noindent
 \textbf{Bootstraping mechanism.}
