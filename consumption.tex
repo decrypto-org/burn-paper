@@ -16,7 +16,7 @@ In accordance to the terminology laid out in~\cite{pow-sidechains}, we call the 
 
 The prover wishes to convince the verifier that an event has taken place on the source blockchain. We define an event as a simple value transfer described by (a) a transaction id \textsf{txid}, (b) a receiving address \textsf{addr} and (c) an amount \textsf{amount}. We remark that simple value transfers are supported by all popular cryptocurrencies, allowing a verifier to process burns from a wide range of source blockchains. We also remark that for now this event type does not yet distinguish between burn and non-burn addresses.
 
-For a verifier to be convinced that an event has taken place on a source blockchain, they need to ensure that its transaction is contained the best source chain. Specifically, the following data need to be supplied to the smart contract:
+For a verifier to be convinced that an event has taken place on a source blockchain, they need to ensure that its transaction is contained the best source chain. Specifically, the following data needs to be supplied to the smart contract:
 
 \begin{itemize}
   \item \textsf{tx}: The transaction which contains the burn on the source blockchain.
