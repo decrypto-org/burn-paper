@@ -20,14 +20,14 @@ For a verifier to be convinced that an event occurred on a source blockchain, th
   \item $\tx$: The transaction which contains the burn on the source blockchain.
   \item \textsf{b}: The block header for the block which contains $\tx$.
   \item $\txInclusion$: An inclusion proof showing $\mathsf{tx} \in \mathsf{b}$.
-  \item $\blockConnection$: A proof that \textsf{b} is contained in the best (i.e., most proof-of-work) source blockchain.
+  \item $\blockConnection$: A proof that \textsf{b} is contained in the best (i.e., most proof-of-work) source blockchain and is stable.
 \end{itemize}
 
 We assume the source blockchain provides a function \verifytx$(\textsf{addr}, \textsf{amount}, b, \textsf{tx}, \txInclusion)$ which can be written in the smart contract language of the target blockchain and verifies the validity of a source blockchain transaction. It takes a source blockchain address \textsf{addr}, an amount of source cryptocurrency \textsf{amount}, a block $b$, a transaction \textsf{tx} and a proof $\txInclusion$ for the inclusion of \textsf{tx} in $b$. It returns $\true$ if \textsf{tx} contains a transfer of \textsf{amount} to \textsf{addr} and the proof $\txInclusion$ is valid for $b$.
 
 The proof $\txInclusion$ is usually a Merkle Tree inclusion proof. More concretely, in Bitcoin, each block header contains a commitment to the set of transaction ids in the block in the form of a Merkle Tree root. Ethereum stores a similar commitment in its header --- the root of a Merkle--Patricia Trie~\cite{wood2014ethereum}.
 
-For verifying that a provided block \textsf{b} really belongs to the best source blockchain, we assume the existence of a function $\textsf{in-best-chain}(b)$. We explore how it can be implemented in the "Verifying block connection" paragraph below.
+For verifying that a provided block \textsf{b} belongs to the best source blockchain and is stable, we assume the existence of a function $\textsf{in-best-chain}(b)$. We explore how it can be implemented in the "Verifying block connection" paragraph below.
 
 \noindent
 \textbf{Bootstraping mechanism.}
@@ -43,7 +43,7 @@ We now shift our attention to the problem of verifying a block belongs in the be
 
 \noindent
 \textbf{Direct observation.}
-Miners connect to the source blockchain network and have access to the best source chain. A miner can thus evaluate if a block is included in that chain. This mechanism does not provide miner-isolation. It is adopted by Counterparty.
+Miners connect to the source blockchain network and have access to the best source chain. A miner can thus evaluate if a block is included in that chain and is stable. This mechanism does not provide miner-isolation. It is adopted by Counterparty.
 
 \noindent
 \textbf{NIPoPoWs.}
@@ -56,8 +56,8 @@ A simpler approach is to allow a federation of $n$ nodes monitoring the source c
 
 \import{./}{algorithms/alg.in-best-chain-federation.tex}
 
-The best source chain is expressed as the root $\mathcal{M}$ of a Merkle Tree containing the chain's blocks as leaves. Each federation node connects to both blockchain networks, calculates $\mathcal{M}$ and submits their vote for it every time a new source chain block is found. When a majority of $\lfloor\frac{n}{2}\rfloor + 1$ nodes agrees on the same $\mathcal{M}$, it is considered valid.
+The best source chain is expressed as the root $\mathcal{M}$ of a Merkle Tree containing the chain's stable blocks as leaves. Each federation node connects to both blockchain networks, calculates $\mathcal{M}$ and submits their vote for it every time a new source chain block is found. When a majority of $\lfloor\frac{n}{2}\rfloor + 1$ nodes agrees on the same $\mathcal{M}$, it is considered valid.
 
-Having a valid $\mathcal{M}$, a verifier verifies a Merkle Tree inclusion proof $\blockConnection$ for $\textsf{b} \in \mathcal{M}$ and is certain the block provided is part of the best source chain. This approach is illustrated in Algorithm~\ref{alg.in-best-chain-federation}.
+Having a valid $\mathcal{M}$, a verifier verifies a Merkle Tree inclusion proof $\blockConnection$ for $\textsf{b} \in \mathcal{M}$ and is certain the block provided is part of the best source chain and is stable. This approach is illustrated in Algorithm~\ref{alg.in-best-chain-federation}.
 
 The more suitable Merkle Mountain Range~\cite{flyclient} data structure can be used to store $\mathcal{M}$ in place of regular Merkle Trees, as they constitute a more efficient append-only structure.
