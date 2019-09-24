@@ -8,7 +8,8 @@
             \Comment{Key perturbation}
             \Let{\addr}{\texttt{0x00} \conc th'}
             \Comment{Magic byte indicating \emph{mainnet}}
-            \Let{\checksum}{\SHA(\SHA(\addr))[4 * 8]}
+            \Let{\checksum}{\SHA(\SHA(\addr))[:4]}
+            \Comment{Keep the first 4 bytes}
             \State\Return{\baseencode($\addr \conc \checksum$)}
         \EndFunction
         \vskip8pt
