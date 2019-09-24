@@ -23,7 +23,7 @@ We require that the burn scheme is \emph{correct}.
 
 With foresight, we remark that the implementation of $\GenBurnAddr$ and $\BurnVerify$ will typically be deterministic, which alleviates the need for a probabilistic correctness definition.
 
-Naturally, for $\GenBurnAddr$ to generate addresses that ``look'' valid but are unspendable according to the blockchain protocol requires that the burn protocol respects its format. We abstract these functionalities into a \emph{blockchain address protocol}:
+Naturally, for $\GenBurnAddr$ to generate addresses that ``look'' valid but are unspendable according to the blockchain protocol requires that the burn protocol respects its format. We abstract the address generation and spending verification of the given system into a \emph{blockchain address protocol}:
 
 \begin{definition}[Blockchain address protocol]
   A \emph{blockchain address protocol} $\Pi_\alpha$ consists of two functions $\GenAddr$ and $\sf{SpendVerify}$:
