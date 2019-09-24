@@ -1,4 +1,4 @@
-\section{Analysis}
+\section{Analysis}\label{sec:analysis}
 
 We now move on to the analysis of our scheme. As the scheme is deterministic,
 its correctness is straightforward to show.
@@ -68,8 +68,8 @@ resistant and is in the standard model.
     \Pr[\collisionattack_{\mathcal{A}^*,H}(\kappa) = \true]
   \]
 
-  From the collision resistance of $H$ it follows that $\Pr[\collisionattack_{\mathcal{A}^*,H} = 1] < \negl$. Therefore,
-  $\Pr[\bindattack_{\mathcal{A},\Pi} = 1] < \negl$, so
+  From the collision resistance of $H$ it follows that $\Pr[\collisionattack_{\mathcal{A}^*,H} = \true] < \negl$. Therefore,
+  $\Pr[\bindattack_{\mathcal{A},\Pi} = \true] < \negl$, so
   the protocol $\Pi$ is binding.
 \end{proof}
 
@@ -97,8 +97,8 @@ Appendix~\ref{sec:proofs:comp-ind}.
   \label{lem:ro-unpredictability}
   Let $\mathcal{T}$ be an unpredictable distribution ensemble and $H$ be a
   Random Oracle.
-  The distribution $X = \{t \gets \mathcal{T}; H(t)\}$ is indistinguishable from
-  the uniform distribution $\uniformk$.
+  The distribution ensemble $X = \{t \gets \mathcal{T}; H(t)\}$ is indistinguishable from
+  the uniform distribution ensemble $\uniformk$.
 \end{restatable}
 
 \begin{theorem}[Uncensorability]

@@ -8,7 +8,7 @@ Let $\kappa$ be the security parameter.
   \begin{itemize}
     \item $\GenBurnAddr(1^\kappa, t)$: Given a tag $t$, generate a \emph{burn address}.
 
-    \item $\BurnVerify(1^\kappa, t, \burnAddr)$: Given a tag $t$, return $\sf{true}$ if and only if $\burnAddr$ is a burn address and correctly encodes $t$.
+    \item $\BurnVerify(1^\kappa, t, \burnAddr)$: Given a tag $t$ and an address $\burnAddr$, return $\sf{true}$ if and only if $\burnAddr$ is a burn address and correctly encodes $t$.
   \end{itemize}
 \end{definition}
 
@@ -23,7 +23,7 @@ We require that the burn scheme is \emph{correct}.
 
 With foresight, we remark that the implementation of $\GenBurnAddr$ and $\BurnVerify$ will typically be deterministic, which alleviates the need for a probabilistic correctness definition.
 
-Naturally, for $\GenBurnAddr$ to generate addresses that ``look'' valid but are unspendable according to the blockchain protocol requires that the burn protocol respects its format. We abstract these functionalities into a \emph{blockchain address protocol}:
+Naturally, for $\GenBurnAddr$ to generate addresses that ``look'' valid but are unspendable according to the blockchain protocol requires that the burn protocol respects its format. We abstract the address generation and spending verification of the given system into a \emph{blockchain address protocol}:
 
 \begin{definition}[Blockchain address protocol]
   A \emph{blockchain address protocol} $\Pi_\alpha$ consists of two functions $\GenAddr$ and $\sf{SpendVerify}$:
@@ -35,7 +35,7 @@ Naturally, for $\GenBurnAddr$ to generate addresses that ``look'' valid but are 
   \end{itemize}
 \end{definition}
 
-We note that, while the blockchain address protocol is not part of the burn protocol, the \emph{security} properties of a burn protocol $\Pi$ will be defined with respect to a \emph{blockchain address protocol} $\Pi_\alpha$.
+We note that, while the blockchain address protocol is not part of the burn protocol, the \emph{security} properties of a burn protocol $\Pi$ will be defined \emph{with respect to} a blockchain address protocol $\Pi_\alpha$.
 
 These two functionalities are typically implemented using a public key signature scheme and accompanied by a respective signing algorithm. The signing algorithm is irrelevant for our burn purposes, as burning entails the inability to spend. As the format of $m$ is cryptocurrency-specific, we intentionally leave it undefined. In both Bitcoin and Ethereum, $m$ corresponds to transaction data. When a new candidate transaction is received from the network, the blockchain node calls $\textsf{SpendVerify}$, passing the public key $pk$, which is the address spending money incoming to the new transaction $m$, together with a signature $\sigma$, which signs $m$ and should be produced using the respective secret key.
 
@@ -73,7 +73,8 @@ We are now ready to define what constitutes a \emph{secure proof-of-burn protoco
 The aforementioned properties form a good basis for a burn protocol. We observe that it may be possible to detect whether an address is a burn address. While this is desirable in certain circumstances, it allows miners to censor burn transactions. To mitigate this, we propose \emph{uncensorability}, a property which mandates that a burn address is indistinguishable from a regular address if its tag is not known. During the execution of protocols which satisfy this property, when the burn transaction appears on the network, only the user who performed the burn knows that it constitutes a burn transaction prior to revealing the tag. Naturally, as soon as the tag is revealed, \emph{correctness} mandates that the burn transaction becomes verifiable.
 
 \begin{definition}[Uncensorability]
+  Let $\mathcal{T}$ be a distribution of tags.
   A burn protocol $\Pi$ is \emph{uncensorable} if
   the distribution ensembles $\{(pk, sk) \gets \GenAddr(1^\kappa); pk\}_\kappa$ and
-  $\{pk \gets \GenBurnAddr(1^\kappa, \cdot); pk\}_\kappa$ are computationally indistinguishable.
+  $\{t \gets \mathcal{T}; pk \gets \GenBurnAddr(1^\kappa, t); pk\}_\kappa$ are computationally indistinguishable.
 \end{definition}
