@@ -73,7 +73,8 @@ We are now ready to define what constitutes a \emph{secure proof-of-burn protoco
 The aforementioned properties form a good basis for a burn protocol. We observe that it may be possible to detect whether an address is a burn address. While this is desirable in certain circumstances, it allows miners to censor burn transactions. To mitigate this, we propose \emph{uncensorability}, a property which mandates that a burn address is indistinguishable from a regular address if its tag is not known. During the execution of protocols which satisfy this property, when the burn transaction appears on the network, only the user who performed the burn knows that it constitutes a burn transaction prior to revealing the tag. Naturally, as soon as the tag is revealed, \emph{correctness} mandates that the burn transaction becomes verifiable.
 
 \begin{definition}[Uncensorability]
+  Let $\mathcal{T}$ be a distribution of tags.
   A burn protocol $\Pi$ is \emph{uncensorable} if
   the distribution ensembles $\{(pk, sk) \gets \GenAddr(1^\kappa); pk\}_\kappa$ and
-  $\{pk \gets \GenBurnAddr(1^\kappa, \cdot); pk\}_\kappa$ are computationally indistinguishable.
+  $\{t \gets \mathcal{T}; pk \gets \GenBurnAddr(1^\kappa, t); pk\}_\kappa$ are computationally indistinguishable.
 \end{definition}
