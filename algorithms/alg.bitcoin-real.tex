@@ -5,7 +5,7 @@
         \Function{$\GenAddr$}{\-}
             \Let{(pk, sk)}{\Gen()}
             \Let{pkh}{\RIPEMD(\SHA(\texttt{0x04} \conc pk)}
-            \Let{\addr}{\texttt{0x00} \conc pkh'}
+            \Let{\addr}{\texttt{0x00} \conc pkh}
             \Comment{Magic byte indicating \emph{mainnet}}
             \Let{\checksum}{\SHA(\SHA(\addr))[:4]}
             \Comment{Keep the first 4 bytes}
