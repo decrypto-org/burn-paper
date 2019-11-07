@@ -93,6 +93,8 @@ For reference, the
 definition of computational indistinguishability is included in
 Appendix~\ref{sec:proofs:comp-ind}.
 
+\import{.}{./algorithms/alg.predictability-adversary.tex}
+
 \begin{restatable}[Random Oracle unpredictability]{lem}{restateLemRoUnpredictability}
   \label{lem:ro-unpredictability}
   Let $\mathcal{T}$ be an unpredictable distribution ensemble and $H$ be a
@@ -100,6 +102,91 @@ Appendix~\ref{sec:proofs:comp-ind}.
   The distribution ensemble $X = \{t \gets \mathcal{T}; H(t)\}$ is indistinguishable from
   the uniform distribution ensemble $\uniformk$.
 \end{restatable}
+\begin{proof}
+  Let $\mathcal{A}$ be an arbitrary polynomial distinguisher between
+  $X$ and $\uniform(\{0, 1\}^\kappa)$.
+  We construct an adversary $\mathcal{A}^*$
+  against $\predict_{\mathcal{T}}$.
+  Let $r$ denote the (polynomial)
+  maximum number of random oracle queries of $\mathcal{A}$.
+  The adversary $\mathcal{A}^*$ is illustrated in
+  Algorithm~\ref{alg.predictability-adversary} and works as follows.
+  Initially, it chooses a random bit $b \stackrel{\$}{\gets} \{0, 1\}$ and
+  sets $Z = X$ if $b = 0$, otherwise
+  sets $Z = \uniformk$.
+  It samples $z \gets Z$.
+  If $b = 0$, then $z$ is chosen by applying $\GenAddr$ which involves
+  calling the random oracle $H$ with some input $pk$.
+  It then chooses one of $\mathcal{A}$'s queries $j \stackrel{\$}{\gets} [r]$
+  uniformly at random. Finally, it outputs the input received by the random
+  oracle during the $j^\text{th}$ query of $\mathcal{A}$.
+
+  We will consider two cases. Either $\mathcal{A}$ makes a random oracle query
+  containing $pk$, or it does not. We will argue that, if $\mathcal{A}$ makes
+  a random oracle query containing $pk$ with non-negligible probability, then
+  $\mathcal{A}^*$ will be successful with non-negligible probability. However,
+  we will argue that, if $\mathcal{A}$ does not make the particular random
+  oracle query, it will be unable to distinguish $X$ from $\uniformk$.
+
+  Let $\query$ denote the event that $b = 0$ and $\mathcal{A}$ asks a random
+  oracle query with input $pk$.
+  Let $x$ denote the random variable sampled by the challenger in the
+  predictability game of $\mathcal{A}^*$.
+  Let $\extqry$ denote the event that $b = 0$ and $\mathcal{A}$ asks a
+  random oracle query with input equal to $x$. Observe that, since the input to
+  $\mathcal{A}$ does not depend on $x$, we have that
+  $\Pr[\extqry] = \Pr[\query]$. As $j$ is chosen independently of the execution
+  of $\mathcal{A}$, conditioned on $\extqry$ the probability that
+  $\mathcal{A}^*$ is able to correctly guess which query caused $\extqry$ will
+  be $\frac{1}{r}$. Therefore we obtain that
+  $\Pr[\predict_{\mathcal{A}^*,\mathcal{T}}(\kappa) = \true]
+   = \frac{1}{r}\Pr[\extqry]
+   = \frac{1}{r}\Pr[\query]$.
+  As
+  $\Pr[\predict_{\mathcal{A}^*,\mathcal{T}}(\kappa) = \true] \leq \negl$
+  and $r$
+  is polynomial in $\kappa$, we deduce that $\Pr[\query] \leq \negl$.
+
+  Consider the computational
+  indistinguishability game depicted in
+  Algorithm~\ref{alg.dist-game} in which the distinguisher gives a guess $b^*$
+  attempting to identify the origin $b$ of its input.
+  If $b = 0$, then the distinguisher $\mathcal{A}$ receives a truly random input
+  $pkh = H(pk)$.
+  If the distinguisher does not query the random oracle
+  with input $pk$, the input of the distinguisher is truly random
+  and therefore $\Pr[b^* = 0|b = 0|\lnot \query] = \Pr[b^* = 0|b = 1]$.
+
+  Consider the case where $b = 0$ and apply total probability to obtain
+  \begin{align*}
+    &\Pr[b^* = 0|b = 0] =\\
+    &\Pr[b^* = 0|\query]\Pr[\query] +
+      \Pr[b^* = 0|b = 0|\lnot \query]\Pr[\lnot \query]\\
+    \leq &\Pr[b^* = 0|\query]\Pr[\query] +
+      \Pr[b^* = 0|b = 0|\lnot \query]\\
+    \leq &\Pr[\query] + \Pr[b^* = 0|b = 0|\lnot \query]
+  \end{align*}
+
+  Then
+  $
+    \Pr[\distattack_{\mathcal{A},X,\uniformk} = \true]
+    =
+    \Pr[b = b^*]
+  $ is the probability of success of the distinguisher.
+  Applying total probability we obtain
+
+  \begin{align*}
+    \Pr[b = b^*] &= \Pr[b = b^*|b = 0]\Pr[b = 0] + \Pr[b = b^*|b = 1]\Pr[b = 1]\\
+                 &= \frac{1}{2}(\Pr[b^* = 0|b = 0] + \Pr[b^* = 1|b = 1])\\
+                 &\leq \frac{1}{2}(\Pr[\query] + \Pr[b^* = 0|b = 0|\lnot \query]
+                 + \Pr[b^* = 1|b = 1])\\
+                 &= \frac{1}{2}(\Pr[\query] + \Pr[b^* = 0|b = 1]
+                 + \Pr[b^* = 1|b = 1])\\
+                 &= \frac{1}{2}(\Pr[\query] + \Pr[b^* = 0|b = 1]
+                 + (1 - \Pr[b^* = 0|b = 1]))\\
+                 &= \frac{1}{2}(1 + \Pr[\query]) \leq \frac{1}{2} + \negl
+  \end{align*}
+\end{proof}
 
 \begin{theorem}[Uncensorability]
   Let $S = (\Gen, \Sig, \Ver)$ be a \emph{secure signature scheme},
