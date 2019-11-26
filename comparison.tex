@@ -1,30 +1,11 @@
 \section{Comparison}
-
-We now compare alternatives for proof-of-burn proposed in previous work. Our burn primitive captures all of these schemes.
-
 \newcommand{\opreturn}{\texttt{OP\_RETURN}}
 
-\noindent
-\textbf{$\opreturn$.}
-Bitcoin provides a native opcode called  $\opreturn$~\cite{bartoletti2017analysis} which can be used for burning.
-Unfortunately,
-standard wallets do not provide a user friendly interface for creating $\opreturn$ transactions.
-However, it benefits the Bitcoin network by allowing the UTXO to be pruned, at
-the cost of not being uncensorable.
-Similarly to $\opreturn$, any provably failing Bitcoin script can be used for
-burning~\cite{stewart}.
+We now compare three alternatives for proof-of-burn proposed in previous work against our scheme: $\opreturn$, P2SH $\opreturn$ and nothing-up-my-sleeve. These schemes are instances of our burn primitive.
 
-\noindent
-\textbf{P2SH $\opreturn$.}
-An $\opreturn$ or other provably failing script can also be used as the redeemScript for a Pay to Script Hash (P2SH)~\cite{p2sh} address. It is unspendable since there is no scriptSig that could make the script succeed. Additionally, it is uncensorable if the tag is not revealed. Finally, the scheme is user friendly since any regular wallet can create a burn transaction.
+We study whether the aforementioned schemes satisfy binding, unspendability and uncensorability. Additionally, we compare them on how easily they translate to multiple cryptocurrencies, a property we call \emph{flexibility}, as well as whether a standard \emph{user friendly} wallet can be used to burn money. A summary of our comparison is illustrated on Table~\ref{table:comparison}.
 
-\noindent
-\textbf{Nothing-up-my-sleeve.}
-An address is manually crafted, so that it is clear it was not generated from a regular keypair. For example, the all-zeros address is considered nothing-up-my-sleeve\footnote{The Bitcoin address \texttt{1111111111111111111114oLvT2} encodes the all-zeros string and has received more than $50{,}000$ transactions dating back to Aug 2010.}. It is hard to obtain a public key hashing to this address, thus funds sent to it are unspendable. Because no metadata can be associated with such a burn, this scheme is not binding.
-
-We compare the aforementioned schemes on whether they satisfy the burn protocol properties we define: Binding, unspendability and uncensorability. Additionally, we compare them based on how easily they translate to multiple cryptocurrencies. For instance, $\opreturn$ and P2SH $\opreturn$ rely on Bitcoin Script semantics and do not directly apply to any non-Bitcoin based cryptocurrencies like Monero~\cite{van2013cryptonote}, thus we say they are not \emph{flexible}. The comparison is illustrated on Table~\ref{table:comparison}.
-
-\begin{table}[h!]
+\begin{table}
     \newcommand{\y}{$\bullet$}
     \newcommand{\n}{}
     \centering
@@ -41,3 +22,32 @@ We compare the aforementioned schemes on whether they satisfy the burn protocol 
      \hline
     \end{tabular}
 \end{table}
+
+\noindent
+\textbf{$\opreturn$.}
+Bitcoin supplies a native $\opreturn$~\cite{bartoletti2017analysis} opcode.
+The Bitcoin Script interpreter deems an output \textbf{unspendable} when this opcode is encountered.
+The tag is included directly in the Bitcoin Script, hence the scheme is \textbf{binding} by definition.
+This Bitcoin-specific opcode is \textbf{inflexible} and does not translate to other cryptocurrencies such as Monero~\cite{van2013cryptonote}.
+It is trivially \textbf{censorable}.
+However, the output is prunable, benefiting the network.
+Standard wallets \textbf{do not provide a user friendly interface} for such transactions.
+Any provably failing~\cite{stewart} Bitcoin Script can be used in $\opreturn$'s stead.
+
+\noindent
+\textbf{P2SH $\opreturn$.}
+An $\opreturn$ can be used as the redeemScript for a Pay to Script Hash (P2SH)~\cite{p2sh} address.
+\textbf{Binding} and \textbf{unspendability} are accomplished by the collision resistance of the hash function $\texttt{RIPEMD160} \circ \texttt{SHA256}$.
+Similarly to $\opreturn$ this scheme is \textbf{inflexible}.
+From the one-wayness of the hash function it is \textbf{uncensorable}.
+Finally, the scheme is \textbf{user friendly} since any wallet can create a burn transaction.
+
+\noindent
+\textbf{Nothing-up-my-sleeve.}
+An address is manually crafted so that it is clear it was not generated from a regular keypair.
+For example, the all-zeros address is considered nothing-up-my-sleeve
+\footnote{The Bitcoin address \texttt{1111111111111111111114oLvT2} encodes the all-zeros string and has received more than $50{,}000$ transactions dating back to Aug 2010.}.
+The scheme is \textbf{not binding}, as no tag can be associated with such a burn, and \textbf{flexible} because such an address can be generated for any cryptocurrency.
+It is hard to obtain a public key hashing to this address, thus funds sent to it are \textbf{unspendable}.
+On the other hand, because a widely known address is used, the scheme is \textbf{censorable}.
+Finally, the address is a regular recipient and any wallet can be used to fund it, making it \textbf{user friendly}.
