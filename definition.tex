@@ -6,9 +6,9 @@ We now formally define what a proof-of-burn protocol is. Let $\kappa$ be the sec
   A \emph{burn} protocol $\Pi$ consists of two functions $\GenBurnAddr(1^\kappa, t)$ and $\BurnVerify(1^\kappa, t, \burnAddr)$ which work as follows:
 
   \begin{itemize}
-    \item $\GenBurnAddr(1^\kappa, t)$: Given a tag $t$, generate a \emph{burn address}.
+    \item $\GenBurnAddr(1^\kappa, t)$: Given a tag $t \in \{0,1\}^*$, generate a \emph{burn address}.
 
-    \item $\BurnVerify(1^\kappa, t, \burnAddr)$: Given a tag $t$ and an address $\burnAddr$, return $\sf{true}$ if and only if $\burnAddr$ is a burn address and correctly encodes $t$.
+    \item $\BurnVerify(1^\kappa, t, \burnAddr)$: Given a tag $t \in \{0,1\}^*$ and an address $\burnAddr$, return $\sf{true}$ if and only if $\burnAddr$ is a burn address and correctly encodes $t$.
   \end{itemize}
 \end{definition}
 
