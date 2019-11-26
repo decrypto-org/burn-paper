@@ -54,9 +54,9 @@ We remark that with this setup a block connection proof may be considered valid 
 \textbf{Federation.}
 A simpler approach is to allow a federation of $n$ nodes monitoring the source chain to vote for their view of the best source chain.
 
-\import{./}{algorithms/alg.in-best-chain-federation.tex}
-
 The best source chain is expressed as the root $\mathcal{M}$ of a Merkle Tree containing the chain's stable blocks as leaves. Each federation node connects to both blockchain networks, calculates $\mathcal{M}$ and submits their vote for it every time a new source chain block is found. When a majority of $\lfloor\frac{n}{2}\rfloor + 1$ nodes agrees on the same $\mathcal{M}$, it is considered valid.
+
+\import{./}{algorithms/alg.in-best-chain-federation.tex}
 
 Having a valid $\mathcal{M}$, a verifier verifies a Merkle Tree inclusion proof $\blockConnection$ for $b \in \mathcal{M}$ and is certain the block provided is part of the best source chain and is stable. This approach is illustrated in Algorithm~\ref{alg.in-best-chain-federation}.
 
