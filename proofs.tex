@@ -25,7 +25,7 @@ except with negligible probability.
   \emph{computationally indistinguishable}
   if for every probabilistic polynomial-time adversary $\mathcal{A}$,
   there exists a negligible function $\negl$ such that
-  $\Pr[\distattack_{\mathcal{A},X,Y}(\kappa) = \true] < \negl$.
+  $\Pr[\distattack_{\mathcal{A},X,Y}(\kappa) = \true] \leq \frac{1}{2} + \negl$.
 \end{definition}
 
 It is clear that applying an efficiently computable function to
@@ -38,8 +38,8 @@ indistinguishable distributions preserves indistinguishability.
   computationally indistinguishable distribution ensembles
   $\{X_\kappa\}_{\kappa\in\mathbb{N}}$ and $\{Y_\kappa\}_{\kappa\in\mathbb{N}}$,
   let
-  $\{f_\kappa\}_{\kappa\in\mathbb{N}}$,
-  be an efficiently computable family of functions $X_\kappa \longrightarrow Y_\kappa$.
+  $\{f_\kappa\}_{\kappa\in\mathbb{N}}$
+  be a family of efficiently computable functions.
   Then the distribution ensembles
   $X' = \{f_\kappa(X_\kappa)\}_{\kappa\in\mathbb{N}}$
   and
