@@ -2,21 +2,32 @@
 
 \setcounter{tocdepth}{2}
 \makeatother
+
+\ifccs
+\usepackage{amsthm}
+\fi
+\iflncs
 \usepackage[hidelinks, bookmarksopen=true]{hyperref}
 \usepackage{bookmark}
-
 \usepackage[pdftex]{graphicx}
+\usepackage{amsopn}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{complexity}
+\usepackage{amsmath}
+\fi
+
 % \usepackage[linesnumbered,ruled,noend]{algorithm2e}
 \usepackage[english]{babel}
-\usepackage{amsmath}
 \usepackage{algorithm}
 \usepackage{algpseudocode}
-\usepackage{complexity}
+\iflncs
 \let\proof\relax
 \let\endproof\relax
-\usepackage{amsthm}
+\fi
+% \usepackage{amsthm}
 \usepackage{mathtools}
-\usepackage{amssymb}
+% \usepackage{amssymb}
 \usepackage{lmodern}
 \usepackage[T1]{fontenc}
 \usepackage{listings}
@@ -26,7 +37,7 @@
 \usepackage{pgfplots}
 \usetikzlibrary{shapes,arrows}
 \usepackage{color}
-\usepackage{hyperref}
+% \usepackage{hyperref}
 \def\UrlBreaks{\do\/\do-\do_}
 \usepackage{import}
 \usepackage{hhline}

@@ -3,16 +3,38 @@
 \newif\ifanonymous
 \newif\ifshort
 \newif\iflncs
-% \lncstrue
-% \anonymoustrue
+\newif\ifccs
+\anonymoustrue
 % \shorttrue
 
+% pick one: \ccstrue or \lncstrue; don't forget to `make clean`
+\ccstrue
+% \lncstrue
+
+\iflncs
 \documentclass[11pt]{llncs}
+\fi
+\ifccs
+\documentclass[sigconf, anonymous]{acmart}
+\fi
+
 \usepackage{preamble}
+
+\ifccs
+\input{ccs-metadata}
+\fi
 
 \begin{document}
 \import{./}{title.tex}
+
+\ifccs
+\maketitle
+\fi
+
+\iflncs
 \thispagestyle{plain}
+\fi
+
 \import{./}{abstract.tex}
 
 \import{./}{introduction.tex}
@@ -24,11 +46,15 @@
 \import{./}{empirical-results.tex}
 
 \newpage
-\bibliographystyle{plain}
+\ifccs
+  \bibliographystyle{ACM-Reference-Format}
+\else
+  \bibliographystyle{abbrv}
+\fi
 \bibliography{pubs,abbrev3,crypto}
 
 % \newpage
-\appendix
-\import{./}{appendix.tex}
+% \appendix
+% \import{./}{appendix.tex}
 
 \end{document}
