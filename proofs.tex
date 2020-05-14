@@ -1,37 +1,37 @@
-\section{Full proofs}\label{sec:proofs}
+% \section{Full proofs}\label{sec:proofs}
 
-In this section, we give the full proofs of our claims.
-Appendix~\ref{sec:proofs:comp-ind} proves some facts about
-computationally indistinguishable distributions. In
-Appendix~\ref{sec:proofs:unpred-dist}, we introduce unpredictable distributions
-and show that public keys are unpredictable. In Appendix~\ref{sec:proofs:ro},
-we prove some facts about the statistical properties of random oracles,
-including Lemma~\ref{lem.perturbation} from which the unspendability of our
-scheme follows and Lemma~\ref{lem:ro-unpredictability} from which the
-uncensorability of our scheme follows.
+% In this section, we give the full proofs of our claims.
+% Appendix~\ref{sec:proofs:comp-ind} proves some facts about
+% computationally indistinguishable distributions. In
+% Appendix~\ref{sec:proofs:unpred-dist}, we introduce unpredictable distributions
+% and show that public keys are unpredictable. In Appendix~\ref{sec:proofs:ro},
+% we prove some facts about the statistical properties of random oracles,
+% including Lemma~\ref{lem.perturbation} from which the unspendability of our
+% scheme follows and Lemma~\ref{lem:ro-unpredictability} from which the
+% uncensorability of our scheme follows.
 
-\subsection{Computational indistinguishability}\label{sec:proofs:comp-ind}
+% \subsection{Computational indistinguishability}\label{sec:proofs:comp-ind}
+%
+% \import{.}{./algorithms/alg.dist-game.tex}
+%
+% We review the definition of computational indistinguishability between two
+% distributions $X$ and $Y$. Define the cryptographic game illustrated in
+% Algorithm~\ref{alg.dist-game}.
+% Computational indistinguishability mandates that no adversary can win the game,
+% except with negligible probability.
+%
+% \begin{definition}[Computational indistinguishability]
+%   Two distribution ensembles $\{X_\kappa\}_{\kappa\in\mathbb{N}}$ and $\{Y_\kappa\}_{\kappa\in\mathbb{N}}$ are
+%   \emph{computationally indistinguishable}
+%   if for every probabilistic polynomial-time adversary $\mathcal{A}$,
+%   there exists a negligible function $\negl$ such that
+%   $\Pr[\distattack_{\mathcal{A},X,Y}(\kappa) = \true] \leq \frac{1}{2} + \negl$.
+% \end{definition}
 
-\import{.}{./algorithms/alg.dist-game.tex}
-
-We review the definition of computational indistinguishability between two
-distributions $X$ and $Y$. Define the cryptographic game illustrated in
-Algorithm~\ref{alg.dist-game}.
-Computational indistinguishability mandates that no adversary can win the game,
-except with negligible probability.
-
-\begin{definition}[Computational indistinguishability]
-  Two distribution ensembles $\{X_\kappa\}_{\kappa\in\mathbb{N}}$ and $\{Y_\kappa\}_{\kappa\in\mathbb{N}}$ are
-  \emph{computationally indistinguishable}
-  if for every probabilistic polynomial-time adversary $\mathcal{A}$,
-  there exists a negligible function $\negl$ such that
-  $\Pr[\distattack_{\mathcal{A},X,Y}(\kappa) = \true] \leq \frac{1}{2} + \negl$.
-\end{definition}
-
-It is clear that applying an efficiently computable function to
+Applying an efficiently computable function to
 indistinguishable distributions preserves indistinguishability.
 
-\import{./}{algorithms/alg.pres-distinguisher.tex}
+% \import{./}{algorithms/alg.pres-distinguisher.tex}
 
 \begin{lem}[Indistinguishability preservation]\label{lem:ind-pres}
   Given two
@@ -46,56 +46,21 @@ indistinguishable distributions preserves indistinguishability.
   $Y' = \{f_\kappa(Y_\kappa)\}_{\kappa\in\mathbb{N}}$
   are computationally indistinguishable.
 \end{lem}
-\begin{proof}
-  Let $\mathcal{A}$ be a probabilistic polynomial-time distinguisher
-  between $X'$ and $Y'$. Consider the probabilistic polynomial-time distinguisher $\mathcal{A}^*$ between $X$ and $Y$ illustrated in Algorithm~\ref{alg.pres-distinguisher}. Then
-  $\Pr[\distattack_{\mathcal{A}^*}(\kappa) = \true] =
-   \Pr[\distattack_{\mathcal{A}}(\kappa) = \true]$.
-  As $\Pr[\distattack_{\mathcal{A}^*}(\kappa) = \true] \leq \frac{1}{2} + \negl$, therefore $\Pr[\distattack_{\mathcal{A}}(\kappa) = \true] \leq \frac{1}{2} + \negl$.
-\end{proof}
+% \begin{proof}
+%   Let $\mathcal{A}$ be a probabilistic polynomial-time distinguisher
+%   between $X'$ and $Y'$. Consider the probabilistic polynomial-time distinguisher $\mathcal{A}^*$ between $X$ and $Y$ illustrated in Algorithm~\ref{alg.pres-distinguisher}. Then
+%   $\Pr[\distattack_{\mathcal{A}^*}(\kappa) = \true] =
+%    \Pr[\distattack_{\mathcal{A}}(\kappa) = \true]$.
+%   As $\Pr[\distattack_{\mathcal{A}^*}(\kappa) = \true] \leq \frac{1}{2} + \negl$, therefore $\Pr[\distattack_{\mathcal{A}}(\kappa) = \true] \leq \frac{1}{2} + \negl$.
+% \end{proof}
 
-\subsection{Unpredictable distributions}\label{sec:proofs:unpred-dist}
+% \subsection{Unpredictable distributions}\label{sec:proofs:unpred-dist}
 
 We call a distribution ensemble \emph{unpredictable} if no
-polynomial-time adversary can guess its output. The cryptographic
-predictability game is illustrated in Algorithm~\ref{alg.predict-game} and the
-security definition is given below.
-
-\import{.}{./algorithms/alg.predict-game.tex}
-
-\begin{definition}[Unpredictable distribution]
-  A distribution ensemble $\{X_{\kappa}\}_{\kappa\in\mathbb{N}}$ is
-  \emph{unpredictable} if for all probabilistic polynomial-time adversaries
-  $\mathcal{A}$ there is a negligible function $\negl$ such that
-  \[\Pr[\predict_{\mathcal{A},X}(\kappa) = \true] < \negl\,.\]
-\end{definition}
-
+polynomial-time adversary can guess its output.
 We observe that, if each element of a distribution appears with negligible
 probability, then the distribution must be unpredictable.
-
-\begin{lem}[Negligible unpredictability]\label{lem:negl-unpred}
-  Consider a distribution ensemble $\{X_{\kappa}\}_{\kappa\in\mathbb{N}}$ and
-  a negligible function $\negl$. If
-  \[\max_{x \in [X_\kappa]}\Pr_{x^* \gets X_\kappa}[x^* = x] \leq \negl\,,\]
-  then $X$ is unpredictable.
-\end{lem}
-\begin{proof}
-  Consider a probabilistic polynomial-time adversary $\mathcal{A}$ which
-  predicts $X_\kappa$. The adversary is not given any input beyond $1^\kappa$,
-  hence the distribution of its output is independent from the choice of the
-  challenger. Therefore
-
-  \begin{align*}
-  \Pr[\predict_{\mathcal{A},X}(\kappa) = \true] &=
-  \sum_{x' \in [X]}\Pr_{x \gets X}[\mathcal{A}(\kappa) = x'\land x = x'] =\\
-  \sum_{x' \in [X]}\Pr[\mathcal{A}(\kappa) = x']\Pr_{x \gets X}[x = x']
-  &\leq \negl\sum_{x' \in [X]}\Pr[\mathcal{A}(\kappa) = x']
-  \leq \negl
-  \,.
-  \end{align*}
-\end{proof}
-
-Finally, we observe that public keys generated from secure signature schemes must
+Public keys generated from secure signature schemes must
 be unpredictable.
 
 \import{./}{algorithms/alg.forgery-adversary.tex}
@@ -126,26 +91,25 @@ be unpredictable.
   successful. Since the signature scheme is secure,
   $\Pr[\textsf{Sig-forge}^{cma}_{\mathcal{A},S}] = \negl$.
   But $\Pr[pk = pk'] \leq \Pr[\textsf{Sig-forge}^{cma}_{\mathcal{A},S}]$ and
-  therefore $p \leq \sqrt{\Pr[pk = pk']} \leq \negl$. Applying
-  Lemma~\ref{lem:negl-unpred}, we deduce that the distribution ensemble $X_\kappa$ is
+  therefore $p \leq \sqrt{\Pr[pk = pk']} \leq \negl$. From this, we deduce that the distribution ensemble $X_\kappa$ is
   unpredictable.
 \end{proof}
 
-\subsection{Random Oracle properties}\label{sec:proofs:ro}
+% \subsection{Random Oracle properties}\label{sec:proofs:ro}
+%
+% In this section, we state some statistical properties of the Random
+% Oracle, which are useful for the proofs of our main results.
 
-In this section, we state some statistical properties of the Random
-Oracle, which are useful for the proofs of our main results.
-
-\restateLemPerturbation*
-\begin{proof}
-  Let \textsc{Match} denote the event that there exist $1 \leq i \neq j \leq p(\kappa)$ such that $s_i = F(s_j)$.
-  Let $\textsc{Match}_{i, j}$ denote the event that $s_i = F(s_j)$. Apply a union bound to obtain
-  $
-    \Pr[\bigcup_{i \neq j}\textsc{Match}_{i, j}] \leq \sum_{i \neq j} \Pr[\textsc{Match}_{i, j}]
-  $.
-  But $\Pr[\textsc{Match}_{i, j}] = 2^{-p(\kappa)}$ and therefore
-  $\Pr[\textsc{Match}] \leq \sum_{i \neq j} 2^{-p(\kappa)} \leq p^2(\kappa) 2^{-p(\kappa)}$.
-\end{proof}
+% \restateLemPerturbation*
+% \begin{proof}
+  % Let \textsc{Match} denote the event that there exist $1 \leq i \neq j \leq p(\kappa)$ such that $s_i = F(s_j)$.
+  % Let $\textsc{Match}_{i, j}$ denote the event that $s_i = F(s_j)$. Apply a union bound to obtain
+  % $
+    % \Pr[\bigcup_{i \neq j}\textsc{Match}_{i, j}] \leq \sum_{i \neq j} \Pr[\textsc{Match}_{i, j}]
+  % $.
+  % But $\Pr[\textsc{Match}_{i, j}] = 2^{-p(\kappa)}$ and therefore
+  % $\Pr[\textsc{Match}] \leq \sum_{i \neq j} 2^{-p(\kappa)} \leq p^2(\kappa) 2^{-p(\kappa)}$.
+% \end{proof}
 
 \import{.}{./algorithms/alg.predictability-adversary.tex}
 
@@ -196,9 +160,10 @@ Oracle, which are useful for the proofs of our main results.
   is polynomial in $\kappa$, we deduce that $\Pr[\query] \leq \negl$.
 
   Consider the computational
-  indistinguishability game depicted in
-  Algorithm~\ref{alg.dist-game} in which the distinguisher gives a guess $b^*$
-  attempting to identify the origin $b$ of its input.
+  indistinguishability game in which the distinguisher gives a guess $b^*$
+  attempting to identify the origin $b$ of its input
+  (with $b = 0$ indicating that the first distribution was sampled,
+   and $b = 1$ indicating that the second distribution was sampled).
   If $b = 0$, then the distinguisher $\mathcal{A}$ receives a truly random input
   $pkh = H(pk)$.
   If the distinguisher does not query the random oracle

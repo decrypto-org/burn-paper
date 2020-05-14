@@ -74,9 +74,7 @@ resistant and is in the standard model.
 \end{proof}
 
 We now posit that no adversary can predict the public key of a secure signature scheme, except with negligible probability. We call a distribution \emph{unpredictable} if no
-probabilistic polynomial-time adversary can predict its sampling. We give
-the formal definition, with some of its statistical properties, in
-Appendix~\ref{sec:proofs:unpred-dist}.
+probabilistic polynomial-time adversary can predict its sampling.
 
 \begin{restatable}[Public key unpredictability]{lem}{restateLemPkUnpredictability}
   \label{lem:pk-unpredictability}
@@ -88,10 +86,7 @@ Appendix~\ref{sec:proofs:unpred-dist}.
 
 The following lemma shows that the output of the random oracle is
 indistinguishable from random if the input is unpredictable
-(for the complete proofs see Appendix~\ref{sec:proofs:ro}).
-For reference, the
-definition of computational indistinguishability is included in
-Appendix~\ref{sec:proofs:comp-ind}.
+(for the complete proofs see the Appendix).
 
 \begin{restatable}[Random Oracle unpredictability]{lem}{restateLemRoUnpredictability}
   \label{lem:ro-unpredictability}
