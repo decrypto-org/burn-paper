@@ -5,11 +5,13 @@
             \State\textsf{mapping}(\textsf{address} $\Rightarrow$ \textsf{uint256}) \textsf{balances}
             \State{$\textsf{claimed-events} \gets \emptyset$}
             \Function{\sf claim}{$e, b, \txInclusion$}
-                \Let{\textsf{block-ok}}{\textsf{in-best-chain}(b)}
-                \Let{\textsf{tx-ok}}{\textsf{verify-tx}(e.\textsf{addr}, e.\textsf{amount}, b, e.\tx, \txInclusion)}
-                \Let{\textsf{event-ok}}{e \notin \textsf{claimed-events}}
-                \If{$\textsf{block-ok} \land \textsf{tx-ok} \land \textsf{event-ok} \land
-                    \BurnVerify(\textsf{msg.sender}, e.\textsf{addr})$}
+                \If{$\lnot \textsf{in-best-chain}(b) \lor e \in \textsf{claimed-events}$}
+                    \State\Return
+                \EndIf
+                \If{$\lnot \textsf{verify-tx}(e.\textsf{addr}, e.\textsf{amount}, b, e.\tx, \txInclusion)$}
+                    \State\Return
+                \EndIf
+                \If{$\BurnVerify(\textsf{msg.sender}, e.\textsf{addr})$}
                     \Let{\textsf{claimed-events}}{\textsf{claimed-events} \cup \{e\}}
                     \State{$\textsf{balances[msg.sender]} \pluseq e.\textsf{amount}$}
                 \EndIf

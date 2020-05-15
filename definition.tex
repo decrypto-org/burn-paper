@@ -51,7 +51,8 @@ To state that the protocol generates addresses which cannot be spent from, we in
 
 \import{./}{algorithms/alg.bind-game.tex}
 
-It is desired that a burn address encodes one and only one tag. Concretely, given a burn address $\burnAddr$, $\BurnVerify(1^\kappa, t, \burnAddr)$ should only evaluate to $\true$ for a single tag $t$. The game $\bindattack$ in Algorithm~\ref{alg.bind-game} captures this property.
+It is desired that a burn address encodes one and only one tag. Concretely, given a burn address
+$\burnAddr$,\allowbreak$\BurnVerify(1^\kappa,\allowbreak t,\allowbreak \burnAddr)$ should only evaluate to $\true$ for a single tag $t$. The game $\bindattack$ in Algorithm~\ref{alg.bind-game} captures this property.
 
 \begin{definition}[Binding]
   A burn protocol $\Pi$ is \emph{binding} if

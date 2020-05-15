@@ -25,11 +25,11 @@ The proof $\txInclusion$ is usually a Merkle Tree inclusion proof. More concrete
 
 For verifying that a provided block $b$ belongs to the best source blockchain and is stable, we assume the existence of a function $\textsf{in-best-chain}(b)$. We explore how it can be implemented in the ``Verifying block connection'' paragraph below.
 
+\import{./}{algorithms/alg.burn-verifier.tex}
+
 \noindent
 \textbf{Bootstraping mechanism.}
 Being able to verify events, we can grant target cryptocurrency to users who burn source cryptocurrency. After burning on the source blockchain, the user calls the \textsf{claim} function with the aforementioned event and a proof for it. This function ensures that the event provided is valid and has not been claimed before (i.e. no one has been granted target cryptocurrency for this specific event in the past), that it corresponds to the transaction $\tx$ and that the block $b$ is stable, belongs to the best source chain and contains $\tx$. Then, after verifying by invoking $\BurnVerify$ that the receiving address of the event is a burn address where the tag is the function caller's address, it releases the amount of coins burned in the form of an ERC-20 token. We present the contract \textsf{burn-verifier} with this capability in Algorithm~\ref{alg.burn-verifier}.
-
-\import{./}{algorithms/alg.burn-verifier.tex}
 
 In the interest of keeping this implementation generic we assume that the user receives a token in return for his burn. However, instead of minting a token, the target cryptocurrency could allow the burn verifier contract to mint native cryptocurrency for any user who successfully claims an event. This would allow the target cryptocurrency to be bootstrapped entirely though burning as desired.
 

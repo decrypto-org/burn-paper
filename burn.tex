@@ -15,7 +15,7 @@
 \documentclass[11pt]{llncs}
 \fi
 \ifccs
-\documentclass[sigconf, anonymous]{acmart}
+\documentclass[sigconf]{acmart}
 \fi
 
 \usepackage{preamble}
@@ -27,6 +27,8 @@
 \begin{document}
 \import{./}{title.tex}
 
+\import{./}{abstract.tex}
+
 \ifccs
 \maketitle
 \fi
@@ -34,8 +36,6 @@
 \iflncs
 \thispagestyle{plain}
 \fi
-
-\import{./}{abstract.tex}
 
 \import{./}{introduction.tex}
 \import{./}{definition.tex}

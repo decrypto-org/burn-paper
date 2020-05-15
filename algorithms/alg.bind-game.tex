@@ -4,7 +4,13 @@
     \begin{algorithmic}[1]
         \Function{\bindattack$_{\mathcal{A},\Pi}$}{$\kappa$}
             \Let{(t, t', \burnAddr)}{\mathcal{A}(1^\kappa)}
-            \State\Return{$(t \neq t' \land \BurnVerify(1^\kappa, t, \burnAddr) \land \BurnVerify(1^\kappa, t', \burnAddr))$}
+            \If{$\lnot \BurnVerify(1^\kappa, t, \burnAddr)$}
+                \State\Return$\false$
+            \EndIf
+            \If{$\lnot \BurnVerify(1^\kappa, t', \burnAddr)$}
+                \State\Return$\false$
+            \EndIf
+            \State\Return$(t \neq t')$
         \EndFunction
     \end{algorithmic}
 \end{algorithm}

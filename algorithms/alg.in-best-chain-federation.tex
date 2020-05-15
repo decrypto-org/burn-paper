@@ -5,8 +5,8 @@
         \Let{\textsf{best-idx}}{0}
         \Let{\mathcal{M}}{\epsilon}
         \Function{{\sf vote}$_\textsf{fed}$}{$m, \sigma, pk$}
+            \CommentLine{Check that $pk$ is a valid federation member}
             \If{$pk \in \textsc{fed} \land \Ver(m, \sigma, pk)$}
-                \Comment{Check that $pk$ is a valid federation member}
                 \Let{(\mathcal{M}^*, \textsf{idx})}{m}
                 \Let{\textsf{votes}[m]}{\textsf{votes}[m] \cup \{pk\}}
                 \If{$|\textsf{votes}[m]| \geq \lfloor\frac{|\textsc{fed}|}{2}\rfloor+1 \land \textsf{idx} > \textsf{best-idx}$}
